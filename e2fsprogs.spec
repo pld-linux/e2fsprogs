@@ -689,14 +689,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/uuidgen
 %{!?with_allstatic:%attr(755,root,root) /lib/libuuid.so.*.*}
+%{_mandir}/man1/uuidgen.1*
+%lang(ja) %{_mandir}/ja/man1/uuidgen.1*
 
 %files -n libuuid-devel
 %defattr(644,root,root,755)
 %{!?with_allstatic:%attr(755,root,root) %{_libdir}/libuuid.so}
 %{_includedir}/uuid
-%{_mandir}/man1/uuidgen.1*
 %{_mandir}/man3/*uuid*
-%lang(ja) %{_mandir}/ja/man1/uuidgen.1*
 %lang(ja) %{_mandir}/ja/man3/*uuid*
 
 %files -n libuuid-static
