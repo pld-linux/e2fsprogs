@@ -98,17 +98,17 @@ make install-libs DESTDIR=$RPM_BUILD_ROOT
 
 strip --strip-unneeded $RPM_BUILD_ROOT/lib/lib*.so.*.*
 
-gzip -9nf $RPM_BUILD_ROOT/usr/man/man{1,8}/*
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,8}/*
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %post  devel
-/sbin/install-info /usr/info/libext2fs.info.gz /etc/info-dir
+/sbin/install-info %{_infodir}/libext2fs.info.gz /etc/info-dir
 
 %preun devel
 if [ "$1" = "0" ]; then
-	/sbin/install-info --delete /usr/info/libext2fs.info.gz /etc/info-dir
+	/sbin/install-info --delete %{_infodir}/libext2fs.info.gz /etc/info-dir
 fi
 
 %clean
@@ -120,12 +120,12 @@ rm -rf $RPM_BUILD_ROOT
 /usr/sbin/*
 /usr/bin/*
 /lib/lib*.so.*.*
-%attr(644,root,root) /usr/man/man[18]/*
+%attr(644,root,root) %{_mandir}/man[18]/*
 
 %files devel
 %defattr(644, root, root, 755)
 %doc README RELEASE-NOTES
-/usr/info/libext2fs.info*
+%{_infodir}/libext2fs.info*
 /usr/include/*
 %attr(755,root,root) /usr/lib/lib*.so
 
@@ -161,7 +161,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Sep 28 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.12-3]
 - %postun changed to %preun (during uregistering e2progs info pages in 
-  %postun /usr/info/history.info.gz don't exist).
+  %postun %{_infodir}/history.info.gz don't exist).
 - removed all patches.
 
 * Sat Aug 15 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
