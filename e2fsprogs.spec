@@ -13,6 +13,7 @@ Group(pl):	Aplikacje/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
 Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
 Patch0:		%{name}-info.patch
+Patch1:		%{name}-mountlabel.patch
 URL:		http://e2fsprogs.sourceforge.net/
 PreReq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -97,6 +98,7 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 %prep
 %setup  -q
 %patch0 -p1
+%patch1 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 
 %build
