@@ -28,7 +28,7 @@ Summary(zh_CN):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW):	ノ恨瞶 ext2 郎╰参ㄣ祘Α
 Name:		e2fsprogs
 Version:	1.34
-Release:	7
+Release:	8
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -534,6 +534,8 @@ echo "pl $LINGUAS" > po/LINGUAS
 cp -f %{SOURCE3} po/pl.po
 
 %build
+rm -f config.sub
+cp /usr/share/automake/config.sub .
 %{__gettextize}
 %{__aclocal}
 %{__autoconf}
