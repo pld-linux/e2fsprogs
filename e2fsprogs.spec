@@ -41,6 +41,7 @@ Source3:	%{name}-pl.po
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-nostrip.patch
+Patch3:		%{name}-old_gettext.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -438,6 +439,7 @@ Modu³ e2fs dla EVMS.
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 chmod u+w configure aclocal.m4 po/LINGUAS po/Makefile.in.in intl/Makefile.in
 
