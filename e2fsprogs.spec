@@ -13,7 +13,7 @@ Source:		ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.g
 Patch0:		e2fsprogs-info.patch
 Patch1:		e2fsprogs-fsck.patch
 Patch2:		e2fsprogs-findsuper.patch
-Patch3:		e2fsprogs-2.3.x.patch
+Patch3:		e2fsprogs-kernel23.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
 Buildroot:	/tmp/%{name}-%{version}-root
 
