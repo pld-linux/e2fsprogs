@@ -96,6 +96,13 @@ erforderlich sind.
 Biblioteki statyczne do ob³ugi e2fs niezêbdne do kompilacji programów
 statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 
+%if %{?BOOT:1}%{!?BOOT:0}
+%package BOOT
+Summary:	parted for bootdisk
+Group:		Applications/System
+%description BOOT
+%endif
+
 %prep
 %setup  -q
 %patch0 -p1
@@ -104,6 +111,24 @@ gunzip < %{SOURCE1} > doc/e2compr.texinfo
 
 %build
 autoconf
+
+%if %{?BOOT:1}%{!?BOOT:0}
+
+%configure \
+	--with-root-prefix=/ \
+	--disable-nls \
+	--enable-compression \
+	--enable-static-fsck \
+	--enable-all-static \
+	--enable-fsck
+
+LDFLAGS="-static -s" %{__make} libs progs
+
+dupa
+
+%{__make} clean
+%endif
+
 %configure \
 	--with-root-prefix=/ \
 	--enable-nls \
@@ -111,6 +136,8 @@ autoconf
 	--enable-compression \
 	%{?bcond_off_static:--enable-dynamic-e2fsck} \
 	--enable-fsck
+
+
 
 %{__make} libs progs docs
 cd doc
@@ -121,6 +148,11 @@ cd ..
 %install
 rm -rf $RPM_BUILD_ROOT
 export PATH=/sbin:$PATH
+
+%if %{?BOOT:1}%{!?BOOT:0}
+install -d $RPM_BUILD_ROOT/usr/lib/bootdisk/sbin
+install -s %{name}-BOOT $RPM_BUILD_ROOT/usr/lib/bootdisk/sbin/%{name}
+%endif
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 %{__make} install-libs DESTDIR=$RPM_BUILD_ROOT
@@ -173,3 +205,9 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
+
+%if %{?BOOT:1}%{!?BOOT:0}
+%files BOOT
+%defattr(644,root,root,755)
+%attr(755,root,root) /usr/lib/bootdisk/sbin/*
+%endif
