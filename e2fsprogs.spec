@@ -462,23 +462,28 @@ cp -f %{SOURCE3} po/pl.po
 	--enable-fsck \
 	--disable-rpath
 
-%{__make} libs LDFLAGS="%{rpmldflags}"
-%{__make} progs LDFLAGS="%{rpmldflags}"
-%{__make} docs LDFLAGS="%{rpmldflags}"
+%{__make} libs \
+	LDFLAGS="%{rpmldflags}"
+%{__make} progs \
+	LDFLAGS="%{rpmldflags}"
+%{__make} docs \
+	LDFLAGS="%{rpmldflags}"
+
 cd doc
 makeinfo --no-split e2compr.texinfo
-cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
 export PATH=/sbin:$PATH
 
-echo "install-shlibs:" >> po/Makefile
 echo "install-shlibs:" >> intl/Makefile
 
-%{__make} install	DESTDIR=$RPM_BUILD_ROOT
-%{__make} install-libs	DESTDIR=$RPM_BUILD_ROOT
-%{__make} -C po install	DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
+%{__make} install-libs \
+	DESTDIR=$RPM_BUILD_ROOT
+%{__make} -C po install	\
+	DESTDIR=$RPM_BUILD_ROOT
 
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext3
