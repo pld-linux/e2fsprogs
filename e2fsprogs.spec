@@ -4,13 +4,11 @@ Summary(fr): Outils pour le système de fichiers ext2
 Summary(pl): Narzedzia do systemu plikowego ext2
 Summary(tr): ext2 dosya sistemi için araçlar
 Name:        e2fsprogs
-Version:     1.10
-Release:     7
+Version:     1.12
+Release:     3
 Copyright:   GPL
 Group:       Utilities/System
 Source:      ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.gz
-Patch0:      e2fsprogs-1.10-llseek.patch
-Patch1:      e2fsprogs-1.10-kernel.patch
 Buildroot:   /tmp/%{name}-%{version}-root
 
 %description
@@ -72,8 +70,6 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1 -b .kernel
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
@@ -124,6 +120,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644, root, root) /usr/lib/lib*.a
 
 %changelog
+* Mon Sep 28 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [1.12-3]
+- removed all patches.
+
 * Sat Aug 15 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.10-7]
 - added -q %setup parameter,
