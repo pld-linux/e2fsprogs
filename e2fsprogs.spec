@@ -134,7 +134,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644,root,root) %{_mandir}/man[18]/*
 
 %files devel
-%defattr(644, root, root, 755)
+%defattr(644,root,root,755)
 %doc {README,RELEASE-NOTES}.gz
 
 %{_infodir}/libext2fs.info*
