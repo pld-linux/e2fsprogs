@@ -134,7 +134,7 @@ rm -rf $RPM_BUILD_ROOT
 - added pl translation,
 - fixed %post{un},
 - added "rm -rf $RPM_BUILD_ROOT" on bigin %install,
-- changeded dependences to "Requires: %%{name} = %%{version}" in devel
+- changed dependencies to "Requires: %%{name} = %%{version}" in devel
   subpackage,
 - added striping shared libraries,
 - fiew simplification in %files and %install,
