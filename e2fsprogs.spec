@@ -4,7 +4,7 @@ Summary(fr):	Outils pour le système de fichiers ext2
 Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
-Version:	1.16
+Version:	1.17
 Release:	1
 Copyright:	GPL
 Group:		Utilities/System
