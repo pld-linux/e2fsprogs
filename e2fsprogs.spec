@@ -5,7 +5,7 @@ Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.14
-Release:	2
+Release:	3
 Copyright:	GPL
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
@@ -13,6 +13,7 @@ Source:		ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.g
 Patch0:		e2fsprogs-info.patch
 Patch1:		e2fsprogs-fsck.patch
 Patch2:		e2fsprogs-findsuper.patch
+Patch3:		e2fsprogs-2.3.x.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
 Buildroot:	/tmp/%{name}-%{version}-root
 
@@ -36,7 +37,7 @@ wolumenów dyskowych z systemem plikowym ext2.
 Bu paket, ext2 dosya sistemlerini yaratmak, onarmak, kontrol etmek ve bazý
 parametrelerini deðiþtirmek için gerekli yazýlýmlarý içerir.
 
-%package devel
+%package	devel
 Summary:	e2fs header files
 Summary(de):	Header-Dateien für eine e2fs
 Summary(pl):	Pliki nag³ówkowe do bibliotek e2fs
@@ -55,7 +56,7 @@ Programmen erforderlich sind.
 %description devel
 Pliki nag³ówkowe niezbêdne do tworzenia programów obs³ugukj±cych e2fs.
 
-%package static
+%package	static
 Summary:	e2fs static libraries
 Summary(de):	e2fs statische Libraries
 Summary(pl):	Biblioteki statyczne do obs³ugi e2fs
@@ -72,7 +73,7 @@ Libraries zur Entwicklung von ext2-Dateisystemspezifischen
 Programmen erforderlich sind.
 
 %description -l pl static
-Biblioteki statyczne do obsugi e2fs niezbdne do kompilacji programów 
+Biblioteki statyczne do ob³ugi e2fs niezêbdne do kompilacji programów 
 statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 
 %prep
@@ -82,10 +83,17 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 %patch2 -p1
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" \
-./configure %{_target} \
+# First check running Linux release ... 
+RELEASE=`uname -r | head -c 3`
+if [ "$RELEASE" = "2.3" ]; then
+    patch -p1 < $RPM_SOURCE_DIR/e2fsprogs-2.3.x.patch
+fi
+
+CFLAGS=$RPM_OPT_FLAGS \
+    ./configure \
 	--enable-elf-shlibs \
-	--with-ldopts="-s"
+	--with-ldopts=-s \
+	--infodir=%{_infodir} %{_target_platform}
 
 make libs progs docs
 
@@ -96,9 +104,12 @@ export PATH=/sbin:$PATH
 make install DESTDIR=$RPM_BUILD_ROOT
 make install-libs DESTDIR=$RPM_BUILD_ROOT
 
+install -d $RPM_BUILD_ROOT%{_mandir}
+mv $RPM_BUILD_ROOT/usr/man/man{1,8} $RPM_BUILD_ROOT%{_mandir}
+
 strip --strip-unneeded $RPM_BUILD_ROOT/lib/lib*.so.*.*
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,8}/*
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,8}/* README RELEASE-NOTES
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -119,14 +130,16 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/*
 %{_sbindir}/*
 %{_bindir}/*
-/lib/lib*.so.*.*
+/lib/lib*.so.*
 %attr(644,root,root) %{_mandir}/man[18]/*
 
 %files devel
 %defattr(644, root, root, 755)
-%doc README RELEASE-NOTES
+%doc {README,RELEASE-NOTES}.gz
+
 %{_infodir}/libext2fs.info*
 %{_includedir}/*
+
 %attr(755,root,root) %{_libdir}/lib*.so
 
 %files static
@@ -134,6 +147,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.a
 
 %changelog
+* Fri May 21 1999 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
+  [1.14-3]
+- some macros in use, 
+- gzipping %doc,
+- patch against Linux-2.3.x,
+- stripping of shared libs.
+
 * Mon Apr 19 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.14-2]
 - fixed coredump fsck when it does not find its argument in
@@ -158,11 +178,31 @@ rm -rf $RPM_BUILD_ROOT
 - added e2fsprogs-kernel21.patch which allows compile e2fsprogs on both
   2.0.x and 2.1.x kernels.
 
+* Sun Nov 01 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
+  [1.12-2d]
+- build only static binaries (for emergensy use),  
+- minor changes.
+
+* Thu Oct 08 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
+  [1.12-1d]
+- updated to 1.12,
+- fixed pl translation.
+
 * Mon Sep 28 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.12-3]
 - %postun changed to %preun (during uregistering e2progs info pages in 
   %postun %{_infodir}/history.info.gz don't exist).
 - removed all patches.
+
+* Wed Sep 23 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
+  [1.10-7d]
+- downgraded to 1.10-7d,
+- translation modified for pl,
+- added static subpackage,
+- added %defattr support,
+- fixed files permissions,
+- removed at now tr, de, fr trnanslation -> generated SIGSEGV ;(
+- minor modifications of the spec file.
 
 * Sat Aug 15 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.10-7]
@@ -178,24 +218,10 @@ rm -rf $RPM_BUILD_ROOT
 - added stripping shared libraries,
 - fiew simplification in %files and %install,
 - added %post{un} sections with registration info pages for libext2fs in
-  devel subpackage,
-- added %attr and %defattr macros in %files (allows build package from
-  non-root account).
+  devel subpackage.
 
-* Thu May 07 1998 Prospector System <bugs@redhat.com>
-- translations modified for de, fr, tr
-
-* Thu Apr 30 1998 Cristian Gafton <gafton@redhat.com>
-- include <asm/types.h> to match kernel types in utils
-
-* Tue Oct 14 1997 Donnie Barnes <djb@redhat.com>
-- spec file cleanups
-
-* Wed Oct 01 1997 Erik Troan <ewt@redhat.com>
-- fixed broken llseek() prototype 
-
-* Wed Aug 20 1997 Erik Troan <ewt@redhat.com>
-- added patch to prototype llseek
-
-* Tue Jun 17 1997 Erik Troan <ewt@redhat.com>
-- built against glibc
+* Thu Jun 25 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
+  [1.10-7]
+- build against GNU libc-2.1, 
+- added a fsck patch,
+- start at RH spec.
