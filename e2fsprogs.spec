@@ -5,7 +5,7 @@ Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.19
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
@@ -14,6 +14,7 @@ Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{vers
 Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-mountlabel.patch
+Patch2:		http://acl.bestbits.at/current/%{name}-1.19ea-0.7.8.patch.gz
 URL:		http://e2fsprogs.sourceforge.net/
 PreReq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
