@@ -8,7 +8,7 @@ Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.25
-Release:	4
+Release:	5
 License:	GPL
 Group:		Applications/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
@@ -24,6 +24,7 @@ BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	gettext-devel
 BuildRequires:	texinfo
+Obsoletes:	libext2fs2
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
