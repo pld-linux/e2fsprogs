@@ -28,20 +28,19 @@ Summary(uk):	Утил╕ти для роботи з файловою системою ext2
 Summary(zh_CN):	╧эюМ╣з╤Чю╘у╧ё╗ext2ё╘нд╪Чо╣мЁ╣д╧╓╬ъ║ё
 Summary(zh_TW):	╔н╘С╨ч╡z ext2 юи╝в╗t╡н╙╨╓u╗Ц╣{╕║║C
 Name:		e2fsprogs
-Version:	1.35
-Release:	5
+Version:	1.36
+Release:	1
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	8d25ffd60d405ef32d341704a2323807
+# Source0-md5:	1804ee96b76e5e7113fe3cecd6fe582b
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
-Patch2:		%{name}-nostrip.patch
-Patch3:		%{name}-pl.po-update.patch
+Patch2:		%{name}-pl.po-update.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -51,6 +50,7 @@ Requires(post,postun):	/sbin/ldconfig
 Requires:	fsck = %{version}-%{release}
 Requires:	libcom_err = %{version}-%{release}
 Requires:	libuuid = %{version}-%{release}
+Obsoletes:	e2fsprogs-evms
 Obsoletes:	libext2fs2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -425,19 +425,6 @@ e2fsprogs-devel-static содержит статические библиотеки, необходимые
 e2fsprogs-devel-static м╕стить статичн╕ б╕бл╕отеки, необх╕дн╕ для
 написання програм, як╕ працюють з файловою системою ext2.
 
-%package evms
-Summary:	e2fs EVMS module
-Summary(pl):	ModuЁ e2fs dla EVMS
-Group:		Libraries
-Requires:	%{name} = %{version}-%{release}
-Requires:	evms
-
-%description evms
-e2fs EVMS module.
-
-%description evms -l pl
-ModuЁ e2fs dla EVMS.
-
 %package -n libcom_err
 Summary:	A Common Error Description Library for unices
 Summary(pl):	Biblioteka opisu popularnych bЁЙdСw dla uniksСw
@@ -534,7 +521,6 @@ Sprawdzenie i naprawa linuksowego systemu plikСw.
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 chmod u+w configure aclocal.m4 po/LINGUAS po/Makefile.in.in intl/Makefile.in
 
@@ -551,7 +537,6 @@ cp -f /usr/share/automake/config.sub .
 	%{!?with_allstatic:--enable-elf-shlibs} \
 	--enable-compression \
 	--enable-htree \
-	--enable-evms-11 \
 	%{!?with_static:--enable-dynamic-e2fsck} \
 	--enable-fsck \
 	--disable-rpath
@@ -638,6 +623,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /%{_lib}/libext2fs.so.*.*
 %attr(755,root,root) /%{_lib}/libss.so.*.*
 %endif
+%attr(755,root,root) %{_libdir}/e2initrd_helper
 %{_mandir}/man1/*attr.1*
 %{_mandir}/man1/mk_cmds.1*
 %{_mandir}/man8/*
@@ -667,6 +653,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/e2p
 %{_includedir}/ext2fs
 %{_includedir}/ss
+%{_pkgconfigdir}/blkid.pc
+%{_pkgconfigdir}/e2p.pc
+%{_pkgconfigdir}/ext2fs.pc
+%{_pkgconfigdir}/ss.pc
 %{_infodir}/libext2fs.info*
 %{_mandir}/man3/libblkid.3*
 
@@ -676,10 +666,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libe2p.a
 %{_libdir}/libext2fs.a
 %{_libdir}/libss.a
-
-%files evms
-%defattr(644,root,root,755)
-%attr(755,root,root) /%{_lib}/evms/*.so
 
 %files -n libcom_err
 %defattr(644,root,root,755)
@@ -691,6 +677,7 @@ rm -rf $RPM_BUILD_ROOT
 %{!?with_allstatic:%attr(755,root,root) %{_libdir}/libcom_err.so}
 %{_includedir}/et
 %{_datadir}/et
+%{_pkgconfigdir}/com_err.pc
 %{_mandir}/man1/compile_et.1*
 %lang(ja) %{_mandir}/ja/man1/compile_et.1*
 %{_mandir}/man3/com_err.3*
@@ -711,6 +698,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{!?with_allstatic:%attr(755,root,root) %{_libdir}/libuuid.so}
 %{_includedir}/uuid
+%{_pkgconfigdir}/uuid.pc
 %{_mandir}/man3/*uuid*
 %lang(ja) %{_mandir}/ja/man3/*uuid*
 
