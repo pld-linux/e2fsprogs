@@ -5,13 +5,14 @@ Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.25
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
 Group(pl):	Aplikacje/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
 Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
+Source2:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-mountlabel3.patch
@@ -195,6 +196,8 @@ ln -sf mke2fs $RPM_BUILD_ROOT/sbin/mkfs.ext2
 
 install doc/e2compr.info $RPM_BUILD_ROOT%{_infodir}
 
+bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+
 %find_lang %{name}
 
 %post   
@@ -221,6 +224,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) /lib/lib*.so.*
 %{_mandir}/man[18]/*
+%lang(fi) %{_mandir}/fi/man[18]/*
+%lang(fr) %{_mandir}/fr/man[18]/*
+%lang(hu) %{_mandir}/hu/man[18]/*
+%lang(it) %{_mandir}/it/man[18]/*
+%lang(ja) %{_mandir}/ja/man[18]/*
+%lang(ko) %{_mandir}/ko/man[18]/*
+%lang(pl) %{_mandir}/pl/man[18]/*
 %{_datadir}/et
 %{_datadir}/ss
 %{_infodir}/e2compr.info*
@@ -231,6 +241,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_infodir}/libext2fs.info*
 %{_mandir}/man3/*
+%lang(ja) %{_mandir}/ja/man3/*
 %{_includedir}/*
 
 %attr(755,root,root) %{_libdir}/lib*.so
