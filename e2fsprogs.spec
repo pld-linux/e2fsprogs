@@ -26,7 +26,7 @@ Summary(uk):	Утил╕ти для роботи з файловою системою ext2
 Summary(zh_CN):	╧эюМ╣з╤Чю╘у╧ё╗ext2ё╘нд╪Чо╣мЁ╣д╧╓╬ъ║ё
 Summary(zh_TW):	╔н╘С╨ч╡z ext2 юи╝в╗t╡н╙╨╓u╗Ц╣{╕║║C
 Name:		e2fsprogs
-Version:	1.28
+Version:	1.29
 Release:	1
 License:	GPL
 Group:		Applications/System
