@@ -82,14 +82,14 @@ Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name} = %{version}
 
 %description devel
-E2fsprogs-devel contand header files and documentation needed to
+E2fsprogs-devel contains header files and documentation needed to
 develop second extended (ext2) filesystem-specific programs.
 
-%description -l de devel
+%description devel -l de
 Header-Dateien, die zur Entwicklung von ext2-Dateisystemspezifischen
 Programmen erforderlich sind.
 
-%description -l pl devel
+%description devel -l pl
 Pliki nag³ówkowe i dokumentacja niezbêdne do tworzenia programów
 obs³uguj±cych e2fs.
 
@@ -111,24 +111,30 @@ Requires:	%{name}-devel = %{version}
 Static libraries files needed to develop ext2 filesystem-specific
 programs statically linked with e2progs libs.
 
-%description -l de static
+%description static -l de
 Libraries zur Entwicklung von ext2-Dateisystemspezifischen Programmen
 erforderlich sind.
 
-%description -l pl static
+%description static -l pl
 Biblioteki statyczne do ob³ugi e2fs niezbêdne do kompilacji programów
 statycznie skonsolidowanych (linkowanych) z bibliotekami do e2fs.
 
 %package embed
 Summary:	e2fs for bootdisk
+Summary(pl):	e2fs na bootkietkê
 Group:		Applications/System
 Group(de):	Applikationen/System
 Group(pl):	Aplikacje/System
 
 %description embed
-E2fsprogs-devel contains header files and documentation needed to
-develop second extended (ext2) filesystem-specific programs. This
-package is for bootdisk.
+The e2fsprogs package contains a number of utilities for creating,
+checking, modifying and correcting any inconsistencies in second
+extended (ext2) filesystems. Bootdisk version.
+
+%description embed -l pl
+Pakiet ten zawiera narzêdzia do tworzenia, sprawdzania i naprawiania
+wolumenów dyskowych z systemem plikowym ext2. Wersja przeznaczona na
+bootkietkê.
 
 %package devel-embed
 Summary:	e2fs header files for bootdisk
@@ -144,12 +150,17 @@ Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
 Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 
 %description devel-embed
-E2fsprogs-devel contand header files and documentation needed to
-develop second extended (ext2) filesystem-specific programs.
-Botodisk version.
+e2fsprogs-devel-embed contand header files and documentation needed to
+develop second extended (ext2) filesystem-specific programs. Bootdisk
+version.
+
+%description devel-embed -l pl
+Pakiet e2fsprogs-devel-embed zawiera pliki nag³ówkowe oraz
+dokumentacjê niezbêdne do tworzenia oprogramowania zwi±zanego z
+systemem plików ext2. Wersja przeznaczona na bootkietkê.
 
 %prep
-%setup  -q
+%setup	-q
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 patch -s -p1 < %{PATCH1}
@@ -173,12 +184,12 @@ autoconf
 %{__make} libs
 %{__make} progs
 mv e2fsck/e2fsck e2fsck-embed-shared
-for i in badblocks mke2fs; do 
+for i in badblocks mke2fs; do
 	mv misc/$i $i-embed-shared
 done
 %{__make} progs ALL_LDFLAGS="-static"
 mv e2fsck/e2fsck e2fsck-embed-static
-for i in badblocks mke2fs; do 
+for i in badblocks mke2fs; do
 	mv misc/$i $i-embed-static
 done
 mkdir embed-libs
@@ -196,7 +207,7 @@ cp lib/*.a embed-libs
 
 %{__make} libs progs docs
 cd doc
-makeinfo --no-split e2compr.texinfo 
+makeinfo --no-split e2compr.texinfo
 cd ..
 
 %install
@@ -210,7 +221,7 @@ export PATH=/sbin:$PATH
 %if %{!?_without_embed:1}%{?_without_embed:0}
 install -d $RPM_BUILD_ROOT%{embed_path}/{shared,static}
 install -d $RPM_BUILD_ROOT%{uclibc_prefix}/{include,lib}
-for i in badblocks mke2fs e2fsck; do 
+for i in badblocks mke2fs e2fsck; do
 	install $i-embed-shared $RPM_BUILD_ROOT%{embed_path}/shared/$i
 	install $i-embed-static $RPM_BUILD_ROOT%{embed_path}/static/$i
 done
@@ -228,15 +239,15 @@ bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
 %find_lang %{name}
 
-%post   
+%post
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%postun 
+%postun
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%post  devel
+%post devel
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun devel
