@@ -11,6 +11,8 @@ Group:		Utilities/System
 Group(pl):	Narzêdzia/System
 Source:		ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.gz
 Patch0:		e2fsprogs-info.patch
+Patch1:		e2fsprogs-fsck.patch
+Patch2:		e2fsprogs-findsuper.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
 Buildroot:	/tmp/%{name}-%{version}-root
 
@@ -77,6 +79,8 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
@@ -132,6 +136,9 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Apr 19 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.14-2]
+- fixed coredump fsck when it does not find its argument in
+  /etc/fstab (e2fsprogs-fsck.patch),
+- added to package findsuper (e2fsprogs-findsuper.patch),
 - recompiled on new rpm.
 
 * Fri Mar  5 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
