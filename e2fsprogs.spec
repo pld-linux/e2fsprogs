@@ -5,7 +5,7 @@ Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.14
-Release:	1
+Release:	2
 Copyright:	GPL
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
@@ -124,12 +124,16 @@ rm -rf $RPM_BUILD_ROOT
 %doc README RELEASE-NOTES
 /usr/info/libext2fs.info*
 /usr/include/*
-%attr(755, root, root) /usr/lib/lib*.so
+%attr(755,root,root) /usr/lib/lib*.so
 
 %files static
-%attr(644, root, root) /usr/lib/lib*.a
+%attr(644,root,root) /usr/lib/lib*.a
 
 %changelog
+* Mon Apr 19 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [1.14-2]
+- recompiled on new rpm.
+
 * Fri Mar  5 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.14-1]
 - added URL,
