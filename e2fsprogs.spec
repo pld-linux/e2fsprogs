@@ -26,8 +26,8 @@ Summary(uk):	Утил╕ти для роботи з файловою системою ext2
 Summary(zh_CN):	╧эюМ╣з╤Чю╘у╧ё╗ext2ё╘нд╪Чо╣мЁ╣д╧╓╬ъ║ё
 Summary(zh_TW):	╔н╘С╨ч╡z ext2 юи╝в╗t╡н╙╨╓u╗Ц╣{╕║║C
 Name:		e2fsprogs
-Version:	1.29
-Release:	3
+Version:	1.32
+Release:	1
 License:	GPL
 Group:		Applications/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
@@ -36,9 +36,7 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Source3:	%{name}-pl.po
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
-Patch2:		%{name}-mountlabel3.patch
-Patch3:		%{name}-manpage.patch
-Patch4:		%{name}-po.patch
+Patch2:		%{name}-po.patch
 URL:		http://e2fsprogs.sourceforge.net/
 PreReq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -423,9 +421,8 @@ e2fsprogs-devel-static м╕стить статичн╕ б╕бл╕отеки, необх╕дн╕ для
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p0
 
+mv -f po/de{-utf,}.po
 cp -f %{SOURCE3} po/pl.po
 
 %build
