@@ -99,7 +99,7 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 
 %if %{?BOOT:1}%{!?BOOT:0}
 %package BOOT
-Summary:	parted for bootdisk
+Summary:	e2fs for bootdisk
 Group:		Applications/System
 %description BOOT
 %endif
