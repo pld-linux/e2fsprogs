@@ -20,18 +20,18 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
-checking, modifying and correcting any inconsistencies in second extended
-(ext2) filesystems. E2fsprogs contains e2fsck (used to repair filesystem
-inconsistencies after an unclean shutdown), mke2fs (used to initialize a
-partition to contain an empty ext2 filesystem), debugfs (used to examine
-the internal structure of a filesystem, to manually repair a corrupted
-filesystem or to create test cases for e2fsck), tune2fs (used to modify
-filesystem parameters) and most of the other core ext2fs filesystem
-utilities.
+checking, modifying and correcting any inconsistencies in second
+extended (ext2) filesystems. E2fsprogs contains e2fsck (used to repair
+filesystem inconsistencies after an unclean shutdown), mke2fs (used to
+initialize a partition to contain an empty ext2 filesystem), debugfs
+(used to examine the internal structure of a filesystem, to manually
+repair a corrupted filesystem or to create test cases for e2fsck),
+tune2fs (used to modify filesystem parameters) and most of the other
+core ext2fs filesystem utilities.
 
 %description -l de
-Dieses Paket enthält eine Auswahl an Utilities zum Erstellen, Prüfen  und
-zur Instandsetzung von ext2-Dateisystemen.
+Dieses Paket enthält eine Auswahl an Utilities zum Erstellen, Prüfen
+und zur Instandsetzung von ext2-Dateisystemen.
 
 %description -l fr
 Ce package contient de nombreux utilitaires pour créer, vérifier, et
@@ -40,27 +40,29 @@ réparer les systèmes de fichiers ext2.
 %description -l pl
 Pakiet ten zawiera narzêdzia do tworzenia, sprawdzania i naprawiania
 wolumenów dyskowych z systemem plikowym ext2. E2fsprogs zawiera e2fsck
-(u¿ywany do naprawiania niespójno¶ci w systemie plikowym po nipoprawnym
-zamkniêciu ststemu), mke2fs (u¿ywany do inicjacji wolumenów ext2), debugfs
-(¿ywany do sprawdzania wewnêtrznej struktóry wolumenów ext2, a tak¿e do
-recznego naprawiania b³êdów), tune2fs (u¿ywany do modyfikacji parametrów
-eolumenów ext2) i kilka innych narzêdzi do ext2.
+(u¿ywany do naprawiania niespójno¶ci w systemie plikowym po
+nipoprawnym zamkniêciu ststemu), mke2fs (u¿ywany do inicjacji
+wolumenów ext2), debugfs (¿ywany do sprawdzania wewnêtrznej struktóry
+wolumenów ext2, a tak¿e do recznego naprawiania b³êdów), tune2fs
+(u¿ywany do modyfikacji parametrów eolumenów ext2) i kilka innych
+narzêdzi do ext2.
 
 %description -l tr
-Bu paket, ext2 dosya sistemlerini yaratmak, onarmak, kontrol etmek ve bazý
-parametrelerini deðiþtirmek için gerekli yazýlýmlarý içerir.
+Bu paket, ext2 dosya sistemlerini yaratmak, onarmak, kontrol etmek ve
+bazý parametrelerini deðiþtirmek için gerekli yazýlýmlarý içerir.
 
 %package devel
 Summary:	e2fs header files
 Summary(de):	Header-Dateien für eine e2fs
 Summary(pl):	Pliki nag³ówkowe do bibliotek e2fs
 Group:		Development/Libraries
+Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Requires:	%{name} = %{version}
 
 %description devel
-E2fsprogs-devel contand header files and documentation needed to develop
-second extended (ext2) filesystem-specific programs.
+E2fsprogs-devel contand header files and documentation needed to
+develop second extended (ext2) filesystem-specific programs.
 
 %description -l de devel
 Header-Dateien, die zur Entwicklung von ext2-Dateisystemspezifischen
@@ -75,12 +77,13 @@ Summary:	e2fs static libraries
 Summary(de):	e2fs statische Libraries
 Summary(pl):	Biblioteki statyczne do obs³ugi e2fs
 Group:		Development/Libraries
+Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Requires:	%{name}-devel = %{version}
 
 %description static
-Static libraries files needed to develop ext2 filesystem-specific programs
-statically linked with e2progs libs.
+Static libraries files needed to develop ext2 filesystem-specific
+programs statically linked with e2progs libs.
 
 %description -l de static
 Libraries zur Entwicklung von ext2-Dateisystemspezifischen Programmen
