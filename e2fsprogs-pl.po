@@ -1210,7 +1210,7 @@ msgstr "B³±d podczas szukania i-wêz³a (%i): %m\n"
 #: e2fsck/problem.c:731
 #, c-format
 msgid "@A @i @B (inode_dup_map): %m\n"
-msgstr "@A @By i-wêz³ów (inode_dup_map): %m\n"
+msgstr "@A bitmapy i-wêz³ów (inode_dup_map): %m\n"
 
 #: e2fsck/problem.c:736
 #, c-format
@@ -1621,7 +1621,7 @@ msgstr ""
 
 #: e2fsck/problem.c:1194
 msgid "@A @i @B (%N): %m\n"
-msgstr "@A @By i-wêz³ów (%N): %m\n"
+msgstr "@A bitmapy i-wêz³ów (%N): %m\n"
 
 #: e2fsck/problem.c:1199
 #, c-format
@@ -1687,19 +1687,19 @@ msgstr "Przebieg 5: Sprawdzanie sumarycznych informacji o @gch\n"
 
 #: e2fsck/problem.c:1297
 msgid "Padding at end of @i @B is not set. "
-msgstr "Wype³nienie na koñcu @By i-wêz³ów nie jest ustawione. "
+msgstr "Wype³nienie na koñcu bitmapy i-wêz³ów nie jest ustawione. "
 
 #: e2fsck/problem.c:1302
 msgid "Padding at end of @b @B is not set. "
-msgstr "Wype³nienie na koñcu @By @bów nie jest ustawione. "
+msgstr "Wype³nienie na koñcu bitmapy @bów nie jest ustawione. "
 
 #: e2fsck/problem.c:1307
 msgid "@b @B differences: "
-msgstr "Ró¿nice @By @bów: "
+msgstr "Ró¿nice bitmapy @bów: "
 
 #: e2fsck/problem.c:1327
 msgid "@i @B differences: "
-msgstr "Ró¿nice @By i-wêz³ów: "
+msgstr "Ró¿nice bitmapy i-wêz³ów: "
 
 #: e2fsck/problem.c:1347
 msgid "Free @is count wrong for @g #%g (%i, counted=%j).\n"
