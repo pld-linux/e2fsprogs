@@ -5,13 +5,18 @@ Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.18
-Release:	2
+Release:	3
 License:	GPL
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
-Source:		http://web.mit.edu/tytso/www/linux/dist/%{name}-%{version}.tar.gz
+Source0:	http://web.mit.edu/tytso/www/linux/dist/%{name}-%{version}.tar.gz
+Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
 Patch0:		e2fsprogs-info.patch
+Patch1:		http://opensource.captech.com/e2compr/ftp/e2cfsprogs-9-patch-1.18.gz
+Patch2:		e2fsprogs-DESTDIR.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
+PreReq:		/sbin/ldconfig
+PreReq:		/usr/sbin/fix-info-dir
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -90,16 +95,27 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 %prep
 %setup  -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
+gunzip <%{SOURCE1} >doc/e2compr.texinfo
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" \
-./configure %{_target_platform} \
+autoconf
+CFLAGS="$RPM_OPT_FLAGS"; export CFLAGS 
+# Don't use %%configure macro
+./configure \
+	--infodir=%{_infodir} \
+	--mandir=%{_mandir} \
 	--enable-elf-shlibs \
 	--with-ldopts="-s" \
-	--infodir=%{_infodir} \
-	--mandir=%{_mandir}
+	--enable-e2compr-03 \
+	--enable-e2compr-04 
 
 make libs progs docs
+cd doc
+makeinfo --no-split e2compr.texinfo 
+cd ..
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -113,10 +129,21 @@ strip --strip-unneeded $RPM_BUILD_ROOT/lib/lib*.so.*.*
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
 ln -sf mke2fs $RPM_BUILD_ROOT/sbin/mkfs.ext2
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,8}/* README RELEASE-NOTES
 
-%post   -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+install doc/e2compr.info $RPM_BUILD_ROOT%{_infodir}
+
+
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,3,8}/* \
+	$RPM_BUILD_ROOT%{_infodir}/*.info \
+	README RELEASE-NOTES
+
+%post   
+/sbin/ldconfig
+/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
+%postun 
+/sbin/ldconfig
+/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %post  devel
 /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
@@ -128,18 +155,20 @@ gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,8}/* README RELEASE-NOTES
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(755,root,root,755)
-/sbin/*
-%{_sbindir}/*
-%{_bindir}/*
-/lib/lib*.so.*
-%attr(644,root,root) %{_mandir}/man[18]/*
+%defattr(644,root,root,755)
+%attr(755,root,root) /sbin/*
+%attr(755,root,root) %{_sbindir}/*
+%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) /lib/lib*.so.*
+%{_mandir}/man[18]/*
+%{_infodir}/e2compr.info*
 
 %files devel
 %defattr(644,root,root,755)
 %doc {README,RELEASE-NOTES}.gz
 
 %{_infodir}/libext2fs.info*
+%{_mandir}/man3/*
 %{_includedir}/*
 
 %attr(755,root,root) %{_libdir}/lib*.so
