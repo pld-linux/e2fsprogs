@@ -429,7 +429,7 @@ patch -s -p1 < %{PATCH1}
 
 %build
 chmod u+w configure aclocal.m4
-gettextize --copy --force
+%{__gettextize}
 aclocal
 %{__autoconf}
 
