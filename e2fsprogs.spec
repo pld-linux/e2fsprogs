@@ -15,7 +15,7 @@ Summary(is):	Tól til að sýsla með ext2 skráarkerfið
 Summary(it):	Utility per la gestione del filesystem (ext2)
 Summary(ja):	Second Extended (ext2) ¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤ò´ÉÍý¤¹¤ë¤¿¤á¤Î¥æ¡¼¥Æ¥£¥ê¥Æ¥£
 Summary(ko):	ext2 ÆÄÀÏ ½Ã½ºÅÛÀ» °ü¸®ÇÏ´Â À¯Æ¿¸®Æ¼
-Summary(no):	Verktøy for håndtering av ext2 filsystemet
+Summary(nb):	Verktøy for håndtering av ext2 filsystemet
 Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(pt):	Utilitários para gerir o sistema de ficheiros ext2
 Summary(pt_BR):	Ferramentas para o sistema de arquivos ext2
@@ -172,7 +172,7 @@ ext2 ¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤òºîÀ®¤¹¤ë)¡¢debugfs (¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤ÎÆâÉô
 ¤òÊÑ¹¹¤¹¤ë) ¤Î¤Û¤«¡¢¼ç¤Ê ext2fs ¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¥æ¡¼¥Æ¥£¥ê¥Æ¥£¤Î
 ¤Û¤È¤ó¤É¤¬´Þ¤Þ¤ì¤Þ¤¹¡£
 
-%description -l no
+%description -l nb
 e2fsprogs-pakken inneholder diverse verktøy for å lage, kontrollere,
 modifisere og reparere ext2-filsystemer. e2fsprogs inneholder e2fsck
 (brukes for å reparere filsystemer etter uren nedkjøring av systemet),
@@ -279,7 +279,7 @@ Summary(is):	Aðgerðasöfn og hausaskrár fyrir ext2 skráarkerfið
 Summary(it):	Librerie e file header specifici per il filesystem ext2
 Summary(ja):	ext2 ¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤Ë¸ÇÍ­¤ÎÀÅÅª¥é¥¤¥Ö¥é¥ê¤È¥Ø¥Ã¥À¡¼
 Summary(ko):	ext2 ÆÄÀÏ½Ã½ºÅÛ-ÁöÁ¤ Á¤Àû ¶óÀÌºê·¯¸®¿Í Çì´õµé
-Summary(no):	ext2 filsystemspesifikke bibliotek og headerfiler
+Summary(nb):	ext2 filsystemspesifikke bibliotek og headerfiler
 Summary(pl):	Pliki nag³ówkowe do bibliotek e2fs
 Summary(pt):	Bibliotecas e ficheiros de inclusão específicos do sistema de ficheiros ext2
 Summary(pt_BR):	Bibliotecas e arquivos de inclusão para e2fs
@@ -341,7 +341,7 @@ e2fspgrogs-devel ¤Ë¤Ï¡¢Second Extended (ext2) ¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤Ë¸ÇÍ­
 ¤Î¥×¥í¥°¥é¥à¤ò³«È¯¤¹¤ë¤¿¤á¤ËÉ¬Í×¤Ê¥é¥¤¥Ö¥é¥ê¤È¥Ø¥Ã¥À¡¼¥Õ¥¡¥¤¥ë¤¬´Þ¤Þ¤ì
 ¤Æ¤¤¤Þ¤¹¡£
 
-%description devel -l no
+%description devel -l nb
 e2fsprogs-devel inneholder de headerfiler og bibliotek man trenger for
 å utvikle programmer spesielt rettet mot ext2-filsystemer.
 
@@ -388,7 +388,7 @@ Summary(de):	Statische Bibliotheken für ext2-Dateisysteme
 Summary(es):	Bibliotecas estaticas para e2fs
 Summary(fr):	Bibliothèques statiques spécifiques au système de fichiers ext2
 Summary(it):	Librerie statiche specifici per il filesystem ext2
-Summary(no):	ext2 filsystemspesifikke statiske bibliotek
+Summary(nb):	ext2 filsystemspesifikke statiske bibliotek
 Summary(pl):	Biblioteki statyczne do obs³ugi systemu plików ext2
 Summary(pt):	Bibliotecas estaticas específicos do sistema de ficheiros ext2
 Summary(pt_BR):	Bibliotecas estaticas para e2fs
