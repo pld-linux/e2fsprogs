@@ -428,7 +428,7 @@ patch -s -p1 < %{PATCH1}
 %build
 chmod u+w configure aclocal.m4
 %{__gettextize}
-aclocal
+%{__aclocal}
 %{__autoconf}
 %configure \
 	--with-root-prefix=/ \
