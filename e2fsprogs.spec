@@ -13,7 +13,6 @@ Source:		ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.g
 Patch0:		e2fsprogs-info.patch
 Patch1:		e2fsprogs-fsck.patch
 Patch2:		e2fsprogs-findsuper.patch
-Patch3:		e2fsprogs-kernel23.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
 Buildroot:	/tmp/%{name}-%{version}-root
 
@@ -37,7 +36,7 @@ wolumenów dyskowych z systemem plikowym ext2.
 Bu paket, ext2 dosya sistemlerini yaratmak, onarmak, kontrol etmek ve bazý
 parametrelerini deðiþtirmek için gerekli yazýlýmlarý içerir.
 
-%package	devel
+%package devel
 Summary:	e2fs header files
 Summary(de):	Header-Dateien für eine e2fs
 Summary(pl):	Pliki nag³ówkowe do bibliotek e2fs
@@ -56,7 +55,7 @@ Programmen erforderlich sind.
 %description devel
 Pliki nag³ówkowe niezbêdne do tworzenia programów obs³ugukj±cych e2fs.
 
-%package	static
+%package static
 Summary:	e2fs static libraries
 Summary(de):	e2fs statische Libraries
 Summary(pl):	Biblioteki statyczne do obs³ugi e2fs
@@ -83,17 +82,11 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 %patch2 -p1
 
 %build
-# First check running Linux release ... 
-RELEASE=`uname -r | head -c 3`
-if [ "$RELEASE" = "2.3" ]; then
-    patch -p1 < $RPM_SOURCE_DIR/e2fsprogs-2.3.x.patch
-fi
-
-CFLAGS=$RPM_OPT_FLAGS \
-    ./configure \
+CFLAGS="$RPM_OPT_FLAGS" \
+./configure %{_target_platform} \
 	--enable-elf-shlibs \
-	--with-ldopts=-s \
-	--infodir=%{_infodir} %{_target_platform}
+	--with-ldopts="-s" \
+	--infodir=%{_infodir}
 
 make libs progs docs
 
@@ -151,7 +144,6 @@ rm -rf $RPM_BUILD_ROOT
   [1.14-3]
 - some macros in use, 
 - gzipping %doc,
-- patch against Linux-2.3.x,
 - stripping of shared libs.
 
 * Mon Apr 19 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
