@@ -1,0 +1,81 @@
+
+- added using CVS keywords in %changelog (for automating them).
+
+
+* Fri May 21 1999 Wojtek 奸usarczyk <wojtek@shadow.eu.org>
+  [1.14-3]
+- some macros in use, 
+- gzipping %doc,
+- stripping of shared libs.
+
+* Mon Apr 19 1999 Tomasz K這czko <kloczek@rudy.mif.pg.gda.pl>
+  [1.14-2]
+- fixed coredump fsck when it does not find its argument in
+  /etc/fstab (e2fsprogs-fsck.patch),
+- added to package findsuper (e2fsprogs-findsuper.patch),
+- recompiled on new rpm.
+
+* Fri Mar  5 1999 Tomasz K這czko <kloczek@rudy.mif.pg.gda.pl>
+  [1.14-1]
+- added URL,
+- added Group(pl),
+- removed man group from man pages.
+
+* Mon Dec 27 1998 Tomasz K這czko <kloczek@rudy.mif.pg.gda.pl>
+  [1.12-5]
+- standarized {un}registering info pages (added e2fsprogs-info.patch).
+
+* Fri Dec 11 1998 Tomasz K這czko <kloczek@rudy.mif.pg.gda.pl>
+  [1.12-4]
+- added gzipping man pages,
+- added --with-ldopts="-s" to ./configure parameters,
+- added e2fsprogs-kernel21.patch which allows compile e2fsprogs on both
+  2.0.x and 2.1.x kernels.
+
+* Sun Nov 01 1998 Wojtek 奸usarczyk <wojtek@shadow.eu.org>
+  [1.12-2d]
+- build only static binaries (for emergensy use),  
+- minor changes.
+
+* Thu Oct 08 1998 Wojtek 奸usarczyk <wojtek@shadow.eu.org>
+  [1.12-1d]
+- updated to 1.12,
+- fixed pl translation.
+
+* Mon Sep 28 1998 Tomasz K這czko <kloczek@rudy.mif.pg.gda.pl>
+  [1.12-3]
+- %postun changed to %preun (during uregistering e2progs info pages in 
+  %postun %{_infodir}/history.info.gz don't exist).
+- removed all patches.
+
+* Wed Sep 23 1998 Wojtek 奸usarczyk <wojtek@shadow.eu.org>
+  [1.10-7d]
+- downgraded to 1.10-7d,
+- translation modified for pl,
+- added static subpackage,
+- added %defattr support,
+- fixed files permissions,
+- removed at now tr, de, fr trnanslation -> generated SIGSEGV ;(
+- minor modifications of the spec file.
+
+* Sat Aug 15 1998 Tomasz K這czko <kloczek@rudy.mif.pg.gda.pl>
+  [1.10-7]
+- added -q %setup parameter,
+- changed Buildroot to /tmp/%%{name}-%%{version}-root,
+- added using %%{name} and %%{version} in Source,
+- added static subpackage,
+- added pl translation,
+- fixed %post{un},
+- added "rm -rf $RPM_BUILD_ROOT" on bigin %install,
+- changed dependencies to "Requires: %%{name} = %%{version}" in devel
+  subpackage,
+- added stripping shared libraries,
+- fiew simplification in %files and %install,
+- added %post{un} sections with registration info pages for libext2fs in
+  devel subpackage.
+
+* Thu Jun 25 1998 Wojtek 奸usarczyk <wojtek@shadow.eu.org>
+  [1.10-7]
+- build against GNU libc-2.1, 
+- added a fsck patch,
+- start at RH spec.
