@@ -103,6 +103,7 @@ erforderlich sind.
 Biblioteki statyczne do ob³ugi e2fs niezêbdne do kompilacji programów
 statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 
+%if %{?BOOT:1}%{!?BOOT:0}
 %package BOOT
 Summary:	e2fs for bootdisk
 Group:		Applications/System
@@ -111,8 +112,9 @@ Group(pl):	Aplikacje/System
 
 %description BOOT
 E2fsprogs-devel contand header files and documentation needed to
-develop second extended (ext2) filesystem-specific programs. Thios
+develop second extended (ext2) filesystem-specific programs. This
 package is for bootdisk.
+%endif
 
 %prep
 %setup  -q
