@@ -52,8 +52,8 @@ BuildRequires:	texinfo
 Requires(post,postun):	/sbin/ldconfig
 Requires:	libcom_err = %{version}
 Requires:	libuuid = %{version}
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	libext2fs2
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
@@ -548,7 +548,7 @@ cp /usr/share/automake/config.sub .
 	--enable-compression \
 	--enable-htree \
 	--enable-evms-11 \
-	%{?_without_static:--enable-dynamic-e2fsck} \
+	%{!?with_static:--enable-dynamic-e2fsck} \
 	--enable-fsck \
 	--disable-rpath
 
