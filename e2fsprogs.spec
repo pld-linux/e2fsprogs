@@ -4,17 +4,16 @@ Summary(fr):	Outils pour le système de fichiers ext2
 Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
-Version:	1.18
-Release:	6
+Version:	1.19
+Release:	1
 License:	GPL
-Group:		Utilities/System
-Group(pl):	Narzêdzia/System
-Source0:	http://web.mit.edu/tytso/www/linux/dist/%{name}-%{version}.tar.gz
+Group:		Applications/System
+Group(de):	Applikationen/System
+Group(pl):	Aplikacje/System
+Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
 Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
-Patch0:		e2fsprogs-info.patch
-Patch1:		http://opensource.captech.com/e2compr/ftp/e2cfsprogs-9-patch-1.18.gz
-Patch2:		e2fsprogs-DESTDIR.patch
-URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
+Patch0:		%{name}-info.patch
+URL:		http://e2fsprogs.sourceforge.net/
 PreReq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -56,6 +55,7 @@ Summary:	e2fs header files
 Summary(de):	Header-Dateien für eine e2fs
 Summary(pl):	Pliki nag³ówkowe do bibliotek e2fs
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Requires:	%{name} = %{version}
@@ -77,6 +77,7 @@ Summary:	e2fs static libraries
 Summary(de):	e2fs statische Libraries
 Summary(pl):	Biblioteki statyczne do obs³ugi e2fs
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Requires:	%{name}-devel = %{version}
@@ -96,21 +97,16 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 %prep
 %setup  -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-gunzip <%{SOURCE1} >doc/e2compr.texinfo
+gunzip < %{SOURCE1} > doc/e2compr.texinfo
 
 %build
 autoconf
-CFLAGS="$RPM_OPT_FLAGS"; export CFLAGS 
-# Don't use %%configure macro
-./configure \
-	--infodir=%{_infodir} \
-	--mandir=%{_mandir} \
+%configure \
+	--with-root-prefix=/ \
+	--enable-nls \
 	--enable-elf-shlibs \
-	--with-ldopts="-s" \
-	--enable-e2compr-03 \
-	--enable-e2compr-04 
+	--enable-compression \
+	--enable-fsck
 
 %{__make} libs progs docs
 cd doc
@@ -125,18 +121,12 @@ export PATH=/sbin:$PATH
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 %{__make} install-libs DESTDIR=$RPM_BUILD_ROOT
 
-strip --strip-unneeded $RPM_BUILD_ROOT/lib/lib*.so.*.*
-
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
+ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext3
 ln -sf mke2fs $RPM_BUILD_ROOT/sbin/mkfs.ext2
 
 
 install doc/e2compr.info $RPM_BUILD_ROOT%{_infodir}
-
-
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,3,8}/* \
-	$RPM_BUILD_ROOT%{_infodir}/*.info \
-	README RELEASE-NOTES
 
 %post   
 /sbin/ldconfig
@@ -153,7 +143,7 @@ gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,3,8}/* \
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+#rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
@@ -162,11 +152,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) /lib/lib*.so.*
 %{_mandir}/man[18]/*
+%{_datadir}/et
+%{_datadir}/ss
 %{_infodir}/e2compr.info*
 
 %files devel
 %defattr(644,root,root,755)
-%doc {README,RELEASE-NOTES}.gz
+%doc README RELEASE-NOTES
 
 %{_infodir}/libext2fs.info*
 %{_mandir}/man3/*
