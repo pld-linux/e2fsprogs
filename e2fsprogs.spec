@@ -149,7 +149,7 @@ done
 	--enable-nls \
 	--enable-elf-shlibs \
 	--enable-compression \
-	%{?bcond_off_static:--enable-dynamic-e2fsck} \
+	%{?_without_static:--enable-dynamic-e2fsck} \
 	--enable-fsck
 
 
