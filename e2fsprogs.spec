@@ -13,7 +13,7 @@ Summary(tr):	ext2 dosya sistemi iГin araГlar
 Summary(uk):	Утил╕ти для роботи з файловою системою ext2
 Name:		e2fsprogs
 Version:	1.27
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
