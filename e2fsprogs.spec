@@ -13,7 +13,7 @@ Summary(tr):	ext2 dosya sistemi iГin araГlar
 Summary(uk):	Утил╕ти для роботи з файловою системою ext2
 Name:		e2fsprogs
 Version:	1.27
-Release:	4
+Release:	5
 License:	GPL
 Group:		Applications/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
@@ -22,6 +22,7 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-mountlabel3.patch
+Patch3:		%{name}-rlimit-workaround.patch
 URL:		http://e2fsprogs.sourceforge.net/
 PreReq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -179,6 +180,7 @@ E2fsprogs-devel-static м╕стить статичн╕ б╕бл╕отеки, необх╕дн╕ для
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 patch -s -p1 < %{PATCH1}
 %patch2 -p1
+%patch3 -p1
 
 %build
 chmod u+w configure aclocal.m4
