@@ -10,8 +10,6 @@ Version:	1.25
 Release:	3
 License:	GPL
 Group:		Applications/System
-Group(de):	Applikationen/System
-Group(pl):	Aplikacje/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
 Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
@@ -72,13 +70,6 @@ Summary:	e2fs header files
 Summary(de):	Header-Dateien fЭr eine e2fs
 Summary(pl):	Pliki nagЁСwkowe do bibliotek e2fs
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
 
 %description devel
@@ -98,13 +89,6 @@ Summary:	e2fs static libraries
 Summary(de):	e2fs statische Libraries
 Summary(pl):	Biblioteki statyczne do obsЁugi e2fs
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name}-devel = %{version}
 
 %description static
@@ -123,8 +107,6 @@ statycznie skonsolidowanych (linkowanych) z bibliotekami do e2fs.
 Summary:	e2fs for bootdisk
 Summary(pl):	e2fs na bootkietkЙ
 Group:		Applications/System
-Group(de):	Applikationen/System
-Group(pl):	Aplikacje/System
 
 %description embed
 The e2fsprogs package contains a number of utilities for creating,
@@ -141,13 +123,6 @@ Summary:	e2fs header files for bootdisk
 Summary(de):	Header-Dateien fЭr eine e2fs
 Summary(pl):	Pliki nagЁСwkowe do bibliotek e2fs
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 
 %description devel-embed
 e2fsprogs-devel-embed contand header files and documentation needed to
