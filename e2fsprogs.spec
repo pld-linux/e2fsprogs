@@ -43,6 +43,7 @@ Patch1:		e2compr-info.patch
 Patch2:		%{name}-nostrip.patch
 Patch3:		%{name}-et-fixes.patch
 Patch4:		%{name}-no-empty-gettext.patch
+Patch5:		%{name}-scsi_major.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -524,6 +525,7 @@ gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 chmod u+w configure aclocal.m4 po/LINGUAS po/Makefile.in.in intl/Makefile.in
 
@@ -565,10 +567,13 @@ export PATH=/sbin:$PATH
 echo "install-shlibs:" >> intl/Makefile
 
 %{__make} install \
+	root_libdir=/%{_lib} \
 	DESTDIR=$RPM_BUILD_ROOT
 %{__make} install-libs \
+	root_libdir=/%{_lib} \
 	DESTDIR=$RPM_BUILD_ROOT
 %{__make} -C po install	\
+	root_libdir=/%{_lib} \
 	DESTDIR=$RPM_BUILD_ROOT
 
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
@@ -622,10 +627,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*attr
 %attr(755,root,root) %{_bindir}/mk_cmds
 %if ! %{with allstatic}
-%attr(755,root,root) /lib/libblkid.so.*.*
-%attr(755,root,root) /lib/libe2p.so.*.*
-%attr(755,root,root) /lib/libext2fs.so.*.*
-%attr(755,root,root) /lib/libss.so.*.*
+%attr(755,root,root) /%{_lib}/libblkid.so.*.*
+%attr(755,root,root) /%{_lib}/libe2p.so.*.*
+%attr(755,root,root) /%{_lib}/libext2fs.so.*.*
+%attr(755,root,root) /%{_lib}/libss.so.*.*
 %endif
 %{_mandir}/man1/*attr.1*
 %{_mandir}/man1/mk_cmds.1*
@@ -666,11 +671,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files evms
 %defattr(644,root,root,755)
-%attr(755,root,root) /lib/evms/*.so
+%attr(755,root,root) /%{_lib}/evms/*.so
 
 %files -n libcom_err
 %defattr(644,root,root,755)
-%{!?with_allstatic:%attr(755,root,root) /lib/libcom_err.so.*.*}
+%{!?with_allstatic:%attr(755,root,root) /%{_lib}/libcom_err.so.*.*}
 
 %files -n libcom_err-devel
 %defattr(644,root,root,755)
@@ -690,7 +695,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libuuid
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/uuidgen
-%{!?with_allstatic:%attr(755,root,root) /lib/libuuid.so.*.*}
+%{!?with_allstatic:%attr(755,root,root) /%{_lib}/libuuid.so.*.*}
 %{_mandir}/man1/uuidgen.1*
 %lang(ja) %{_mandir}/ja/man1/uuidgen.1*
 
