@@ -456,7 +456,9 @@ chmod u+w configure aclocal.m4
 	%{?_without_static:--enable-dynamic-e2fsck} \
 	--enable-fsck
 
-%{__make} libs progs docs LDFLAGS="%{rpmldflags}"
+%{__make} libs LDFLAGS="%{rpmldflags}"
+%{__make} progs LDFLAGS="%{rpmldflags}"
+%{__make} docs LDFLAGS="%{rpmldflags}"
 cd doc
 makeinfo --no-split e2compr.texinfo
 cd ..
