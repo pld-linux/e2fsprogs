@@ -4,19 +4,26 @@ Summary(fr):	Outils pour le système de fichiers ext2
 Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
-Version:	1.15
-Release:	2
+Version:	1.16
+Release:	1
 Copyright:	GPL
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
-Source:		ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.gz
+Source:		http://web.mit.edu/tytso/www/linux/dist/%{name}-%{version}.tar.gz
 Patch0:		e2fsprogs-info.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
 Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
-This package includes a number of utilities for creating, checking,
-and repairing ext2 filesystems.
+The e2fsprogs package contains a number of utilities for creating, checking,
+modifying and correcting any inconsistencies in second extended (ext2)
+filesystems. E2fsprogs contains e2fsck (used to repair filesystem
+inconsistencies after an unclean shutdown), mke2fs (used to initialize a
+partition to contain an empty ext2 filesystem), debugfs (used to examine the
+internal structure of a filesystem, to manually repair a corrupted
+filesystem or to create test cases for e2fsck), tune2fs (used to modify
+filesystem parameters) and most of the other core ext2fs filesystem
+utilities.
 
 %description -l de
 Dieses Paket enthält eine Auswahl an Utilities zum Erstellen, Prüfen 
@@ -28,7 +35,12 @@ réparer les systèmes de fichiers ext2.
 
 %description -l pl
 Pakiet ten zawiera narzêdzia do tworzenia, sprawdzania i naprawiania
-wolumenów dyskowych z systemem plikowym ext2.
+wolumenów dyskowych z systemem plikowym ext2. E2fsprogs zawiera e2fsck
+(u¿ywany do naprawiania niespójno¶ci w systemie plikowym po nipoprawnym
+zamkniêciu ststemu), mke2fs (u¿ywany do inicjacji wolumenów ext2), debugfs
+(¿ywany do sprawdzania wewnêtrznej struktóry wolumenów ext2, a tak¿e do
+recznego naprawiania b³êdów), tune2fs (u¿ywany do modyfikacji parametrów
+eolumenów ext2) i kilka innych narzêdzi do ext2.
 
 %description -l tr
 Bu paket, ext2 dosya sistemlerini yaratmak, onarmak, kontrol etmek ve bazý
@@ -44,14 +56,16 @@ Prereq:		/usr/sbin/fix-info-dir
 Requires:	%{name} = %{version}
 
 %description devel
-Header files needed to develop ext2 filesystem-specific programs.
+E2fsprogs-devel contand header files and documentation needed to develop
+second extended (ext2) filesystem-specific programs.
 
 %description -l de devel
 Header-Dateien, die zur Entwicklung von ext2-Dateisystemspezifischen
 Programmen erforderlich sind.
 
-%description devel
-Pliki nag³ówkowe niezbêdne do tworzenia programów obs³ugukj±cych e2fs.
+%description -l pl devel
+Pliki nag³ówkowe i dokumentacja niezbêdne do tworzenia programów
+obs³ugukj±cych e2fs.
 
 %package static
 Summary:	e2fs static libraries
