@@ -1,0 +1,21 @@
+--- e2fsprogs-1.34/MCONFIG.in~	Sat Sep  6 03:38:07 2003
++++ e2fsprogs-1.34/MCONFIG.in	Sat Sep  6 03:38:07 2003
+@@ -69,7 +69,7 @@
+ LIBEXT2FS = $(LIB)/libext2fs@LIB_EXT@
+ LIBUUID = $(LIB)/libuuid@LIB_EXT@ @SOCKET_LIB@ 
+ LIBBLKID = $(LIB)/libblkid@LIB_EXT@
+-LIBINTL = @LIBINTL@
++LIBINTL = $(INTLLIBS)
+ DEPLIBUUID = $(LIB)/libuuid@LIB_EXT@
+ 
+ STATIC_LIBSS = $(LIB)/libss@STATIC_LIB_EXT@
+--- e2fsprogs-1.34/configure.in~	Sun Sep  7 14:31:56 2003
++++ e2fsprogs-1.34/configure.in	Sun Sep  7 14:31:56 2003
+@@ -542,6 +542,7 @@
+ AC_SUBST(PACKAGE)
+ AC_SUBST(VERSION)
+ 
++ALL_LINGUAS=`grep -v '^#' po/LINGUAS`
+ AM_GNU_GETTEXT
+ dnl
+ dnl End of configuration options

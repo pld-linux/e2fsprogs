@@ -1,17 +1,22 @@
---- e2fsprogs-1.33/e2fsck/message.c.orig	2002-09-30 17:03:32.000000000 +0200
-+++ e2fsprogs-1.33/e2fsck/message.c	2003-04-26 21:45:30.000000000 +0200
-@@ -218,12 +218,12 @@
+--- e2fsprogs-1.32/e2fsck/message.c.orig	Wed Jun 26 05:26:47 2002
++++ e2fsprogs-1.32/e2fsck/message.c	Tue Nov 12 19:03:29 2002
+@@ -210,15 +210,16 @@
+ 					  struct problem_context *pctx,
+ 					  int *first)
+ {
+-	const char **cpp, *str;
++	const char **cpp, *str, *ncpp;
+ 	
+ 	/* Search for the abbreviation */
+ 	for (cpp = abbrevs; *cpp; cpp++) {
+-		if (ch == *cpp[0])
++		ncpp = _(*cpp);
++		if (ch == ncpp[0])
  			break;
  	}
  	if (*cpp) {
 -		str = (*cpp) + 1;
-+		str = _(*cpp) + 1;
++		str = ncpp + 1;
  		if (*first && islower(*str)) {
  			*first = 0;
  			fputc(toupper(*str++), stdout);
- 		}
--		print_e2fsck_message(ctx, _(str), pctx, *first);
-+		print_e2fsck_message(ctx, str, pctx, *first);
- 	} else
- 		printf("@%c", ch);
- }
