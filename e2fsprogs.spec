@@ -573,8 +573,6 @@ ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext3
 ln -sf mke2fs $RPM_BUILD_ROOT/sbin/mkfs.ext2
 
-ln -sf /bin/true $RPM_BUILD_ROOT/sbin/fsck.nfs
-
 install doc/e2compr.info $RPM_BUILD_ROOT%{_infodir}
 
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
