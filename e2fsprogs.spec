@@ -27,7 +27,7 @@ Summary(zh_CN):	╧эюМ╣з╤Чю╘у╧ё╗ext2ё╘нд╪Чо╣мЁ╣д╧╓╬ъ║ё
 Summary(zh_TW):	╔н╘С╨ч╡z ext2 юи╝в╗t╡н╙╨╓u╗Ц╣{╕║║C
 Name:		e2fsprogs
 Version:	1.32
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
@@ -37,6 +37,7 @@ Source3:	%{name}-pl.po
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-po.patch
+Patch3:		%{name}-missing-nls.patch
 URL:		http://e2fsprogs.sourceforge.net/
 PreReq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -421,6 +422,7 @@ e2fsprogs-devel-static м╕стить статичн╕ б╕бл╕отеки, необх╕дн╕ для
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 mv -f po/de{-utf,}.po
 cp -f %{SOURCE3} po/pl.po
