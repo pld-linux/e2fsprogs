@@ -454,7 +454,7 @@ chmod u+w configure aclocal.m4
 %{__aclocal}
 %{__autoconf}
 %configure \
-	--with-root-prefix=/ \
+	--with-root-prefix="" \
 	%{!?_without_nls:--enable-nls} \
 	%{?_without_nls:--disable-nls} \
 	%{?_with_allstatic:--disable-elf-shlibs} \
