@@ -12,7 +12,7 @@ Group(pl):	Narzêdzia/System
 Source:		http://web.mit.edu/tytso/www/linux/dist/%{name}-%{version}.tar.gz
 Patch0:		e2fsprogs-info.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
-Buildroot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
