@@ -28,7 +28,7 @@ Summary(zh_CN):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW):	ノ恨瞶 ext2 郎╰参ㄣ祘Α
 Name:		e2fsprogs
 Version:	1.34
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -41,6 +41,7 @@ Source3:	%{name}-pl.po
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-nostrip.patch
+Patch3:		%{name}-et-empty-prefix.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -508,6 +509,7 @@ Biblioteka umo縧iwiaj眂a dost阷 i zmiany UUID - biblioteka statyczna.
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 chmod u+w configure aclocal.m4 po/LINGUAS po/Makefile.in.in intl/Makefile.in
 
