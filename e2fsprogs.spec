@@ -1,6 +1,7 @@
 # conditional build
 # --without nls
 # --with allstatic
+
 Summary:	Tools for the second extended (ext2) filesystem
 Summary(de):	Tools fЭr das zweite erweiterte (ext2) Dateisystem
 Summary(es):	Herramientas para el sistema de archivos ext2
@@ -11,8 +12,8 @@ Summary(ru):	Утилиты для работы с файловой системой ext2
 Summary(tr):	ext2 dosya sistemi iГin araГlar
 Summary(uk):	Утил╕ти для роботи з файловою системою ext2
 Name:		e2fsprogs
-Version:	1.25
-Release:	5
+Version:	1.27
+Release:	1
 License:	GPL
 Group:		Applications/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
