@@ -96,7 +96,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/install-info /usr/info/history.info.gz /etc/info-dir \
 --entry="* libext2fs: (libext2fs)                        The EXT2FS library."
 
-%postun devel
+%preun devel
 /sbin/install-info --delete /usr/info/history.info.gz /etc/info-dir \
 --entry="* libext2fs: (libext2fs)                        The EXT2FS library."
 
@@ -121,6 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Sep 28 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.12-3]
+- %postun changed to %preun (during uregistering e2progs info pages in 
+  %postun /usr/info/history.info.gz don't exist).
 - removed all patches.
 
 * Sat Aug 15 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
