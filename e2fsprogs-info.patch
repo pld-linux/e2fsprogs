@@ -1,9 +1,10 @@
-diff -Nru e2fsprogs-1.12/doc/libext2fs.texinfo e2fsprogs-1.12.new/doc/libext2fs.texinfo
---- e2fsprogs-1.12/doc/libext2fs.texinfo	Sun Jul  5 21:24:19 1998
-+++ e2fsprogs-1.12.new/doc/libext2fs.texinfo	Thu Jan  7 01:44:02 1999
-@@ -7,9 +7,10 @@
+--- e2fsprogs-1.21/doc/libext2fs.texinfo.orig	Sat Jun 16 00:53:48 2001
++++ e2fsprogs-1.21/doc/libext2fs.texinfo	Sun Jun 17 19:56:33 2001
+@@ -6,11 +6,11 @@
+ @comment %**end of header
  
  @ifinfo
+-@dircategory Development
  @format
 -START-INFO-DIR-ENTRY
 -* libext2fs: (libext2fs.info).   The EXT2FS library.
