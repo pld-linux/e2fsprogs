@@ -1,0 +1,10 @@
+--- e2fsprogs-1.33/po/POTFILES.in.orig	2002-11-09 19:48:37.000000000 +0100
++++ e2fsprogs-1.33/po/POTFILES.in	2003-04-26 22:22:45.000000000 +0200
+@@ -26,7 +26,6 @@
+ misc/e2image.c
+ misc/findsuper.c
+ misc/fsck.c
+-misc/get_device_by_label.c
+ misc/lsattr.c
+ misc/mke2fs.c
+ misc/mklost+found.c

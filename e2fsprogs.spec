@@ -1,7 +1,7 @@
 #
 # Conditional build:
-# --without nls
-# --with allstatic
+# _without_nls		- without NLS
+# _with_allstatic	- link everything statically
 #
 Summary:	Utilities for managing the second extended (ext2) filesystem
 Summary(cs):	Nástroje pro správu souborových systémù typu ext2
@@ -40,12 +40,13 @@ Patch1:		e2compr-info.patch
 Patch2:		%{name}-po.patch
 Patch3:		%{name}-missing-nls.patch
 Patch4:		%{name}-nostrip.patch
+Patch5:		%{name}-potfiles-update.patch
 URL:		http://e2fsprogs.sourceforge.net/
-PreReq:		/sbin/ldconfig
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	gettext-devel
 BuildRequires:	texinfo
+Requires(post,postun):	/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	libext2fs2
 
@@ -181,7 +182,7 @@ Pakiet ten zawiera narzêdzia do tworzenia, sprawdzania i naprawiania
 wolumenów dyskowych z systemem plikowym ext2. e2fsprogs zawiera e2fsck
 (u¿ywany do naprawiania niespójno¶ci w systemie plikowym po
 niepoprawnym zamkniêciu systemu), mke2fs (u¿ywany do inicjacji
-wolumenów ext2), debugfs (¿ywany do sprawdzania wewnêtrznej struktury
+wolumenów ext2), debugfs (u¿ywany do sprawdzania wewnêtrznej struktury
 wolumenów ext2, a tak¿e do rêcznego naprawiania b³êdów), tune2fs
 (u¿ywany do modyfikacji parametrów wolumenów ext2) i kilka innych
 narzêdzi do ext2.
@@ -403,7 +404,7 @@ Bibliotecas estaticas para desarrollo de programas específicos para
 sistema de archivo ext2.
 
 %description static -l pl
-Biblioteki statyczne do ob³ugi e2fs niezbêdne do kompilacji programów
+Biblioteki statyczne do obs³ugi e2fs niezbêdne do kompilacji programów
 statycznie skonsolidowanych (linkowanych) z bibliotekami do e2fs.
 
 %description static -l pt_BR
@@ -439,6 +440,7 @@ gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 mv -f po/de{-utf,}.po
 cp -f %{SOURCE3} po/pl.po
@@ -508,6 +510,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files %{!?_without_nls:-f %{name}.lang}
 %defattr(644,root,root,755)
+%doc ChangeLog README RELEASE-NOTES
 %attr(755,root,root) /sbin/*
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/*
@@ -526,8 +529,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc README RELEASE-NOTES
-
+%doc doc/libblkid.txt
 %{_infodir}/libext2fs.info*
 %{_mandir}/man3/*
 %lang(ja) %{_mandir}/ja/man3/*
