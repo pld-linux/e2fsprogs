@@ -51,8 +51,8 @@ BuildRequires:	autoconf
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	texinfo
 Requires(post,postun):	/sbin/ldconfig
-Requires:	libcom_err = %{version}
-Requires:	libuuid = %{version}
+Requires:	libcom_err = %{version}-%{release}
+Requires:	libuuid = %{version}-%{release}
 Obsoletes:	libext2fs2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -291,9 +291,9 @@ Summary(uk):	â¦ÂÌ¦ÏÔËÉ ĞÒÏÇÒÁÍ¦ÓÔÁ ÔÁ ÈÅÄÅÒÉ ÄÌÑ ÒÏÂÏÔÉ Ú ext2fs
 Summary(zh_CN):	ext2 ÎÄ¼şÏµÍ³ÌØÓĞµÄ¾²Ì¬¿âºÍÍ·ÎÄ¼ş¡£
 Summary(zh_TW):	ext2 ÀÉ®×¨t²Î¯S©wªºÀRºA¨ç¦¡®w»PªíÀY¡C
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
-Requires:	libcom_err-devel = %{version}
-Requires:	libuuid-devel = %{version}
+Requires:	%{name} = %{version}-%{release}
+Requires:	libcom_err-devel = %{version}-%{release}
+Requires:	libuuid-devel = %{version}-%{release}
 Obsoletes:	libext2fs2-devel
 
 %description devel
@@ -397,7 +397,7 @@ Summary(sk):	Statické kni¾nice a hlavièkové súbory pre ext2-¹pecifické programy
 Summary(sv):	ext2 filsystemspecifika statiska bibliotek
 Summary(uk):	óÔÁÔÉŞÎ¦ Â¦ÂÌ¦ÏÔËÉ ĞÒÏÇÒÁÍ¦ÓÔÁ ÄÌÑ ÒÏÂÏÔÉ Ú ext2fs
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static libraries needed to develop ext2 filesystem-specific programs
@@ -431,7 +431,7 @@ e2fsprogs-devel-static Í¦ÓÔÉÔØ ÓÔÁÔÉŞÎ¦ Â¦ÂÌ¦ÏÔÅËÉ, ÎÅÏÂÈ¦ÄÎ¦ ÄÌÑ
 Summary:	e2fs EVMS module
 Summary(pl):	Modu³ e2fs dla EVMS
 Group:		Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Requires:	evms
 
 %description evms
@@ -456,7 +456,7 @@ Biblioteka opisu popularnych b³êdów dla uniksów.
 Summary:	Development files for Common Error Description Library for unices
 Summary(pl):	Pliki dla programistów do biblioteki opisu popularnych b³êdów dla uniksów
 Group:		Development/Libraries
-Requires:	libcom_err = %{version}
+Requires:	libcom_err = %{version}-%{release}
 Conflicts:	e2fsprogs-devel < 1.34-3
 
 %description -n libcom_err-devel
@@ -470,7 +470,7 @@ programistów.
 Summary:	Static version of Common Error Description Library for unices
 Summary(pl):	Statyczna biblioteka opisu popularnych b³êdów dla uniksów
 Group:		Development/Libraries
-Requires:	libcom_err-devel = %{version}
+Requires:	libcom_err-devel = %{version}-%{release}
 Conflicts:	e2fsprogs-static < 1.34-3
 
 %description -n libcom_err-static
@@ -495,7 +495,7 @@ Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID.
 Summary:	Header files for library for accessing and manipulating UUID
 Summary(pl):	Pliki nag³ówkowe biblioteki umo¿liwiaj±cej dostêp i zmiany UUID
 Group:		Development/Libraries
-Requires:	libuuid = %{version}
+Requires:	libuuid = %{version}-%{release}
 Conflicts:	e2fsprogs-devel < 1.34-3
 
 %description -n libuuid-devel
@@ -509,7 +509,7 @@ programistów.
 Summary:	Static library for accessing and manipulating UUID
 Summary(pl):	Statyczna biblioteka umo¿liwiaj±ca dostêp i zmiany UUID
 Group:		Development/Libraries
-Requires:	libuuid-devel = %{version}
+Requires:	libuuid-devel = %{version}-%{release}
 Conflicts:	e2fsprogs-static < 1.34-3
 
 %description -n libuuid-static
