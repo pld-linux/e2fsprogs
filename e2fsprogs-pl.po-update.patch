@@ -1,0 +1,92 @@
+--- e2fsprogs-1.35/po/pl.po.orig	2003-12-24 20:22:43.000000000 +0100
++++ e2fsprogs-1.35/po/pl.po	2004-02-29 20:34:28.879007176 +0100
+@@ -1,14 +1,14 @@
+ # Polish translation for e2fsprogs.
+-# Copyright (C) 2002 Free Software Foundation, Inc.
++# Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
+ # This file is distributed under the same license as the e2fsprogs package.
+-# Jakub Bogusz <qboosh@pld-linux.org>, 2002-2003.
++# Jakub Bogusz <qboosh@pld-linux.org>, 2002-2004.
+ #
+ msgid ""
+ msgstr ""
+-"Project-Id-Version: e2fsprogs 1.34\n"
++"Project-Id-Version: e2fsprogs 1.35\n"
+ "Report-Msgid-Bugs-To: \n"
+ "POT-Creation-Date: 2003-12-24 14:17-0500\n"
+-"PO-Revision-Date: 2003-08-08 19:23+0200\n"
++"PO-Revision-Date: 2004-02-29 20:20+0100\n"
+ "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
+ "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+ "MIME-Version: 1.0\n"
+@@ -821,6 +821,7 @@
+ "Backing up @j @i @b information.\n"
+ "\n"
+ msgstr ""
++"Tworzenie kopii zapasowej informacji z @bu i-wêz³a kroniki.\n"
+ 
+ #: e2fsck/problem.c:321
+ msgid "Pass 1: Checking @is, @bs, and sizes\n"
+@@ -912,9 +913,8 @@
+ msgstr "Podwójny lub wadliwy @b jest u¿ywany!\n"
+ 
+ #: e2fsck/problem.c:425
+-#, fuzzy
+ msgid "Bad @b %b used as bad @b @i indirect @b.  "
+-msgstr "Wadliwy @b %b jest u¿ywany jako nie bezpo¶redni @b wadliwego @bu?!?\n"
++msgstr "Wadliwy @b %b jest u¿ywany jako niebiezpo¶redni @b i-wê¼³a z wadliwym @biem. "
+ 
+ #: e2fsck/problem.c:430
+ msgid ""
+@@ -923,6 +923,10 @@
+ "should stop now and run e2fsck -c to scan for bad blocks\n"
+ "in the @f.\n"
+ msgstr ""
++"\n"
++"I-wêze³ z wadliwym @biem zosta³ prawdopodobnie uszkodzony.\n"
++"Prawdopodobnie nale¿a³oby teraz zatrzymaæ i uruchomiæ e2fsck -c\n"
++"aby przeszukaæ @f pod k±tem wadliwych bloków.\n"
+ 
+ #: e2fsck/problem.c:437
+ msgid ""
+@@ -1150,6 +1154,8 @@
+ "Bad @b @i has an indirect @b (%b) that conflicts with\n"
+ "@f metadata.  "
+ msgstr ""
++"I-wêze³ z wadliwym @biem ma niebezpo¶redni @b (%b) bêd±cy\n"
++"w konflikcie z metadanymi systemu plików. "
+ 
+ #: e2fsck/problem.c:715
+ msgid ""
+@@ -2053,18 +2059,18 @@
+ msgstr ", wymuszono sprawdzenie.\n"
+ 
+ #: e2fsck/unix.c:271
+-#, fuzzy, c-format
++#, c-format
+ msgid "%s: clean, %d/%d files, %d/%d blocks"
+-msgstr "%s: czysty, %d/%d plików, %d/%d bloków\n"
++msgstr "%s: czysty, %d/%d plików, %d/%d bloków"
+ 
+ #: e2fsck/unix.c:286
+ msgid " (check after next mount)"
+-msgstr ""
++msgstr " (sprawdzenie po nastêpnym montowaniu)"
+ 
+ #: e2fsck/unix.c:288
+ #, c-format
+ msgid " (check in %ld mounts)"
+-msgstr ""
++msgstr "(sprawdzenie za %ld montowañ)"
+ 
+ #: e2fsck/unix.c:430
+ #, c-format
+@@ -2111,7 +2117,7 @@
+ #: e2fsck/unix.c:690 misc/tune2fs.c:444 misc/tune2fs.c:699 misc/tune2fs.c:716
+ #, c-format
+ msgid "Unable to resolve '%s'"
+-msgstr ""
++msgstr "Nie uda³o siê rozwi±zaæ '%s'"
+ 
+ #: e2fsck/unix.c:716
+ msgid "Incompatible options not allowed when byte-swapping.\n"
