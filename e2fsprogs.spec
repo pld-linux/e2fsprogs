@@ -5,7 +5,7 @@ Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.15
-Release:	1
+Release:	2
 Copyright:	GPL
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
@@ -106,7 +106,7 @@ gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,8}/* README RELEASE-NOTES
 %post  devel
 /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%preun devel
+%postun devel
 /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %clean
