@@ -122,10 +122,13 @@ autoconf
 	--with-root-prefix=/ \
 	--disable-nls \
 	--enable-compression \
-	--enable-static-fsck \
-	--enable-static-mk2fs \
 	--enable-all-static \
-	--enable-fsck
+	--disable-fsck \
+	--enable-elf-shlibs \
+	--enable-dynamic-e2fsck \
+	
+#	--enable-static-fsck \
+#	--enable-static-mk2fs \
 
 
 # some problems compiling with uClibc
@@ -134,7 +137,8 @@ autoconf
 #	CFLAGS="-I%{_libdir}/bootdisk%{_includedir}" \
 #	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc"
 
-%{__make} libs progs ALL_LDFLAGS="-static -s"
+%{__make} libs
+%{__make} progs ALL_LDFLAGS="--nostdlib -s" LDLIBS="%{_libdir}/libc.a"
 
 mv e2fsck/e2fsck e2fsck-BOOT
 for i in badblocks mke2fs; do 
