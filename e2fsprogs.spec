@@ -1,3 +1,6 @@
+# conditional build
+# --without nls
+# --with allstatic
 Summary:	Tools for the second extended (ext2) filesystem
 Summary(de):	Tools für das zweite erweiterte (ext2) Dateisystem
 Summary(fr):	Outils pour le système de fichiers ext2
@@ -20,6 +23,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	gettext-devel
+BuildRequires:	texinfo
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
@@ -107,13 +111,14 @@ autoconf
 
 %configure \
 	--with-root-prefix=/ \
-	--enable-nls \
-	--enable-elf-shlibs \
+	%{!?_without_nls:--enable-nls} \
+	%{?_without_nls:--disable-nls} \
+	%{?_with_allstatic:--disable-elf-shlibs} \
+	%{!?_with_allstatic:--enable-elf-shlibs} \
 	--enable-compression \
-	%{?_without_static:--enable-dynamic-e2fsck} \
-	--enable-fsck
+	%{?_without_static:--enable-dynamic-e2fsck}	--disable-fsck
 
-%{__make} libs progs docs
+%{__make} libs progs docs LDFLAGS="%{rpmldflags}"
 cd doc
 makeinfo --no-split e2compr.texinfo
 cd ..
@@ -134,7 +139,7 @@ install doc/e2compr.info $RPM_BUILD_ROOT%{_infodir}
 
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
-%find_lang %{name}
+%{!?_without_nls:%find_lang %{name}}
 
 %post
 /sbin/ldconfig
@@ -153,12 +158,12 @@ bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files -f %{name}.lang
+%files %{!?_without_nls:-f %{name}.lang}
 %defattr(644,root,root,755)
 %attr(755,root,root) /sbin/*
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) /lib/lib*.so.*
+%{!?_with_allstatic:%attr(755,root,root) /lib/lib*.so.*}
 %{_mandir}/man[18]/*
 %lang(fi) %{_mandir}/fi/man[18]/*
 %lang(fr) %{_mandir}/fr/man[18]/*
@@ -180,7 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_mandir}/ja/man3/*
 %{_includedir}/*
 
-%attr(755,root,root) %{_libdir}/lib*.so
+%{!?_with_allstatic:%attr(755,root,root) %{_libdir}/lib*.so}
 
 %files static
 %defattr(644,root,root,755)
