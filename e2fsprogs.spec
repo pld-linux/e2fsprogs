@@ -1,3 +1,5 @@
+# conditional build:
+# _without_embed - don't build uClibc version
 Summary:	Tools for the second extended (ext2) filesystem
 Summary(de):	Tools für das zweite erweiterte (ext2) Dateisystem
 Summary(fr):	Outils pour le système de fichiers ext2
@@ -5,7 +7,7 @@ Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.25
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
@@ -22,9 +24,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	gettext-devel
-%if %{?BOOT:1}%{!?BOOT:0}
-BuildRequires:	glibc-static
+%if %{!?_without_embed:1}%{?_without_embed:0}
+BuildRequires:	uClibc-devel
+BuildRequires:	uClibc-static
 %endif
+
+%define embed_path	/usr/lib/embed
+%define embed_cc	%{_arch}-uclibc-cc
+%define embed_cflags	%{rpmcflags} -Os
+%define uclibc_prefix	/usr/%{_arch}-linux-uclibc
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
@@ -103,18 +111,30 @@ erforderlich sind.
 Biblioteki statyczne do ob³ugi e2fs niezbêdne do kompilacji programów
 statycznie skonsolidowanych (linkowanych) z bibliotekami do e2fs.
 
-%if %{?BOOT:1}%{!?BOOT:0}
-%package BOOT
+%package embed
 Summary:	e2fs for bootdisk
 Group:		Applications/System
 Group(de):	Applikationen/System
 Group(pl):	Aplikacje/System
 
-%description BOOT
+%description embed
 E2fsprogs-devel contains header files and documentation needed to
 develop second extended (ext2) filesystem-specific programs. This
 package is for bootdisk.
-%endif
+
+%package devel-embed
+Summary:	e2fs header files for bootdisk
+Summary(de):	Header-Dateien für eine e2fs
+Summary(pl):	Pliki nag³ówkowe do bibliotek e2fs
+Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+
+%description devel-embed
+E2fsprogs-devel contand header files and documentation needed to
+develop second extended (ext2) filesystem-specific programs.
+Botodisk version.
 
 %prep
 %setup  -q
@@ -129,36 +149,28 @@ gettextize --copy --force
 aclocal
 autoconf
 
-%if %{?BOOT:1}%{!?BOOT:0}
-
+%if %{!?_without_embed:1}%{?_without_embed:0}
 %configure \
 	--with-root-prefix=/ \
 	--disable-nls \
 	--enable-compression \
 	--enable-all-static \
 	--disable-fsck \
-	--enable-static-e2fsck \
-
-# some problems compiling with uClibc
-#%{__make} libs progs \
-#	ALL_LDFLAGS="-nostdlib -s" \
-#	CFLAGS="-I%{_libdir}/bootdisk%{_includedir}" \
-#	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc"
-
+	--with-cc=%{embed_cc} \
+	--with-ccopts="%{embed_cflags}"
 %{__make} libs
-#%{__make} progs ALL_LDFLAGS="-nostdlib -s" LDLIBS="%{_libdir}/libc.a"
-%{__make} progs ALL_LDFLAGS="-static -s" \
-%ifarch %{ix86}
-XTRA_CFLAGS="-m386"
-%else
-XTRA_CFLAGS=""
-%endif
-
-mv e2fsck/e2fsck e2fsck-BOOT
+%{__make} progs
+mv e2fsck/e2fsck e2fsck-embed-shared
 for i in badblocks mke2fs; do 
-	mv misc/$i $i-BOOT
+	mv misc/$i $i-embed-shared
 done
-
+%{__make} progs ALL_LDFLAGS="-static"
+mv e2fsck/e2fsck e2fsck-embed-static
+for i in badblocks mke2fs; do 
+	mv misc/$i $i-embed-static
+done
+mkdir embed-libs
+cp lib/*.a embed-libs
 %{__make} distclean
 %endif
 
@@ -179,16 +191,20 @@ cd ..
 rm -rf $RPM_BUILD_ROOT
 export PATH=/sbin:$PATH
 
-%if %{?BOOT:1}%{!?BOOT:0}
-install -d $RPM_BUILD_ROOT%{_libdir}/bootdisk/sbin
-for i in *-BOOT; do 
-	install $i $RPM_BUILD_ROOT%{_libdir}/bootdisk/sbin/`basename $i -BOOT`
-done
-%endif
-
 %{__make} install	DESTDIR=$RPM_BUILD_ROOT
 %{__make} install-libs	DESTDIR=$RPM_BUILD_ROOT
 %{__make} -C po install	DESTDIR=$RPM_BUILD_ROOT
+
+%if %{!?_without_embed:1}%{?_without_embed:0}
+install -d $RPM_BUILD_ROOT%{embed_path}/{shared,static}
+install -d $RPM_BUILD_ROOT%{uclibc_prefix}/{include,lib}
+for i in badblocks mke2fs e2fsck; do 
+	install $i-embed-shared $RPM_BUILD_ROOT%{embed_path}/shared/$i
+	install $i-embed-static $RPM_BUILD_ROOT%{embed_path}/static/$i
+done
+cp -a $RPM_BUILD_ROOT%{_includedir}/* $RPM_BUILD_ROOT%{uclibc_prefix}/include
+cp embed-libs/* $RPM_BUILD_ROOT%{uclibc_prefix}/lib
+%endif
 
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext3
@@ -250,8 +266,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
 
-%if %{?BOOT:1}%{!?BOOT:0}
-%files BOOT
+%if %{!?_without_embed:1}%{?_without_embed:0}
+%files embed
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/bootdisk/sbin/*
+%attr(755,root,root) %{embed_path}/*/*
+
+%files devel-embed
+%{uclibc_prefix}/include/*
+%{uclibc_prefix}/lib/*
 %endif
