@@ -499,7 +499,11 @@ echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/$a/man8/fsck.ext3.8
 echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/$a/man8/mkfs.ext2.8
 echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/$a/man8/mkfs.ext3.8
 
-%{!?_without_nls:%find_lang %{name}}
+%if 0%{!_without_nls:1}
+[ "`file $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/e2fsprogs.mo |\
+	sed -e 's/.*,//' -e 's/message.*//'`" -le 1 ] && rm -f $f
+%find_lang %{name}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
