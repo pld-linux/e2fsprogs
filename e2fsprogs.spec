@@ -28,23 +28,20 @@ Summary(uk):	Утил╕ти для роботи з файловою системою ext2
 Summary(zh_CN):	╧эюМ╣з╤Чю╘у╧ё╗ext2ё╘нд╪Чо╣мЁ╣д╧╓╬ъ║ё
 Summary(zh_TW):	╔н╘С╨ч╡z ext2 юи╝в╗t╡н╙╨╓u╗Ц╣{╕║║C
 Name:		e2fsprogs
-Version:	1.34
-Release:	8
+Version:	1.35
+Release:	1
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	9be9375224f0970a55e39ebebf2a0ce5
-Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
+# Source0-md5:	8d25ffd60d405ef32d341704a2323807
+Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
-Source3:	%{name}-pl.po
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-nostrip.patch
-Patch3:		%{name}-et-fixes.patch
-Patch4:		%{name}-no-empty-gettext.patch
-Patch5:		%{name}-scsi_major.patch
+Patch3:		%{name}-pl.po-update.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -525,18 +522,11 @@ gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 chmod u+w configure aclocal.m4 po/LINGUAS po/Makefile.in.in intl/Makefile.in
 
-LINGUAS=$(cat po/LINGUAS)
-echo "pl $LINGUAS" > po/LINGUAS
-cp -f %{SOURCE3} po/pl.po
-
 %build
-rm -f config.sub
-cp /usr/share/automake/config.sub .
+cp -f /usr/share/automake/config.sub .
 %{__gettextize}
 %{__aclocal}
 %{__autoconf}
