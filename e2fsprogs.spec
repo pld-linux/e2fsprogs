@@ -116,7 +116,8 @@ autoconf
 	%{?_with_allstatic:--disable-elf-shlibs} \
 	%{!?_with_allstatic:--enable-elf-shlibs} \
 	--enable-compression \
-	%{?_without_static:--enable-dynamic-e2fsck}	--disable-fsck
+	%{?_without_static:--enable-dynamic-e2fsck} \
+	--enable-fsck
 
 %{__make} libs progs docs LDFLAGS="%{rpmldflags}"
 cd doc
