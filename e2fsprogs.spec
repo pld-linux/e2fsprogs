@@ -5,10 +5,11 @@ Summary(pl): Narzedzia do systemu plikowego ext2
 Summary(tr): ext2 dosya sistemi için araçlar
 Name:        e2fsprogs
 Version:     1.12
-Release:     3
+Release:     4
 Copyright:   GPL
 Group:       Utilities/System
 Source:      ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.gz
+Patch0:      e2fsprogs-kernel21.patch
 Buildroot:   /tmp/%{name}-%{version}-root
 
 %description
@@ -70,10 +71,13 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
-./configure --enable-elf-shlibs
+./configure \
+	--enable-elf-shlibs \
+	--with-ldopts="-s"
 
 make libs progs docs
 
@@ -85,6 +89,8 @@ make install DESTDIR="$RPM_BUILD_ROOT"
 make install-libs DESTDIR="$RPM_BUILD_ROOT"                                     
 
 strip $RPM_BUILD_ROOT/lib/lib*.so.*.*
+
+gzip -9nf $RPM_BUILD_ROOT/usr/man/man{1,8}/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -119,6 +125,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644, root, root) /usr/lib/lib*.a
 
 %changelog
+* Fri Dec 11 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [1.12-4]
+- added gzipping man pages,
+- added --with-ldopts="-s" to ./configure parameters,
+- added e2fsprogs-kernel21.patch which allows compile e2fsprogs on both
+  2.0.x and 2.1.x kernels.
+
 * Mon Sep 28 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.12-3]
 - %postun changed to %preun (during uregistering e2progs info pages in 
