@@ -1,17 +1,18 @@
-Summary:     Tools for the second extended (ext2) filesystem 
-Summary(de): Tools für das zweite erweiterte (ext2) Dateisystem 
-Summary(fr): Outils pour le système de fichiers ext2
-Summary(pl): Narzedzia do systemu plikowego ext2
-Summary(tr): ext2 dosya sistemi için araçlar
-Name:        e2fsprogs
-Version:     1.12
-Release:     5
-Copyright:   GPL
-Group:       Utilities/System
-Source:      ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.gz
-Patch0:      e2fsprogs-kernel21.patch
-Patch1:      e2fsprogs-info.patch
-Buildroot:   /tmp/%{name}-%{version}-root
+Summary:	Tools for the second extended (ext2) filesystem 
+Summary(de):	Tools für das zweite erweiterte (ext2) Dateisystem 
+Summary(fr):	Outils pour le système de fichiers ext2
+Summary(pl):	Narzêdzia do systemu plikowego ext2
+Summary(tr):	ext2 dosya sistemi için araçlar
+Name:		e2fsprogs
+Version:	1.14
+Release:	1
+Copyright:	GPL
+Group:		Utilities/System
+Group(pl):	Narzêdzia/System
+Source:		ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.gz
+Patch0:		e2fsprogs-info.patch
+URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
+Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
 This package includes a number of utilities for creating, checking,
@@ -34,12 +35,13 @@ Bu paket, ext2 dosya sistemlerini yaratmak, onarmak, kontrol etmek ve bazý
 parametrelerini deðiþtirmek için gerekli yazýlýmlarý içerir.
 
 %package devel
-Summary:     e2fs header files
-Summary(de): Header-Dateien für eine e2fs
-Summary(pl): Pliki nag³ówkowe do bibliotek e2fs
-Group:       Development/Libraries
-Prereq:      /sbin/install-info
-Requires:    %{name} = %{version}
+Summary:	e2fs header files
+Summary(de):	Header-Dateien für eine e2fs
+Summary(pl):	Pliki nag³ówkowe do bibliotek e2fs
+Group:		Development/Libraries
+Group(pl):	Programowanie/Biblioteki
+Prereq:		/sbin/install-info
+Requires:	%{name} = %{version}
 
 %description devel
 Header files needed to develop ext2 filesystem-specific programs.
@@ -52,11 +54,13 @@ Programmen erforderlich sind.
 Pliki nag³ówkowe niezbêdne do tworzenia programów obs³ugukj±cych e2fs.
 
 %package static
-Summary:     e2fs static libraries
-Summary(de): e2fs statische Libraries
-Summary(pl): biblioteki statyczne do obs³ugi e2fs
-Group:       Development/Libraries
-Requires:    %{name}-devel = %{version}
+Summary:	e2fs static libraries
+Summary(de):	e2fs statische Libraries
+Summary(pl):	Biblioteki statyczne do obs³ugi e2fs
+Group:		Development/Libraries
+Group:		Development/Libraries
+Group(pl):	Programowanie/Biblioteki
+Requires:	%{name}-devel = %{version}
 
 %description static
 Static libraries files needed to develop ext2 filesystem-specific
@@ -73,7 +77,6 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
@@ -101,7 +104,7 @@ gzip -9nf $RPM_BUILD_ROOT/usr/man/man{1,8}/*
 /sbin/install-info /usr/info/libext2fs.info.gz /etc/info-dir
 
 %preun devel
-if [ $1 = 0 ]; then
+if [ "$1" = "0" ]; then
 	/sbin/install-info --delete /usr/info/libext2fs.info.gz /etc/info-dir
 fi
 
@@ -114,7 +117,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/sbin/*
 /usr/bin/*
 /lib/lib*.so.*.*
-%attr(644, root,  man) /usr/man/man[18]/*
+%attr(644,root,root) /usr/man/man[18]/*
 
 %files devel
 %defattr(644, root, root, 755)
@@ -127,6 +130,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644, root, root) /usr/lib/lib*.a
 
 %changelog
+* Fri Mar  5 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [1.14-1]
+- added URL,
+- added Group(pl),
+- removed man group from man pages.
+
 * Mon Dec 27 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.12-5]
 - standarized {un}registering info pages (added e2fsprogs-info.patch).
