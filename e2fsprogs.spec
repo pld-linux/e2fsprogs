@@ -118,7 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(755,root,root,755)
 /sbin/*
 /usr/sbin/*
-/usr/bin/*
+%{_bindir}/*
 /lib/lib*.so.*.*
 %attr(644,root,root) %{_mandir}/man[18]/*
 
