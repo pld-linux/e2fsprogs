@@ -83,7 +83,7 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
-./configure \
+./configure %{_target} \
 	--enable-elf-shlibs \
 	--with-ldopts="-s"
 
