@@ -136,7 +136,7 @@ rm -rf $RPM_BUILD_ROOT
 - added "rm -rf $RPM_BUILD_ROOT" on bigin %install,
 - changed dependencies to "Requires: %%{name} = %%{version}" in devel
   subpackage,
-- added striping shared libraries,
+- added stripping shared libraries,
 - fiew simplification in %files and %install,
 - added %post{un} sections with registration info pages for libext2fs in
   devel subpackage,
