@@ -1,6 +1,7 @@
 #
 # Conditional build:
-%bcond_with	allstatic	# link everythink statically
+%bcond_with	allstatic	# link everything statically
+%bcond_without	static		# link e2fsck dynamically with libc
 %bcond_without	nls		# build without NLS
 #
 Summary:	Utilities for managing the second extended (ext2) filesystem
