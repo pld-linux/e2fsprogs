@@ -1,12 +1,12 @@
-Summary:	Tools for the second extended (ext2) filesystem 
-Summary(de):	Tools für das zweite erweiterte (ext2) Dateisystem 
+Summary:	Tools for the second extended (ext2) filesystem
+Summary(de):	Tools für das zweite erweiterte (ext2) Dateisystem
 Summary(fr):	Outils pour le système de fichiers ext2
 Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.18
-Release:	1
-Copyright:	GPL
+Release:	2
+License:	GPL
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
 Source:		http://web.mit.edu/tytso/www/linux/dist/%{name}-%{version}.tar.gz
@@ -15,19 +15,19 @@ URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
 Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
-The e2fsprogs package contains a number of utilities for creating, checking,
-modifying and correcting any inconsistencies in second extended (ext2)
-filesystems. E2fsprogs contains e2fsck (used to repair filesystem
+The e2fsprogs package contains a number of utilities for creating,
+checking, modifying and correcting any inconsistencies in second extended
+(ext2) filesystems. E2fsprogs contains e2fsck (used to repair filesystem
 inconsistencies after an unclean shutdown), mke2fs (used to initialize a
-partition to contain an empty ext2 filesystem), debugfs (used to examine the
-internal structure of a filesystem, to manually repair a corrupted
+partition to contain an empty ext2 filesystem), debugfs (used to examine
+the internal structure of a filesystem, to manually repair a corrupted
 filesystem or to create test cases for e2fsck), tune2fs (used to modify
 filesystem parameters) and most of the other core ext2fs filesystem
 utilities.
 
 %description -l de
-Dieses Paket enthält eine Auswahl an Utilities zum Erstellen, Prüfen 
-und zur Instandsetzung von ext2-Dateisystemen.
+Dieses Paket enthält eine Auswahl an Utilities zum Erstellen, Prüfen  und
+zur Instandsetzung von ext2-Dateisystemen.
 
 %description -l fr
 Ce package contient de nombreux utilitaires pour créer, vérifier, et
@@ -76,15 +76,15 @@ Group(pl):	Programowanie/Biblioteki
 Requires:	%{name}-devel = %{version}
 
 %description static
-Static libraries files needed to develop ext2 filesystem-specific
-programs statically linked with e2progs libs.
+Static libraries files needed to develop ext2 filesystem-specific programs
+statically linked with e2progs libs.
 
 %description -l de static
-Libraries zur Entwicklung von ext2-Dateisystemspezifischen
-Programmen erforderlich sind.
+Libraries zur Entwicklung von ext2-Dateisystemspezifischen Programmen
+erforderlich sind.
 
 %description -l pl static
-Biblioteki statyczne do ob³ugi e2fs niezêbdne do kompilacji programów 
+Biblioteki statyczne do ob³ugi e2fs niezêbdne do kompilacji programów
 statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 
 %prep
@@ -96,7 +96,8 @@ CFLAGS="$RPM_OPT_FLAGS" \
 ./configure %{_target_platform} \
 	--enable-elf-shlibs \
 	--with-ldopts="-s" \
-	--infodir=%{_infodir}
+	--infodir=%{_infodir} \
+	--mandir=%{_mandir}
 
 make libs progs docs
 
@@ -106,9 +107,6 @@ export PATH=/sbin:$PATH
 
 make install DESTDIR=$RPM_BUILD_ROOT
 make install-libs DESTDIR=$RPM_BUILD_ROOT
-
-install -d $RPM_BUILD_ROOT%{_mandir}
-mv $RPM_BUILD_ROOT/usr/man/man{1,8} $RPM_BUILD_ROOT%{_mandir}
 
 strip --strip-unneeded $RPM_BUILD_ROOT/lib/lib*.so.*.*
 
