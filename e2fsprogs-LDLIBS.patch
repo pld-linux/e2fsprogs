@@ -74,13 +74,13 @@ diff -Nur --exclude *~ e2fsprogs-1.19/misc/Makefile.in e2fsprogs-1.19.new/misc/M
  	$(SUBSTITUTE) $(srcdir)/tune2fs.8.in tune2fs.8
 diff -Nur --exclude *~ e2fsprogs-1.19/util/Makefile.in e2fsprogs-1.19.new/util/Makefile.in
 --- e2fsprogs-1.19/util/Makefile.in	Fri Nov 19 19:42:30 1999
-+++ e2fsprogs-1.19.new/util/Makefile.in	Mon May 14 02:51:43 2001
-@@ -14,7 +14,7 @@
- @MCONFIG@
++++ e2fsprogs-1.19.new/util/Makefile.in	Mon May 14 02:56:26 2001
+@@ -21,7 +21,7 @@
+ all:: $(PROGS)
  
- .c.o:
--	$(BUILD_CC) -c $(ALL_CFLAGS) $< -o $@
-+	$(BUILD_CC) -c $(ALL_CFLAGS) $< -o $@ $(LDLIBS)
+ subst: subst.o
+-	$(BUILD_CC) $(ALL_LDFLAGS) -o subst subst.o
++	$(BUILD_CC) $(ALL_LDFLAGS) -o subst subst.o $(LDLIBS)
  
- PROGS=		subst
- 
+ clean:
+ 	$(RM) -f $(PROGS) \#* *.s *.o *.a *~ core
