@@ -429,12 +429,7 @@ cp -f %{SOURCE3} po/pl.po
 
 %build
 chmod u+w configure aclocal.m4
-if gettextize --version | grep -q '0\.11\.' ; then
-	%{__gettextize} --intl
-	cp -f po/Makevars{.template,}
-else
-	%{__gettextize}
-fi
+%{__gettextize}
 %{__aclocal}
 %{__autoconf}
 %configure \
