@@ -28,7 +28,7 @@ Summary(zh_CN):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW):	ノ恨瞶 ext2 郎╰参ㄣ祘Α
 Name:		e2fsprogs
 Version:	1.34
-Release:	5
+Release:	6
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -42,6 +42,7 @@ Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-nostrip.patch
 Patch3:		%{name}-et-fixes.patch
+Patch4:		%{name}-no-empty-gettext.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -522,6 +523,7 @@ gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 chmod u+w configure aclocal.m4 po/LINGUAS po/Makefile.in.in intl/Makefile.in
 

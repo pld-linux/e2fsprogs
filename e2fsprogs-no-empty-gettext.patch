@@ -1,0 +1,12 @@
+--- e2fsprogs-1.34/e2fsck/problem.c.orig	2003-06-25 00:06:03.000000000 +0200
++++ e2fsprogs-1.34/e2fsck/problem.c	2003-11-13 23:19:45.675260256 +0100
+@@ -1548,7 +1548,8 @@
+ 			printf("%s: ", ctx->device_name ?
+ 			       ctx->device_name : ctx->filesystem_name);
+ 		}
+-		print_e2fsck_message(ctx, _(message), pctx, 1);
++		if(*message)
++			print_e2fsck_message(ctx, _(message), pctx, 1);
+ 	}
+ 	if (!(ptr->flags & PR_PREEN_OK) && (ptr->prompt != PROMPT_NONE))
+ 		preenhalt(ctx);
