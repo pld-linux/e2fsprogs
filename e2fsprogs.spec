@@ -12,6 +12,7 @@ Group(pl):	Narzêdzia/System
 Source:		ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.gz
 Patch0:		e2fsprogs-info.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
+Prereq:		/usr/sbin/fix-info-dir
 Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
@@ -104,12 +105,10 @@ gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,8}/* README RELEASE-NOTES
 %postun -p /sbin/ldconfig
 
 %post  devel
-/sbin/install-info %{_infodir}/libext2fs.info.gz /etc/info-dir
+/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %preun devel
-if [ "$1" = "0" ]; then
-	/sbin/install-info --delete %{_infodir}/libext2fs.info.gz /etc/info-dir
-fi
+/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
