@@ -46,7 +46,7 @@ Patch4:		%{name}-no-empty-gettext.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	automake
 BuildRequires:	autoconf
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	texinfo
 Requires(post,postun):	/sbin/ldconfig
 Requires:	libcom_err = %{version}
