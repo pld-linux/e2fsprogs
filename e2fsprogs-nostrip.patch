@@ -1,0 +1,11 @@
+--- e2fsprogs-1.27/lib/Makefile.elf-lib.nostrip	Wed Jun 19 10:04:09 2002
++++ e2fsprogs-1.27/lib/Makefile.elf-lib	Wed Jun 19 10:04:23 2002
+@@ -40,8 +40,6 @@
+ 
+ install-shlibs install:: $(ELF_LIB) installdirs-elf-lib
+ 	$(INSTALL_PROGRAM) $(ELF_LIB) $(DESTDIR)$(ELF_INSTALL_DIR)/$(ELF_LIB)
+-	$(STRIP) --strip-debug \
+-		$(DESTDIR)$(ELF_INSTALL_DIR)/$(ELF_LIB)
+ 	$(LN_S) -f $(ELF_LIB) $(DESTDIR)$(ELF_INSTALL_DIR)/$(ELF_SONAME)
+ 	$(LN_S) -f $(ELF_INSTALL_DIR)/$(ELF_SONAME) \
+ 		$(DESTDIR)$(libdir)/$(ELF_IMAGE).so
