@@ -1,0 +1,1 @@
+- added conditional shared build (define _without_static for it)
