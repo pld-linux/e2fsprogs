@@ -27,23 +27,20 @@ Summary(uk):	õÔÉÌ¦ÔÉ ÄÌÑ ÒÏÂÏÔÉ Ú ÆÁÊÌÏ×ÏÀ ÓÉÓÔÅÍÏÀ ext2
 Summary(zh_CN):	¹ÜÀíµÚ¶şÀ©Õ¹£¨ext2£©ÎÄ¼şÏµÍ³µÄ¹¤¾ß¡£
 Summary(zh_TW):	¥Î©óºŞ²z ext2 ÀÉ®×¨t²Îªº¤u¨ãµ{¦¡¡C
 Name:		e2fsprogs
-Version:	1.33
-Release:	3
+Version:	1.34
+Release:	1
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5: 8d922086299ae9794b008256bde6188f
+# Source0-md5:	9be9375224f0970a55e39ebebf2a0ce5
 Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
-# Source2-md5: 992a37783bd42a897232972917e8ca7d
+# Source2-md5:	992a37783bd42a897232972917e8ca7d
 Source3:	%{name}-pl.po
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
-Patch2:		%{name}-po.patch
-Patch3:		%{name}-missing-nls.patch
-Patch4:		%{name}-nostrip.patch
-Patch5:		%{name}-potfiles-update.patch
+Patch2:		%{name}-nostrip.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -441,15 +438,14 @@ Modu³ e2fs dla EVMS.
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
-mv -f po/de{-utf,}.po
+chmod u+w configure aclocal.m4 po/LINGUAS po/Makefile.in.in intl/Makefile.in
+
+LINGUAS=$(cat po/LINGUAS)
+echo "pl $LINGUAS" > po/LINGUAS
 cp -f %{SOURCE3} po/pl.po
 
 %build
-chmod u+w configure aclocal.m4
 %{__gettextize}
 %{__aclocal}
 %{__autoconf}
@@ -460,8 +456,11 @@ chmod u+w configure aclocal.m4
 	%{?_with_allstatic:--disable-elf-shlibs} \
 	%{!?_with_allstatic:--enable-elf-shlibs} \
 	--enable-compression \
+	--enable-htree \
+	--enable-evms-11 \
 	%{?_without_static:--enable-dynamic-e2fsck} \
-	--enable-fsck
+	--enable-fsck \
+	--disable-rpath
 
 %{__make} libs LDFLAGS="%{rpmldflags}"
 %{__make} progs LDFLAGS="%{rpmldflags}"
@@ -473,6 +472,9 @@ cd ..
 %install
 rm -rf $RPM_BUILD_ROOT
 export PATH=/sbin:$PATH
+
+echo "install-shlibs:" >> po/Makefile
+echo "install-shlibs:" >> intl/Makefile
 
 %{__make} install	DESTDIR=$RPM_BUILD_ROOT
 %{__make} install-libs	DESTDIR=$RPM_BUILD_ROOT
