@@ -4,8 +4,8 @@ Summary(fr):	Outils pour le système de fichiers ext2
 Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
-Version:	1.21
-Release:	2
+Version:	1.22
+Release:	1
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
@@ -16,6 +16,9 @@ Patch0:		%{name}-info.patch
 URL:		http://e2fsprogs.sourceforge.net/
 PreReq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRequires:	automake
+BuildRequires:	autoconf
+BuildRequires:	gettext-devel
 %if %{?BOOT:1}%{!?BOOT:0}
 BuildRequires:	glibc-static
 %endif
@@ -105,16 +108,18 @@ Group(pl):	Aplikacje/System
 
 %description BOOT
 E2fsprogs-devel contand header files and documentation needed to
-develop second extended (ext2) filesystem-specific programs. Thios package
-is for bootdisk.
+develop second extended (ext2) filesystem-specific programs. Thios
+package is for bootdisk.
 
 %prep
 %setup  -q
 %patch0 -p1
-
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 
 %build
+chmod u+w configure aclocal.m4
+gettextize --copy --force
+aclocal
 autoconf
 
 %if %{?BOOT:1}%{!?BOOT:0}
@@ -158,13 +163,10 @@ done
 	%{?_without_static:--enable-dynamic-e2fsck} \
 	--enable-fsck
 
-
-
 %{__make} libs progs docs
 cd doc
 makeinfo --no-split e2compr.texinfo 
 cd ..
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -177,15 +179,17 @@ for i in *-BOOT; do
 done
 %endif
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
-%{__make} install-libs DESTDIR=$RPM_BUILD_ROOT
+%{__make} install	DESTDIR=$RPM_BUILD_ROOT
+%{__make} install-libs	DESTDIR=$RPM_BUILD_ROOT
+%{__make} -C po install	DESTDIR=$RPM_BUILD_ROOT
 
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext3
 ln -sf mke2fs $RPM_BUILD_ROOT/sbin/mkfs.ext2
 
-
 install doc/e2compr.info $RPM_BUILD_ROOT%{_infodir}
+
+%find_lang %{name}
 
 %post   
 /sbin/ldconfig
@@ -204,7 +208,7 @@ install doc/e2compr.info $RPM_BUILD_ROOT%{_infodir}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) /sbin/*
 %attr(755,root,root) %{_sbindir}/*
