@@ -441,6 +441,7 @@ Modu³ e2fs dla EVMS.
 Summary:	A Common Error Description Library for unices
 Summary(pl):	Biblioteka opisu popularnych b³êdów dla uniksów
 Group:		Libraries
+Conflicts:	e2fsprogs < 1.34-3
 
 %description -n libcom_err
 A Common Error Description Library for unices.
@@ -453,6 +454,7 @@ Summary:	Development files for Common Error Description Library for unices
 Summary(pl):	Pliki dla programistów do biblioteki opisu popularnych b³êdów dla uniksów
 Group:		Development/Libraries
 Requires:	libcom_err = %{version}
+Conflicts:	e2fsprogs-devel < 1.34-3
 
 %description -n libcom_err-devel
 A Common Error Description Library for unices - development files.
@@ -466,6 +468,7 @@ Summary:	Static version of Common Error Description Library for unices
 Summary(pl):	Statyczna biblioteka opisu popularnych b³êdów dla uniksów
 Group:		Development/Libraries
 Requires:	libcom_err-devel = %{version}
+Conflicts:	e2fsprogs-static < 1.34-3
 
 %description -n libcom_err-static
 A Common Error Description Library for unices - static version.
@@ -477,6 +480,7 @@ Biblioteka opisu popularnych b³êdów dla uniksów - wersja statyczna.
 Summary:	Library for accessing and manipulating UUID
 Summary(pl):	Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID
 Group:		Libraries
+Conflicts:	e2fsprogs < 1.34-3
 
 %description -n libuuid
 Library for accessing and manipulating UUID.
@@ -489,6 +493,7 @@ Summary:	Header files for library for accessing and manipulating UUID
 Summary(pl):	Pliki nag³ówkowe biblioteki umo¿liwiaj±cej dostêp i zmiany UUID
 Group:		Development/Libraries
 Requires:	libuuid = %{version}
+Conflicts:	e2fsprogs-devel < 1.34-3
 
 %description -n libuuid-devel
 Library for accessing and manipulating UUID - development files.
@@ -502,6 +507,7 @@ Summary:	Static library for accessing and manipulating UUID
 Summary(pl):	Statyczna biblioteka umo¿liwiaj±ca dostêp i zmiany UUID
 Group:		Development/Libraries
 Requires:	libuuid-devel = %{version}
+Conflicts:	e2fsprogs-static < 1.34-3
 
 %description -n libuuid-static
 Library for accessing and manipulating UUID - static version.
