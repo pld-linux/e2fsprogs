@@ -49,10 +49,10 @@ réparer les systèmes de fichiers ext2.
 Pakiet ten zawiera narzêdzia do tworzenia, sprawdzania i naprawiania
 wolumenów dyskowych z systemem plikowym ext2. E2fsprogs zawiera e2fsck
 (u¿ywany do naprawiania niespójno¶ci w systemie plikowym po
-nipoprawnym zamkniêciu ststemu), mke2fs (u¿ywany do inicjacji
-wolumenów ext2), debugfs (¿ywany do sprawdzania wewnêtrznej struktóry
-wolumenów ext2, a tak¿e do recznego naprawiania b³êdów), tune2fs
-(u¿ywany do modyfikacji parametrów eolumenów ext2) i kilka innych
+niepoprawnym zamkniêciu systemu), mke2fs (u¿ywany do inicjacji
+wolumenów ext2), debugfs (¿ywany do sprawdzania wewnêtrznej struktury
+wolumenów ext2, a tak¿e do rêcznego naprawiania b³êdów), tune2fs
+(u¿ywany do modyfikacji parametrów wolumenów ext2) i kilka innych
 narzêdzi do ext2.
 
 %description -l tr
