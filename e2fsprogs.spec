@@ -117,7 +117,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(755,root,root,755)
 /sbin/*
-/usr/sbin/*
+%{_sbindir}/*
 %{_bindir}/*
 /lib/lib*.so.*.*
 %attr(644,root,root) %{_mandir}/man[18]/*
@@ -126,7 +126,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644, root, root, 755)
 %doc README RELEASE-NOTES
 %{_infodir}/libext2fs.info*
-/usr/include/*
+%{_includedir}/*
 %attr(755,root,root) %{_libdir}/lib*.so
 
 %files static
