@@ -1,0 +1,13 @@
+diff -ru e2fsprogs-1.18.old/lib/e2p/Makefile.in e2fsprogs-1.18/lib/e2p/Makefile.in
+--- e2fsprogs-1.18.old/lib/e2p/Makefile.in	Fri Mar 17 18:10:38 2000
++++ e2fsprogs-1.18/lib/e2p/Makefile.in	Fri Mar 17 18:42:55 2000
+@@ -73,7 +73,8 @@
+ @BSDLIB_CMT@	$(CC) $(ALL_CFLAGS) -fpic -o pic/$*.o -c $<
+ 
+ installdirs::
+-	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(libdir)
++	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(libdir) 
++	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(includedir)/e2p
+ 
+ install:: all $(HFILES) installdirs 
+ 	$(INSTALL_DATA) libe2p.a $(DESTDIR)$(libdir)/libe2p.a
