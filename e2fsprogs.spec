@@ -84,8 +84,8 @@ make libs progs docs
 %install
 rm -rf $RPM_BUILD_ROOT
 export PATH=/sbin:$PATH
-make install DESTDIR=$RPM_BUILD_ROOT
 make install-libs prefix=$RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
 
 mv $RPM_BUILD_ROOT/usr/sbin/debugfs $RPM_BUILD_ROOT/sbin/debugfs
 
