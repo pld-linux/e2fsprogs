@@ -20,6 +20,9 @@ Patch3:		%{name}-LDLIBS.patch
 URL:		http://e2fsprogs.sourceforge.net/
 PreReq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+%if %{?BOOT:1}%{!?BOOT:0}
+BuildRequires:	glibc-static
+%endif
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
