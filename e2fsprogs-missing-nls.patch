@@ -10,7 +10,7 @@
  	/* Search for the abbreviation */
  	for (cpp = abbrevs; *cpp; cpp++) {
 -		if (ch == *cpp[0])
-+		ncpp = gettext(*cpp);
++		ncpp = _(*cpp);
 +		if (ch == ncpp[0])
  			break;
  	}
