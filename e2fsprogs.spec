@@ -1,8 +1,8 @@
 #
 # Conditional build:
-# _without_nls		- without NLS
+%bcond_with	allstatic	# link everythink statically
+%bcond_without	nls		# build without NLS
 #
-%bcond_with	allstatic
 Summary:	Utilities for managing the second extended (ext2) filesystem
 Summary(cs):	Nástroje pro správu souborových systémù typu ext2
 Summary(da):	Værktøjer til håndtering af ext2 filsystemer
@@ -48,6 +48,8 @@ BuildRequires:	autoconf
 BuildRequires:	gettext-devel
 BuildRequires:	texinfo
 Requires(post,postun):	/sbin/ldconfig
+Requires:	libcom_err = %{version}
+Requires:	libuuid = %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	libext2fs2
 
@@ -287,6 +289,8 @@ Summary(zh_CN):	ext2 ÎÄ¼þÏµÍ³ÌØÓÐµÄ¾²Ì¬¿âºÍÍ·ÎÄ¼þ¡£
 Summary(zh_TW):	ext2 ÀÉ®×¨t²Î¯S©wªºÀRºA¨ç¦¡®w»PªíÀY¡C
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
+Requires:	libcom_err-devel = %{version}
+Requires:	libuuid-devel = %{version}
 Obsoletes:	libext2fs2-devel
 
 %description devel
@@ -434,39 +438,40 @@ e2fs EVMS module.
 Modu³ e2fs dla EVMS.
 
 %package -n libcom_err
-Summary:	A Common Error Description Library for UNIX
-Summary(pl):	Biblioteka opisu popularnych b³edów dla UNIXa
+Summary:	A Common Error Description Library for unices
+Summary(pl):	Biblioteka opisu popularnych b³êdów dla uniksów
 Group:		Libraries
 
 %description -n libcom_err
-A Common Error Description Library for UNIX.
+A Common Error Description Library for unices.
 
 %description -n libcom_err -l pl
-Biblioteka opisu popularnych b³edów dla UNIXa.
+Biblioteka opisu popularnych b³êdów dla uniksów.
 
 %package -n libcom_err-devel
-Summary:	A Common Error Description Library for UNIX
-Summary(pl):	Biblioteka opisu popularnych b³edów dla UNIXa
+Summary:	Development files for Common Error Description Library for unices
+Summary(pl):	Pliki dla programistów do biblioteki opisu popularnych b³êdów dla uniksów
 Group:		Development/Libraries
 Requires:	libcom_err = %{version}
 
 %description -n libcom_err-devel
-A Common Error Description Library for UNIX - development files.
+A Common Error Description Library for unices - development files.
 
 %description -n libcom_err-devel -l pl
-Biblioteka opisu popularnych b³edów dla UNIXa - pliki dla programistów.
+Biblioteka opisu popularnych b³êdów dla uniksów - pliki dla
+programistów.
 
 %package -n libcom_err-static
-Summary:	A Common Error Description Library for UNIX
-Summary(pl):	Biblioteka opisu popularnych b³edów dla UNIXa
+Summary:	Static version of Common Error Description Library for unices
+Summary(pl):	Statyczna biblioteka opisu popularnych b³êdów dla uniksów
 Group:		Development/Libraries
 Requires:	libcom_err-devel = %{version}
 
 %description -n libcom_err-static
-A Common Error Description Library for UNIX - static library.
+A Common Error Description Library for unices - static version.
 
 %description -n libcom_err-static -l pl
-Biblioteka opisu popularnych b³edów dla UNIXa - biblioteka statyczna.
+Biblioteka opisu popularnych b³êdów dla uniksów - wersja statyczna.
 
 %package -n libuuid
 Summary:	Library for accessing and manipulating UUID
@@ -480,8 +485,8 @@ Library for accessing and manipulating UUID.
 Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID.
 
 %package -n libuuid-devel
-Summary:	Library for accessing and manipulating UUID
-Summary(pl):	Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID
+Summary:	Header files for library for accessing and manipulating UUID
+Summary(pl):	Pliki nag³ówkowe biblioteki umo¿liwiaj±cej dostêp i zmiany UUID
 Group:		Development/Libraries
 Requires:	libuuid = %{version}
 
@@ -489,22 +494,23 @@ Requires:	libuuid = %{version}
 Library for accessing and manipulating UUID - development files.
 
 %description -n libuuid-devel -l pl
-Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID - pliki dla programistów.
+Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID - pliki dla
+programistów.
 
 %package -n libuuid-static
-Summary:	Library for accessing and manipulating UUID
-Summary(pl):	Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID
+Summary:	Static library for accessing and manipulating UUID
+Summary(pl):	Statyczna biblioteka umo¿liwiaj±ca dostêp i zmiany UUID
 Group:		Development/Libraries
 Requires:	libuuid-devel = %{version}
 
 %description -n libuuid-static
-Library for accessing and manipulating UUID - static library.
+Library for accessing and manipulating UUID - static version.
 
 %description -n libuuid-static -l pl
-Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID - biblioteka statyczna.
+Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID - wersja statyczna.
 
 %prep
-%setup	-q
+%setup -q
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
@@ -523,8 +529,8 @@ cp -f %{SOURCE3} po/pl.po
 %{__autoconf}
 %configure \
 	--with-root-prefix="" \
-	%{!?_without_nls:--enable-nls} \
-	%{?_without_nls:--disable-nls} \
+	%{?with_nls:--enable-nls} \
+	%{!?with_nls:--disable-nls} \
 	%{?with_allstatic:--disable-elf-shlibs} \
 	%{!?with_allstatic:--enable-elf-shlibs} \
 	--enable-compression \
@@ -571,7 +577,7 @@ echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/$a/man8/fsck.ext3.8
 echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/$a/man8/mkfs.ext2.8
 echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/$a/man8/mkfs.ext3.8
 
-%if 0%{!?_without_nls:1}
+%if %{with nls}
 [ "`file $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/e2fsprogs.mo |\
 	sed -e 's/.*,//' -e 's/message.*//'`" -le 1 ] && rm -f $f
 %find_lang %{name}
@@ -594,58 +600,54 @@ rm -rf $RPM_BUILD_ROOT
 %postun devel
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%post -n libcom_err -p /sbin/ldconfig
-%postun -n libcom_err -p /sbin/ldconfig
+%post	-n libcom_err -p /sbin/ldconfig
+%postun	-n libcom_err -p /sbin/ldconfig
 
-%post -n libuuid -p /sbin/ldconfig
-%postun -n libuuid -p /sbin/ldconfig
+%post	-n libuuid -p /sbin/ldconfig
+%postun	-n libuuid -p /sbin/ldconfig
 
-%files %{!?_without_nls:-f %{name}.lang}
+%files %{?with_nls:-f %{name}.lang}
 %defattr(644,root,root,755)
 %doc ChangeLog README RELEASE-NOTES
 %attr(755,root,root) /sbin/*
 %attr(755,root,root) %{_sbindir}/*
-%attr(755,root,root) %{_bindir}/*
-%exclude %{_bindir}/compile_et
+%attr(755,root,root) %{_bindir}/*attr
+%attr(755,root,root) %{_bindir}/mk_cmds
 %if ! %{with allstatic}
-%attr(755,root,root) /lib/libblkid.so.*
-%attr(755,root,root) /lib/libe2p.so.*
-%attr(755,root,root) /lib/libext2fs.so.*
-%attr(755,root,root) /lib/libss.so.*
+%attr(755,root,root) /lib/libblkid.so.*.*
+%attr(755,root,root) /lib/libe2p.so.*.*
+%attr(755,root,root) /lib/libext2fs.so.*.*
+%attr(755,root,root) /lib/libss.so.*.*
 %endif
-%{_mandir}/man[18]/*
+%{_mandir}/man1/*attr.1*
+%{_mandir}/man1/mk_cmds.1*
+%{_mandir}/man8/*
 %lang(fi) %{_mandir}/fi/man[18]/*
 %lang(fr) %{_mandir}/fr/man[18]/*
 %lang(hu) %{_mandir}/hu/man[18]/*
 %lang(it) %{_mandir}/it/man[18]/*
-%lang(ja) %{_mandir}/ja/man[18]/*
+%lang(ja) %{_mandir}/ja/man1/*attr.1*
+%lang(ja) %{_mandir}/ja/man8/*
 %lang(ko) %{_mandir}/ko/man[18]/*
 %lang(pl) %{_mandir}/pl/man[18]/*
-%exclude %{_mandir}/man1/compile_et*
-%exclude %{_mandir}/*/man1/compile_et*
 %{_datadir}/ss
 %{_infodir}/e2compr.info*
 
 %files devel
 %defattr(644,root,root,755)
 %doc doc/libblkid.txt
-%{_infodir}/libext2fs.info*
-%{_mandir}/man3/*
-%lang(ja) %{_mandir}/ja/man3/*
-%exclude %{_mandir}/man3/*uuid*
-%exclude %{_mandir}/*/man3/*uuid*
-%exclude %{_mandir}/man3/*com_err*
-%exclude %{_mandir}/*/man3/*com_err*
-%{_includedir}/blkid
-%{_includedir}/e2p
-%{_includedir}/ext2fs
-%{_includedir}/ss
 %if ! %{with allstatic}
 %attr(755,root,root) %{_libdir}/libblkid.so
 %attr(755,root,root) %{_libdir}/libe2p.so
 %attr(755,root,root) %{_libdir}/libext2fs.so
 %attr(755,root,root) %{_libdir}/libss.so
 %endif
+%{_includedir}/blkid
+%{_includedir}/e2p
+%{_includedir}/ext2fs
+%{_includedir}/ss
+%{_infodir}/libext2fs.info*
+%{_mandir}/man3/libblkid.3*
 
 %files static
 %defattr(644,root,root,755)
@@ -660,18 +662,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n libcom_err
 %defattr(644,root,root,755)
-%{!?with_allstatic:%attr(755,root,root) /lib/libcom_err.so.*}
+%{!?with_allstatic:%attr(755,root,root) /lib/libcom_err.so.*.*}
 
 %files -n libcom_err-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/compile_et
-%{_datadir}/et
-%{_includedir}/et
 %{!?with_allstatic:%attr(755,root,root) %{_libdir}/libcom_err.so}
-%{_mandir}/man1/compile_et*
-%{_mandir}/*/man1/compile_et*
-%{_mandir}/man3/*com_err*
-%{_mandir}/*/man3/*com_err*
+%{_includedir}/et
+%{_datadir}/et
+%{_mandir}/man1/compile_et.1*
+%lang(ja) %{_mandir}/ja/man1/compile_et.1*
+%{_mandir}/man3/com_err.3*
+%lang(ja) %{_mandir}/ja/man3/com_err.3*
 
 %files -n libcom_err-static
 %defattr(644,root,root,755)
@@ -679,14 +681,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n libuuid
 %defattr(644,root,root,755)
-%{!?with_allstatic:%attr(755,root,root) /lib/libuuid.so.*}
+%attr(755,root,root) %{_bindir}/uuidgen
+%{!?with_allstatic:%attr(755,root,root) /lib/libuuid.so.*.*}
 
 %files -n libuuid-devel
 %defattr(644,root,root,755)
-%{_includedir}/uuid
 %{!?with_allstatic:%attr(755,root,root) %{_libdir}/libuuid.so}
+%{_includedir}/uuid
+%{_mandir}/man1/uuidgen.1*
 %{_mandir}/man3/*uuid*
-%{_mandir}/*/man3/*uuid*
+%lang(ja) %{_mandir}/ja/man1/uuidgen.1*
+%lang(ja) %{_mandir}/ja/man3/*uuid*
 
 %files -n libuuid-static
 %defattr(644,root,root,755)
