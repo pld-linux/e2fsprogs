@@ -4,14 +4,13 @@ Summary(fr):	Outils pour le système de fichiers ext2
 Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
-Version:	1.17
-Release:	2
+Version:	1.18
+Release:	1
 Copyright:	GPL
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
 Source:		http://web.mit.edu/tytso/www/linux/dist/%{name}-%{version}.tar.gz
 Patch0:		e2fsprogs-info.patch
-Patch1:		e2fsprogs-dump.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
 Buildroot:	/tmp/%{name}-%{version}-root
 
@@ -91,7 +90,6 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 %prep
 %setup  -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
