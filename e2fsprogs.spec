@@ -4,8 +4,8 @@ Summary(fr):	Outils pour le système de fichiers ext2
 Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
-Version:	1.19
-Release:	2
+Version:	1.20
+Release:	1
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
@@ -13,10 +13,6 @@ Group(pl):	Aplikacje/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
 Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-mountlabel.patch
-# not used! who knows why??
-#Patch2:		http://acl.bestbits.at/current/%{name}-1.19ea-0.7.8.patch.gz
-Patch3:		%{name}-LDLIBS.patch
 URL:		http://e2fsprogs.sourceforge.net/
 PreReq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -111,8 +107,6 @@ Group:		Applications/System
 %prep
 %setup  -q
 %patch0 -p1
-%patch1 -p1
-%patch3 -p1
 
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 
@@ -137,7 +131,12 @@ autoconf
 
 %{__make} libs
 #%{__make} progs ALL_LDFLAGS="-nostdlib -s" LDLIBS="%{_libdir}/libc.a"
-%{__make} progs ALL_LDFLAGS="-static -s" XTRA_CFLAGS="-m386"
+%{__make} progs ALL_LDFLAGS="-static -s" \
+%ifarch %{ix86}
+XTRA_CFLAGS="-m386"
+%else
+XTRA_CFLAGS=""
+%endif
 
 mv e2fsck/e2fsck e2fsck-BOOT
 for i in badblocks mke2fs; do 
