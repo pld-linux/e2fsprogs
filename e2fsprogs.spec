@@ -12,7 +12,6 @@ Group(pl):	Narzêdzia/System
 Source:		ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.gz
 Patch0:		e2fsprogs-info.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
-Prereq:		/usr/sbin/fix-info-dir
 Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
@@ -41,7 +40,7 @@ Summary(de):	Header-Dateien für eine e2fs
 Summary(pl):	Pliki nag³ówkowe do bibliotek e2fs
 Group:		Development/Libraries
 Group(pl):	Programowanie/Biblioteki
-Prereq:		/sbin/install-info
+Prereq:		/usr/sbin/fix-info-dir
 Requires:	%{name} = %{version}
 
 %description devel
