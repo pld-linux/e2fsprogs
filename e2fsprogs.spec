@@ -48,6 +48,7 @@ BuildRequires:	autoconf
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	texinfo
 Requires(post,postun):	/sbin/ldconfig
+Requires:	fsck = %{version}-%{release}
 Requires:	libcom_err = %{version}-%{release}
 Requires:	libuuid = %{version}-%{release}
 Obsoletes:	libext2fs2
@@ -519,6 +520,7 @@ Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID - wersja statyczna.
 Summary:	Check and repair a Linux file system
 Summary(pl):	Sprawdzenie i naprawa linuksowego systemu plików
 Group:		Applications/System
+Requires:	libuuid = %{version}-%{release}
 
 %description -n fsck
 Check and repair a Linux file system.
