@@ -1,0 +1,66 @@
+--- e2fsprogs-1.34/lib/et/et_h.awk.wiget	2003-10-09 00:40:04.000000000 +0200
++++ e2fsprogs-1.34/lib/et/et_h.awk	2003-10-09 01:56:20.000000000 +0200
+@@ -68,10 +68,16 @@
+ /^#/ { next }
+ /^[ \t]*(error_table|et)[ \t]+[a-zA-Z][a-zA-Z0-9_]+/ {
+ 	table_number = 0
+-	table_name = $2
++	if ($3 == "") {
++		table_name = $2
++		table_name2number = $2
++	} else {
++		table_name = $3
++		table_name2number = $2
++	}
+ 	mod_base = 1000000
+-	for(i=1; i<=length(table_name); i++) {
+-	    table_number=(table_number*char_shift)+c2n[substr(table_name,i,1)]
++	for(i=1; i<=length(table_name2number); i++) {
++	    table_number=(table_number*char_shift)+c2n[substr(table_name2number,i,1)]
+ 	}
+ 	# We start playing *_high, *low games here because the some
+ 	# awk programs do not have the necessary precision (sigh)
+@@ -150,6 +156,10 @@
+ 	prefix_str = $2 "_"
+ }
+ 
++/^[ \t]*(prefix)[ \t]*$/ {
++	prefix_str = ""
++}
++
+ /^[ \t]*(index)[ \t]+[A-Z_0-9]+/ {
+ 	new_idx = $2
+ 	curr_low += curr_sign * (new_idx - curr_idx)
+--- e2fsprogs-1.34/lib/et/et_c.awk.wiget	2003-10-09 00:45:08.000000000 +0200
++++ e2fsprogs-1.34/lib/et/et_c.awk	2003-10-09 01:57:54.000000000 +0200
+@@ -68,10 +68,16 @@
+ /^#/ { next }
+ /^[ \t]*(error_table|et)[ \t]+[a-zA-Z][a-zA-Z0-9_]+/ {
+ 	table_number = 0
+-	table_name = $2
++	if ($3 == "") {
++		table_name = $2
++		table_name2number = $2
++	} else {
++		table_name = $3
++		table_name2number = $2
++	}
+ 	mod_base = 1000000
+-	for(i=1; i<=length(table_name); i++) {
+-	    table_number=(table_number*char_shift)+c2n[substr(table_name,i,1)]
++	for(i=1; i<=length(table_name2number); i++) {
++	    table_number=(table_number*char_shift)+c2n[substr(table_name2number,i,1)]
+ 	}
+ 
+ 	# We start playing *_high, *low games here because the some
+@@ -184,6 +190,10 @@
+ 	prefix_str = $2 "_"
+ }
+ 
++/^[ \t]*(prefix)[ \t]*$/ {
++	prefix_str = ""
++}
++
+ /^[ \t]*(index)[ \t]+[A-Z_0-9]+/ {
+ 	new_idx = $2
+ 	for (i = table_item_count ; i < new_idx; i++) {
