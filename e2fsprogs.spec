@@ -140,7 +140,7 @@ rm -rf $RPM_BUILD_ROOT
 - fiew simplification in %files and %install,
 - added %post{un} sections with registration info pages for libext2fs in
   devel subpackage,
-- added %attr and %defattr macros in %files (allow build package from
+- added %attr and %defattr macros in %files (allows build package from
   non-root account).
 
 * Thu May 07 1998 Prospector System <bugs@redhat.com>
