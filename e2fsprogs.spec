@@ -1,7 +1,8 @@
-# conditional build
+#
+# Conditional build:
 # --without nls
 # --with allstatic
-
+#
 Summary:	Utilities for managing the second extended (ext2) filesystem
 Summary(cs):	NАstroje pro sprАvu souborovЩch systИmЫ typu ext2
 Summary(da):	VФrktЬjer til hЕndtering af ext2 filsystemer
@@ -27,10 +28,10 @@ Summary(zh_CN):	╧эюМ╣з╤Чю╘у╧ё╗ext2ё╘нд╪Чо╣мЁ╣д╧╓╬ъ║ё
 Summary(zh_TW):	╔н╘С╨ч╡z ext2 юи╝в╗t╡н╙╨╓u╗Ц╣{╕║║C
 Name:		e2fsprogs
 Version:	1.32
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/System
-Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
 Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 Source3:	%{name}-pl.po
@@ -416,6 +417,19 @@ e2fsprogs-devel-static содержит статические библиотеки, необходимые
 e2fsprogs-devel-static м╕стить статичн╕ б╕бл╕отеки, необх╕дн╕ для
 написання програм, як╕ працюють з файловою системою ext2.
 
+%package evms
+Summary:	e2fs EVMS module
+Summary(pl):	ModuЁ e2fs dla EVMS
+Group:		Libraries
+Requires:	%{name} = %{version}
+Requires:	evms
+
+%description evms
+e2fs EVMS module.
+
+%description evms -l pl
+ModuЁ e2fs dla EVMS.
+
 %prep
 %setup	-q
 %patch0 -p1
@@ -520,3 +534,7 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
+
+%files evms
+%defattr(644,root,root,755)
+%attr(755,root,root) /lib/evms/*.so
