@@ -14,7 +14,9 @@ Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{vers
 Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-mountlabel.patch
-Patch2:		http://acl.bestbits.at/current/%{name}-1.19ea-0.7.8.patch.gz
+# not used! who knows why??
+#Patch2:		http://acl.bestbits.at/current/%{name}-1.19ea-0.7.8.patch.gz
+Patch3:		%{name}-LDLIBS.patch
 URL:		http://e2fsprogs.sourceforge.net/
 PreReq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -107,6 +109,8 @@ Group:		Applications/System
 %setup  -q
 %patch0 -p1
 %patch1 -p1
+%patch3 -p1
+
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 
 %build
@@ -119,12 +123,23 @@ autoconf
 	--disable-nls \
 	--enable-compression \
 	--enable-static-fsck \
+	--enable-static-mk2fs \
 	--enable-all-static \
 	--enable-fsck
 
-LDFLAGS="-static -s" %{__make} libs progs
 
-dupa
+# some problems compiling with uClibc
+#%{__make} libs progs \
+#	ALL_LDFLAGS="-nostdlib -s" \
+#	CFLAGS="-I%{_libdir}/bootdisk%{_includedir}" \
+#	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc"
+
+%{__make} libs progs ALL_LDFLAGS="-static -s"
+
+mv e2fsck/e2fsck e2fsck-BOOT
+for i in badblocks mke2fs; do 
+	mv misc/$i $i-BOOT
+done
 
 %{__make} clean
 %endif
@@ -151,7 +166,9 @@ export PATH=/sbin:$PATH
 
 %if %{?BOOT:1}%{!?BOOT:0}
 install -d $RPM_BUILD_ROOT/usr/lib/bootdisk/sbin
-install -s %{name}-BOOT $RPM_BUILD_ROOT/usr/lib/bootdisk/sbin/%{name}
+for i in *-BOOT; do 
+  install -s $i $RPM_BUILD_ROOT/usr/lib/bootdisk/sbin/`basename $i -BOOT`
+done
 %endif
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
