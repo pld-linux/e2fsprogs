@@ -4,7 +4,7 @@ Summary(fr):	Outils pour le système de fichiers ext2
 Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
-Version:	1.20
+Version:	1.21
 Release:	1
 License:	GPL
 Group:		Applications/System
@@ -100,9 +100,11 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 %if %{?BOOT:1}%{!?BOOT:0}
 %package BOOT
 Summary:	e2fs for bootdisk
-Group:		Applications/System
 %description BOOT
 %endif
+Group:		Applications/System
+Group(de):	Applikationen/System
+Group(pl):	Aplikacje/System
 
 %prep
 %setup  -q
@@ -167,9 +169,9 @@ rm -rf $RPM_BUILD_ROOT
 export PATH=/sbin:$PATH
 
 %if %{?BOOT:1}%{!?BOOT:0}
-install -d $RPM_BUILD_ROOT/usr/lib/bootdisk/sbin
+install -d $RPM_BUILD_ROOT%{_libdir}/bootdisk/sbin
 for i in *-BOOT; do 
-  install -s $i $RPM_BUILD_ROOT/usr/lib/bootdisk/sbin/`basename $i -BOOT`
+  install -s $i $RPM_BUILD_ROOT%{_libdir}/bootdisk/sbin/`basename $i -BOOT`
 done
 %endif
 
@@ -228,5 +230,5 @@ rm -rf $RPM_BUILD_ROOT
 %if %{?BOOT:1}%{!?BOOT:0}
 %files BOOT
 %defattr(644,root,root,755)
-%attr(755,root,root) /usr/lib/bootdisk/sbin/*
+%attr(755,root,root) %{_libdir}/bootdisk/sbin/*
 %endif
