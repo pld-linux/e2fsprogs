@@ -27,12 +27,13 @@ Summary(zh_CN):	╧эюМ╣з╤Чю╘у╧ё╗ext2ё╘нд╪Чо╣мЁ╣д╧╓╬ъ║ё
 Summary(zh_TW):	╔н╘С╨ч╡z ext2 юи╝в╗t╡н╙╨╓u╗Ц╣{╕║║C
 Name:		e2fsprogs
 Version:	1.29
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
 Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
+Source3:	%{name}-pl.po
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-mountlabel3.patch
@@ -420,14 +421,21 @@ e2fsprogs-devel-static м╕стить статичн╕ б╕бл╕отеки, необх╕дн╕ для
 %setup	-q
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
-patch -s -p1 < %{PATCH1}
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p0
 
+cp -f %{SOURCE3} po/pl.po
+
 %build
 chmod u+w configure aclocal.m4
-%{__gettextize}
+if gettextize --version | grep -q '0\.11\.' ; then
+	%{__gettextize} --intl
+	cp -f po/Makevars{.template,}
+else
+	%{__gettextize}
+fi
 %{__aclocal}
 %{__autoconf}
 %configure \
@@ -469,6 +477,9 @@ echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/$a/man8/mkfs.ext3.8
 
 %{!?_without_nls:%find_lang %{name}}
 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %post
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
@@ -482,9 +493,6 @@ echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/$a/man8/mkfs.ext3.8
 
 %postun devel
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files %{!?_without_nls:-f %{name}.lang}
 %defattr(644,root,root,755)

@@ -5,7 +5,7 @@
  AC_SUBST(VERSION)
  
 -ALL_LINGUAS="it nyc tr"
-+ALL_LINGUAS="tr"
++ALL_LINGUAS="pl tr"
  AM_GNU_GETTEXT
  dnl
  dnl End of configuration options
