@@ -5,11 +5,12 @@ Summary(pl): Narzedzia do systemu plikowego ext2
 Summary(tr): ext2 dosya sistemi için araçlar
 Name:        e2fsprogs
 Version:     1.12
-Release:     4
+Release:     5
 Copyright:   GPL
 Group:       Utilities/System
 Source:      ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.gz
 Patch0:      e2fsprogs-kernel21.patch
+Patch1:      e2fsprogs-info.patch
 Buildroot:   /tmp/%{name}-%{version}-root
 
 %description
@@ -72,6 +73,7 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
@@ -83,28 +85,28 @@ make libs progs docs
 
 %install
 rm -rf $RPM_BUILD_ROOT
+export PATH=/sbin:$PATH
 
-export PATH=/sbin:$PATH                                                         
-make install DESTDIR="$RPM_BUILD_ROOT"                                          
-make install-libs DESTDIR="$RPM_BUILD_ROOT"                                     
+make install DESTDIR=$RPM_BUILD_ROOT
+make install-libs DESTDIR=$RPM_BUILD_ROOT
 
 strip $RPM_BUILD_ROOT/lib/lib*.so.*.*
 
 gzip -9nf $RPM_BUILD_ROOT/usr/man/man{1,8}/*
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%post   devel
-/sbin/install-info /usr/info/history.info.gz /etc/info-dir \
---entry="* libext2fs: (libext2fs)                        The EXT2FS library."
+%post  devel
+/sbin/install-info /usr/info/libext2fs.info.gz /etc/info-dir
 
 %preun devel
-/sbin/install-info --delete /usr/info/history.info.gz /etc/info-dir \
---entry="* libext2fs: (libext2fs)                        The EXT2FS library."
+if [ $1 = 0 ]; then
+	/sbin/install-info --delete /usr/info/libext2fs.info.gz /etc/info-dir
+fi
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(755, root, root)
@@ -118,13 +120,17 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644, root, root, 755)
 %doc README RELEASE-NOTES
 /usr/info/libext2fs.info*
-/usr/include/
-/usr/lib/lib*.so
+/usr/include/*
+%attr(755, root, root) /usr/lib/lib*.so
 
 %files static
 %attr(644, root, root) /usr/lib/lib*.a
 
 %changelog
+* Mon Dec 27 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [1.12-5]
+- standarized {un}registering info pages (added e2fsprogs-info.patch).
+
 * Fri Dec 11 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.12-4]
 - added gzipping man pages,
