@@ -112,6 +112,9 @@ mv $RPM_BUILD_ROOT/usr/man/man{1,8} $RPM_BUILD_ROOT%{_mandir}
 
 strip --strip-unneeded $RPM_BUILD_ROOT/lib/lib*.so.*.*
 
+ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
+ln -sf mke2fs $RPM_BUILD_ROOT/sbin/mkfs.ext2
+
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,8}/* README RELEASE-NOTES
 
 %post   -p /sbin/ldconfig
