@@ -112,7 +112,7 @@ CFLAGS="$RPM_OPT_FLAGS"; export CFLAGS
 	--enable-e2compr-03 \
 	--enable-e2compr-04 
 
-make libs progs docs
+%{__make} libs progs docs
 cd doc
 makeinfo --no-split e2compr.texinfo 
 cd ..
@@ -122,8 +122,8 @@ cd ..
 rm -rf $RPM_BUILD_ROOT
 export PATH=/sbin:$PATH
 
-make install DESTDIR=$RPM_BUILD_ROOT
-make install-libs DESTDIR=$RPM_BUILD_ROOT
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install-libs DESTDIR=$RPM_BUILD_ROOT
 
 strip --strip-unneeded $RPM_BUILD_ROOT/lib/lib*.so.*.*
 
