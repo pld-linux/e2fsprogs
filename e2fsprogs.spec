@@ -13,6 +13,7 @@ Source:		ftp://tsx-11.mit.edu/pub/linux/packages/ext2fs/%{name}-%{version}.tar.g
 Patch0:		e2fsprogs-info.patch
 Patch1:		e2fsprogs-fsck.patch
 Patch2:		e2fsprogs-findsuper.patch
+Patch3:		e2fsprogs-LABEL.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
 Buildroot:	/tmp/%{name}-%{version}-root
 
@@ -80,6 +81,7 @@ statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
