@@ -5,7 +5,7 @@ Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.18
-Release:	3
+Release:	6
 License:	GPL
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
