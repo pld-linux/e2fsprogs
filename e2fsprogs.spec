@@ -108,6 +108,7 @@ autoconf
 	--enable-nls \
 	--enable-elf-shlibs \
 	--enable-compression \
+	%{?bcond_off_static:--enable-dynamic-e2fsck} \
 	--enable-fsck
 
 %{__make} libs progs docs
