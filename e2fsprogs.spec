@@ -1,5 +1,3 @@
-# conditional build:
-# _without_embed - don't build uClibc version
 Summary:	Tools for the second extended (ext2) filesystem
 Summary(de):	Tools für das zweite erweiterte (ext2) Dateisystem
 Summary(fr):	Outils pour le système de fichiers ext2
@@ -7,7 +5,7 @@ Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.25
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/System
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/e2fsprogs/%{name}-%{version}.tar.gz
@@ -22,15 +20,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	gettext-devel
-%if %{!?_without_embed:1}%{?_without_embed:0}
-BuildRequires:	uClibc-devel
-BuildRequires:	uClibc-static
-%endif
-
-%define embed_path	/usr/lib/embed
-%define embed_cc	%{_arch}-uclibc-cc
-%define embed_cflags	%{rpmcflags} -Os
-%define uclibc_prefix	/usr/%{_arch}-linux-uclibc
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
@@ -103,37 +92,6 @@ erforderlich sind.
 Biblioteki statyczne do ob³ugi e2fs niezbêdne do kompilacji programów
 statycznie skonsolidowanych (linkowanych) z bibliotekami do e2fs.
 
-%package embed
-Summary:	e2fs for bootdisk
-Summary(pl):	e2fs na bootkietkê
-Group:		Applications/System
-
-%description embed
-The e2fsprogs package contains a number of utilities for creating,
-checking, modifying and correcting any inconsistencies in second
-extended (ext2) filesystems. Bootdisk version.
-
-%description embed -l pl
-Pakiet ten zawiera narzêdzia do tworzenia, sprawdzania i naprawiania
-wolumenów dyskowych z systemem plikowym ext2. Wersja przeznaczona na
-bootkietkê.
-
-%package devel-embed
-Summary:	e2fs header files for bootdisk
-Summary(de):	Header-Dateien für eine e2fs
-Summary(pl):	Pliki nag³ówkowe do bibliotek e2fs
-Group:		Development/Libraries
-
-%description devel-embed
-e2fsprogs-devel-embed contand header files and documentation needed to
-develop second extended (ext2) filesystem-specific programs. Bootdisk
-version.
-
-%description devel-embed -l pl
-Pakiet e2fsprogs-devel-embed zawiera pliki nag³ówkowe oraz
-dokumentacjê niezbêdne do tworzenia oprogramowania zwi±zanego z
-systemem plików ext2. Wersja przeznaczona na bootkietkê.
-
 %prep
 %setup	-q
 %patch0 -p1
@@ -146,31 +104,6 @@ chmod u+w configure aclocal.m4
 gettextize --copy --force
 aclocal
 autoconf
-
-%if %{!?_without_embed:1}%{?_without_embed:0}
-%configure \
-	--with-root-prefix=/ \
-	--disable-nls \
-	--enable-compression \
-	--enable-all-static \
-	--disable-fsck \
-	--with-cc=%{embed_cc} \
-	--with-ccopts="%{embed_cflags}"
-%{__make} libs
-%{__make} progs
-mv e2fsck/e2fsck e2fsck-embed-shared
-for i in badblocks mke2fs; do
-	mv misc/$i $i-embed-shared
-done
-%{__make} progs ALL_LDFLAGS="-static"
-mv e2fsck/e2fsck e2fsck-embed-static
-for i in badblocks mke2fs; do
-	mv misc/$i $i-embed-static
-done
-mkdir embed-libs
-cp lib/*.a embed-libs
-%{__make} distclean
-%endif
 
 %configure \
 	--with-root-prefix=/ \
@@ -192,17 +125,6 @@ export PATH=/sbin:$PATH
 %{__make} install	DESTDIR=$RPM_BUILD_ROOT
 %{__make} install-libs	DESTDIR=$RPM_BUILD_ROOT
 %{__make} -C po install	DESTDIR=$RPM_BUILD_ROOT
-
-%if %{!?_without_embed:1}%{?_without_embed:0}
-install -d $RPM_BUILD_ROOT%{embed_path}/{shared,static}
-install -d $RPM_BUILD_ROOT%{uclibc_prefix}/{include,lib}
-for i in badblocks mke2fs e2fsck; do
-	install $i-embed-shared $RPM_BUILD_ROOT%{embed_path}/shared/$i
-	install $i-embed-static $RPM_BUILD_ROOT%{embed_path}/static/$i
-done
-cp -a $RPM_BUILD_ROOT%{_includedir}/* $RPM_BUILD_ROOT%{uclibc_prefix}/include
-cp embed-libs/* $RPM_BUILD_ROOT%{uclibc_prefix}/lib
-%endif
 
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext3
@@ -263,14 +185,3 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
-
-%if %{!?_without_embed:1}%{?_without_embed:0}
-%files embed
-%defattr(644,root,root,755)
-%attr(755,root,root) %{embed_path}/*/*
-
-%files devel-embed
-%defattr(644,root,root,755)
-%{uclibc_prefix}/include/*
-%{uclibc_prefix}/lib/*
-%endif
