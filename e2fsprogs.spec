@@ -134,7 +134,7 @@ autoconf
 
 %{__make} libs
 #%{__make} progs ALL_LDFLAGS="-nostdlib -s" LDLIBS="%{_libdir}/libc.a"
-%{__make} progs ALL_LDFLAGS="-static -s"
+%{__make} progs ALL_LDFLAGS="-static -s" XTRA_CFLAGS="-m386"
 
 mv e2fsck/e2fsck e2fsck-BOOT
 for i in badblocks mke2fs; do 
