@@ -16,7 +16,6 @@ Patch1:		http://opensource.captech.com/e2compr/ftp/e2cfsprogs-9-patch-1.18.gz
 Patch2:		e2fsprogs-DESTDIR.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
 PreReq:		/sbin/ldconfig
-PreReq:		/usr/sbin/fix-info-dir
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -57,7 +56,6 @@ Summary(de):	Header-Dateien für eine e2fs
 Summary(pl):	Pliki nag³ówkowe do bibliotek e2fs
 Group:		Development/Libraries
 Group(pl):	Programowanie/Biblioteki
-Prereq:		/usr/sbin/fix-info-dir
 Requires:	%{name} = %{version}
 
 %description devel
@@ -139,17 +137,17 @@ gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man{1,3,8}/* \
 
 %post   
 /sbin/ldconfig
-/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+[ -x /usr/sbin/fix-info-dir ] && /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun 
 /sbin/ldconfig
-/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+[ -x /usr/sbin/fix-info-dir ] && /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %post  devel
-/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+[ -x /usr/sbin/fix-info-dir ] && /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun devel
-/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+[ -x /usr/sbin/fix-info-dir ] && /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
