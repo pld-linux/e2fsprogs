@@ -5,7 +5,7 @@ Summary(pl):	Narzêdzia do systemu plikowego ext2
 Summary(tr):	ext2 dosya sistemi için araçlar
 Name:		e2fsprogs
 Version:	1.22
-Release:	2
+Release:	4
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
@@ -15,6 +15,7 @@ Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac250.patch
 Patch2:		e2compr-info.patch
+Patch3:		%{name}-mountlabel3.patch
 URL:		http://e2fsprogs.sourceforge.net/
 PreReq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -119,6 +120,7 @@ package is for bootdisk.
 %patch1 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 patch -s -p1 < %{PATCH2}
+%patch3 -p1
 
 %build
 chmod u+w configure aclocal.m4
@@ -179,7 +181,7 @@ export PATH=/sbin:$PATH
 %if %{?BOOT:1}%{!?BOOT:0}
 install -d $RPM_BUILD_ROOT%{_libdir}/bootdisk/sbin
 for i in *-BOOT; do 
-  install -s $i $RPM_BUILD_ROOT%{_libdir}/bootdisk/sbin/`basename $i -BOOT`
+	install $i $RPM_BUILD_ROOT%{_libdir}/bootdisk/sbin/`basename $i -BOOT`
 done
 %endif
 
