@@ -79,7 +79,7 @@ Programmen erforderlich sind.
 
 %description -l pl devel
 Pliki nag³ówkowe i dokumentacja niezbêdne do tworzenia programów
-obs³ugukj±cych e2fs.
+obs³uguj±cych e2fs.
 
 %package static
 Summary:	e2fs static libraries
@@ -100,8 +100,8 @@ Libraries zur Entwicklung von ext2-Dateisystemspezifischen Programmen
 erforderlich sind.
 
 %description -l pl static
-Biblioteki statyczne do ob³ugi e2fs niezêbdne do kompilacji programów
-statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
+Biblioteki statyczne do ob³ugi e2fs niezbêdne do kompilacji programów
+statycznie skonsolidowanych (linkowanych) z bibliotekami do e2fs.
 
 %if %{?BOOT:1}%{!?BOOT:0}
 %package BOOT
@@ -111,7 +111,7 @@ Group(de):	Applikationen/System
 Group(pl):	Aplikacje/System
 
 %description BOOT
-E2fsprogs-devel contand header files and documentation needed to
+E2fsprogs-devel contains header files and documentation needed to
 develop second extended (ext2) filesystem-specific programs. This
 package is for bootdisk.
 %endif
