@@ -34,6 +34,7 @@ Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
 # Source0-md5: 8d922086299ae9794b008256bde6188f
 Source1:	http://opensource.captech.com/e2compr/ftp/e2compr-0.4.texinfo.gz
+# Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5: 992a37783bd42a897232972917e8ca7d
 Source3:	%{name}-pl.po
