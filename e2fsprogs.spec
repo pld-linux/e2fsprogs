@@ -14,7 +14,6 @@ Patch0:		e2fsprogs-info.patch
 Patch1:		e2fsprogs-fsck.patch
 Patch2:		e2fsprogs-findsuper.patch
 URL:		http://web.mit.edu/tytso/www/linux/e2fsprogs.html
-Requires:	%{name}-libs = %{version}
 Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
@@ -76,19 +75,6 @@ Programmen erforderlich sind.
 Biblioteki statyczne do obsugi e2fs niezbdne do kompilacji programów 
 statycznie skonsolidowanych (likowanych) z bibliotekami do e2fs.
 
-%package libs
-Summary:        e2fs libraries
-Summary(de):    e2fs Libraries
-Summary(pl):    Biblioteki do obs³ugi e2fs
-Group:          Libraries
-Group(pl):      Biblioteki
-
-%description libs
-e2fs libraries
-
-%description libs -l pl
-Biblioteki do obs³ugi e2fs
-
 %prep
 %setup  -q
 %patch0 -p1
@@ -133,14 +119,11 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/*
 /usr/sbin/*
 /usr/bin/*
+/lib/lib*.so.*.*
 %attr(644,root,root) /usr/man/man[18]/*
 
-%files libs
-%defattr(755,root,root,755)
-/lib/lib*.so.*.*
-
 %files devel
-%defattr(644,root,root,755)
+%defattr(644, root, root, 755)
 %doc README RELEASE-NOTES
 /usr/info/libext2fs.info*
 /usr/include/*
