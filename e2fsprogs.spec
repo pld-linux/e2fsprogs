@@ -270,6 +270,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{embed_path}/*/*
 
 %files devel-embed
+%defattr(644,root,root,755)
 %{uclibc_prefix}/include/*
 %{uclibc_prefix}/lib/*
 %endif
