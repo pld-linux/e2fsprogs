@@ -29,7 +29,7 @@ Summary(zh_CN):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW):	ノ恨瞶 ext2 郎╰参ㄣ祘Α
 Name:		e2fsprogs
 Version:	1.35
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -515,6 +515,17 @@ Library for accessing and manipulating UUID - static version.
 %description -n libuuid-static -l pl
 Biblioteka umo縧iwiaj眂a dost阷 i zmiany UUID - wersja statyczna.
 
+%package -n fsck
+Summary:	Check and repair a Linux file system
+Summary(pl):	Sprawdzenie i naprawa linuksowego systemu plik體
+Group:		Applications/System
+
+%description -n fsck
+Check and repair a Linux file system.
+
+%description -n fsck -l pl
+Sprawdzenie i naprawa linuksowego systemu plik體.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -616,11 +627,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ChangeLog README RELEASE-NOTES
 %attr(755,root,root) /sbin/*
+%exclude /sbin/fsck
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/*attr
 %attr(755,root,root) %{_bindir}/mk_cmds
 %if ! %{with allstatic}
-%attr(755,root,root) /%{_lib}/libblkid.so.*.*
 %attr(755,root,root) /%{_lib}/libe2p.so.*.*
 %attr(755,root,root) /%{_lib}/libext2fs.so.*.*
 %attr(755,root,root) /%{_lib}/libss.so.*.*
@@ -636,6 +647,8 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_mandir}/ja/man8/*
 %lang(ko) %{_mandir}/ko/man[18]/*
 %lang(pl) %{_mandir}/pl/man[18]/*
+%exclude %{_mandir}/*/man8/fsck.8*
+%exclude %{_mandir}/man8/fsck.8*
 %{_datadir}/ss
 %{_infodir}/e2compr.info*
 
@@ -702,3 +715,15 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libuuid-static
 %defattr(644,root,root,755)
 %{_libdir}/libuuid.a
+
+%files -n fsck
+%defattr(644,root,root,755)
+%attr(755,root,root) /sbin/fsck
+%if ! %{with allstatic}
+%attr(755,root,root) /%{_lib}/libblkid.so.*.*
+%endif
+%{_mandir}/man8/fsck.8*
+%lang(it) %{_mandir}/it/man8/fsck.8*
+%lang(ja) %{_mandir}/ja/man8/fsck.8*
+%lang(ko) %{_mandir}/ko/man8/fsck.8*
+%lang(pl) %{_mandir}/pl/man8/fsck.8*
