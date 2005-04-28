@@ -580,6 +580,13 @@ echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/man8/fsck.ext2.8
 echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/man8/fsck.ext3.8
 echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/man8/mkfs.ext2.8
 echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/man8/mkfs.ext3.8
+# missing in non-english-man-pages tarball
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/hu/man8/fsck.ext3.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/it/man8/fsck.ext3.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/it/man8/mkfs.ext3.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/ko/man8/fsck.ext3.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/ko/man8/mkfs.ext3.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/mkfs.ext3.8
 
 %if %{with nls}
 [ "`file $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/e2fsprogs.mo |\
