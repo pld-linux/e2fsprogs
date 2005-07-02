@@ -28,19 +28,18 @@ Summary(uk):	õÔÉÌ¦ÔÉ ÄÌÑ ÒÏÂÏÔÉ Ú ÆÁÊÌÏ×ÏÀ ÓÉÓÔÅÍÏÀ ext2
 Summary(zh_CN):	¹ÜÀíµÚ¶şÀ©Õ¹£¨ext2£©ÎÄ¼şÏµÍ³µÄ¹¤¾ß¡£
 Summary(zh_TW):	¥Î©óºŞ²z ext2 ÀÉ®×¨t²Îªº¤u¨ãµ{¦¡¡C
 Name:		e2fsprogs
-Version:	1.37
+Version:	1.38
 Release:	1
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	084b49e919121fc0bf53c8dae23a71f8
+# Source0-md5:	d774d4412bfb80d12cf3a4fdfd59de5a
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
-Patch2:		%{name}-pl.po-update.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -520,7 +519,6 @@ Sprawdzenie i naprawa linuksowego systemu plików.
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
-%patch2 -p1
 
 chmod u+w configure aclocal.m4 po/LINGUAS po/Makefile.in.in intl/Makefile.in
 
