@@ -29,7 +29,7 @@ Summary(zh_CN):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW):	ノ恨瞶 ext2 郎╰参ㄣ祘Α
 Name:		e2fsprogs
 Version:	1.38
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -40,6 +40,7 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
+Patch2:		%{name}-ea-segfault.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -519,6 +520,7 @@ Sprawdzenie i naprawa linuksowego systemu plik體.
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
+%patch2 -p1
 
 chmod u+w configure aclocal.m4 po/LINGUAS po/Makefile.in.in intl/Makefile.in
 
