@@ -28,24 +28,30 @@ Summary(uk):	õÔÉÌ¦ÔÉ ÄÌÑ ÒÏÂÏÔÉ Ú ÆÁÊÌÏ×ÏÀ ÓÉÓÔÅÍÏÀ ext2
 Summary(zh_CN):	¹ÜÀíµÚ¶þÀ©Õ¹£¨ext2£©ÎÄ¼þÏµÍ³µÄ¹¤¾ß¡£
 Summary(zh_TW):	¥Î©óºÞ²z ext2 ÀÉ®×¨t²Îªº¤u¨ãµ{¦¡¡C
 Name:		e2fsprogs
-Version:	1.38
-Release:	2
+Version:	1.39
+Release:	1
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	d774d4412bfb80d12cf3a4fdfd59de5a
+# Source0-md5:	06f7806782e357797fad1d34b7ced0c6
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
-Patch2:		%{name}-ea-segfault.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	automake
 BuildRequires:	autoconf
+BuildRequires:	device-mapper-devel
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	texinfo
+%if %{with static}
+BuildRequires:	device-mapper-static
+BuildRequires:	glibc-static
+BuildRequires:	libsepol-static
+BuildRequires:	libselinux-static
+%endif
 Requires(post,postun):	/sbin/ldconfig
 Requires:	fsck = %{version}-%{release}
 Requires:	libcom_err = %{version}-%{release}
@@ -520,9 +526,11 @@ Sprawdzenie i naprawa linuksowego systemu plików.
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
-%patch2 -p1
 
-chmod u+w configure aclocal.m4 po/LINGUAS po/Makefile.in.in intl/Makefile.in
+sed -i -e "
+	s,DEVMAPPER_REQ='libselinux libsepol',DEVMAPPER_REQ=,;
+	s,DEVMAPPER_LIBS='-ldevmapper -lselinux -lsepol',DEVMAPPER_LIBS='-ldevmapper',;
+	s,STATIC_DEVMAPPER_LIBS='/usr/lib/libdevmapper.a /usr/lib/libselinux.a /usr/lib/libsepol.a',STATIC_DEVMAPPER_LIBS='/usr/%{_lib}/libdevmapper.a /usr/%{_lib}/libselinux.a /usr/%{_lib}/libsepol.a'," configure.in
 
 %build
 cp -f /usr/share/automake/config.sub .
@@ -531,10 +539,9 @@ cp -f /usr/share/automake/config.sub .
 %{__autoconf}
 %configure \
 	--with-root-prefix="" \
-	%{?with_nls:--enable-nls} \
 	%{!?with_nls:--disable-nls} \
-	%{?with_allstatic:--disable-elf-shlibs} \
 	%{!?with_allstatic:--enable-elf-shlibs} \
+	--enable-blkid-devmapper \
 	--enable-compression \
 	--enable-htree \
 	%{!?with_static:--enable-dynamic-e2fsck} \
@@ -572,6 +579,8 @@ ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext3
 ln -sf mke2fs $RPM_BUILD_ROOT/sbin/mkfs.ext2
 
 install doc/e2compr.info $RPM_BUILD_ROOT%{_infodir}
+
+touch $RPM_BUILD_ROOT/etc/e2fsck.conf
 
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
@@ -631,8 +640,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /%{_lib}/libss.so.*.*
 %endif
 %attr(755,root,root) %{_libdir}/e2initrd_helper
+%config(noreplace) %verify(not md5 mtime size) /etc/e2fsck.conf
+%config(noreplace) %verify(not md5 mtime size) /etc/mke2fs.conf
 %{_mandir}/man1/*attr.1*
 %{_mandir}/man1/mk_cmds.1*
+%{_mandir}/man5/e2fsck.conf.5*
+%{_mandir}/man5/mke2fs.conf.5*
 %{_mandir}/man8/*
 %lang(fi) %{_mandir}/fi/man[18]/*
 %lang(fr) %{_mandir}/fr/man[18]/*
