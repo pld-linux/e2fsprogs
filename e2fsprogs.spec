@@ -532,6 +532,8 @@ sed -i -e "
 	s,DEVMAPPER_LIBS='-ldevmapper -lselinux -lsepol',DEVMAPPER_LIBS='-ldevmapper',;
 	s,STATIC_DEVMAPPER_LIBS='/usr/lib/libdevmapper.a /usr/lib/libselinux.a /usr/lib/libsepol.a',STATIC_DEVMAPPER_LIBS='/usr/%{_lib}/libdevmapper.a /usr/%{_lib}/libselinux.a /usr/%{_lib}/libsepol.a'," configure.in
 
+%{!?with_static:sed '/^all:/s/e2fsck\.static//' -i e2fsck/Makefile.in}
+
 %build
 cp -f /usr/share/automake/config.sub .
 %{__gettextize}
