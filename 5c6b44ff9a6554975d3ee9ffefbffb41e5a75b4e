@@ -1,0 +1,2 @@
+- some post-split cleanups (descriptions, dependencies, missing %lang)
+- moved genuuid utility to libuuid
