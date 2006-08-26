@@ -1,0 +1,2 @@
+- updated to 1.33: bug fixes,
+- gnostrip patch from RH (for better %{debug} support).
