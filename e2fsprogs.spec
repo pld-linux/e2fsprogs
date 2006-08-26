@@ -41,16 +41,16 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 URL:		http://e2fsprogs.sourceforge.net/
-BuildRequires:	automake
 BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	device-mapper-devel
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	texinfo
 %if %{with static}
 BuildRequires:	device-mapper-static
 BuildRequires:	glibc-static
-BuildRequires:	libsepol-static
 BuildRequires:	libselinux-static
+BuildRequires:	libsepol-static
 %endif
 Requires(post,postun):	/sbin/ldconfig
 Requires:	fsck = %{version}-%{release}
@@ -551,11 +551,7 @@ cp -f /usr/share/automake/config.sub .
 	--enable-fsck \
 	--disable-rpath
 
-%{__make} libs \
-	LDFLAGS="%{rpmldflags}"
-%{__make} progs \
-	LDFLAGS="%{rpmldflags}"
-%{__make} docs \
+%{__make} libs progs docs \
 	LDFLAGS="%{rpmldflags}"
 
 cd doc
@@ -567,14 +563,9 @@ export PATH=/sbin:$PATH
 
 echo "install-shlibs:" >> intl/Makefile
 
-%{__make} install \
+%{__make} install install-libs \
 	root_libdir=/%{_lib} \
-	DESTDIR=$RPM_BUILD_ROOT
-%{__make} install-libs \
-	root_libdir=/%{_lib} \
-	DESTDIR=$RPM_BUILD_ROOT
-%{__make} -C po install	\
-	root_libdir=/%{_lib} \
+	mkinstalldirs='install -d' \
 	DESTDIR=$RPM_BUILD_ROOT
 
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
@@ -605,6 +596,8 @@ echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/mkfs.ext3.8
 	sed -e 's/.*,//' -e 's/message.*//'`" -le 1 ] && rm -f $f
 %find_lang %{name}
 %endif
+
+rm -f $RPM_BUILD_ROOT%{_mandir}/README.e2fsprogs-non-english-man-pages
 
 %clean
 rm -rf $RPM_BUILD_ROOT
