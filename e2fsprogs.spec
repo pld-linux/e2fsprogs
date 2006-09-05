@@ -551,7 +551,9 @@ cp -f /usr/share/automake/config.sub .
 	--enable-fsck \
 	--disable-rpath
 
-%{__make} libs progs docs \
+%{__make} -j1 libs \
+	LDFLAGS="%{rpmldflags}"
+%{__make} progs docs \
 	LDFLAGS="%{rpmldflags}"
 
 cd doc
