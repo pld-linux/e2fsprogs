@@ -576,7 +576,7 @@ ln -sf mke2fs $RPM_BUILD_ROOT/sbin/mkfs.ext2
 
 install doc/e2compr.info $RPM_BUILD_ROOT%{_infodir}
 
-touch $RPM_BUILD_ROOT/etc/e2fsck.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/e2fsck.conf
 
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
@@ -600,6 +600,7 @@ echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/mkfs.ext3.8
 %endif
 
 rm -f $RPM_BUILD_ROOT%{_mandir}/README.e2fsprogs-non-english-man-pages
+touch $RPM_BUILD_ROOT%{_sysconfdir}/blkid.tab
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -641,8 +642,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /%{_lib}/libss.so.*.*
 %endif
 %attr(755,root,root) %{_libdir}/e2initrd_helper
-%config(noreplace) %verify(not md5 mtime size) /etc/e2fsck.conf
-%config(noreplace) %verify(not md5 mtime size) /etc/mke2fs.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2fsck.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mke2fs.conf
+%ghost %{_sysconfdir}/blkid.tab
 %{_mandir}/man1/*attr.1*
 %{_mandir}/man1/mk_cmds.1*
 %{_mandir}/man5/e2fsck.conf.5*
@@ -664,7 +666,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %doc doc/libblkid.txt
-%if ! %{with allstatic}
+%if %{without allstatic}
 %attr(755,root,root) %{_libdir}/libblkid.so
 %attr(755,root,root) %{_libdir}/libe2p.so
 %attr(755,root,root) %{_libdir}/libext2fs.so
