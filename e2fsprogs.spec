@@ -666,7 +666,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %doc doc/libblkid.txt
-%if %{without allstatic}
+%if !%{with allstatic}
 %attr(755,root,root) %{_libdir}/libblkid.so
 %attr(755,root,root) %{_libdir}/libe2p.so
 %attr(755,root,root) %{_libdir}/libext2fs.so
