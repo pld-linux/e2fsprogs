@@ -29,7 +29,7 @@ Summary(zh_CN):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW):	ノ恨瞶 ext2 郎╰参ㄣ祘Α
 Name:		e2fsprogs
 Version:	1.39
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -637,9 +637,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*attr
 %attr(755,root,root) %{_bindir}/mk_cmds
 %if ! %{with allstatic}
-%attr(755,root,root) /%{_lib}/libe2p.so.*.*
-%attr(755,root,root) /%{_lib}/libext2fs.so.*.*
-%attr(755,root,root) /%{_lib}/libss.so.*.*
+%attr(755,root,root) /%{_lib}/libe2p.so.*
+%attr(755,root,root) /%{_lib}/libext2fs.so.*
+%attr(755,root,root) /%{_lib}/libss.so.*
 %endif
 %attr(755,root,root) %{_libdir}/e2initrd_helper
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2fsck.conf
@@ -692,7 +692,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n libcom_err
 %defattr(644,root,root,755)
-%{!?with_allstatic:%attr(755,root,root) /%{_lib}/libcom_err.so.*.*}
+%{!?with_allstatic:%attr(755,root,root) /%{_lib}/libcom_err.so.*}
 
 %files -n libcom_err-devel
 %defattr(644,root,root,755)
@@ -713,7 +713,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libuuid
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/uuidgen
-%{!?with_allstatic:%attr(755,root,root) /%{_lib}/libuuid.so.*.*}
+%{!?with_allstatic:%attr(755,root,root) /%{_lib}/libuuid.so.*}
 %{_mandir}/man1/uuidgen.1*
 %lang(ja) %{_mandir}/ja/man1/uuidgen.1*
 
@@ -733,7 +733,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) /sbin/fsck
 %if ! %{with allstatic}
-%attr(755,root,root) /%{_lib}/libblkid.so.*.*
+%attr(755,root,root) /%{_lib}/libblkid.so.*
 %endif
 %{_mandir}/man8/fsck.8*
 %lang(it) %{_mandir}/it/man8/fsck.8*
