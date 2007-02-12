@@ -5,28 +5,28 @@
 %bcond_without	nls		# build without NLS
 #
 Summary:	Utilities for managing the second extended (ext2) filesystem
-Summary(cs.UTF-8):   Nástroje pro správu souborových systémů typu ext2
-Summary(da.UTF-8):   Værktøjer til håndtering af ext2 filsystemer
-Summary(de.UTF-8):   Dienstprogramme zum Verwalten des Second Extended-Dateisystems (ext2)
-Summary(es.UTF-8):   Utilidades para la gestión de un sistema de ficheros ext2
-Summary(fr.UTF-8):   Utilitaires pour la gestion du système de fichiers ext2
-Summary(id.UTF-8):   Utility untuk management filesystem ext2
-Summary(is.UTF-8):   Tól til að sýsla með ext2 skráarkerfið
-Summary(it.UTF-8):   Utility per la gestione del filesystem (ext2)
-Summary(ja.UTF-8):   Second Extended (ext2) ファイルシステムを管理するためのユーティリティ
-Summary(ko.UTF-8):   ext2 파일 시스템을 관리하는 유틸리티
-Summary(nb.UTF-8):   Verktøy for håndtering av ext2 filsystemet
-Summary(pl.UTF-8):   Narzędzia do systemu plikowego ext2
-Summary(pt.UTF-8):   Utilitários para gerir o sistema de ficheiros ext2
-Summary(pt_BR.UTF-8):   Ferramentas para o sistema de arquivos ext2
-Summary(ru.UTF-8):   Утилиты управления файловой системой ext2
-Summary(sk.UTF-8):   Pomocné programy pre správu ext2 súborového systému
-Summary(sl.UTF-8):   Pripomočki za upravljanje datotečnega sistema ext2
-Summary(sv.UTF-8):   Verktyg för att hantera det andra utökade (ext2) filsystemet
-Summary(tr.UTF-8):   ext2 dosya sistemi için araçlar
-Summary(uk.UTF-8):   Утиліти для роботи з файловою системою ext2
-Summary(zh_CN.UTF-8):   管理第二扩展（ext2）文件系统的工具。
-Summary(zh_TW.UTF-8):   用於管理 ext2 檔案系統的工具程式。
+Summary(cs.UTF-8):	Nástroje pro správu souborových systémů typu ext2
+Summary(da.UTF-8):	Værktøjer til håndtering af ext2 filsystemer
+Summary(de.UTF-8):	Dienstprogramme zum Verwalten des Second Extended-Dateisystems (ext2)
+Summary(es.UTF-8):	Utilidades para la gestión de un sistema de ficheros ext2
+Summary(fr.UTF-8):	Utilitaires pour la gestion du système de fichiers ext2
+Summary(id.UTF-8):	Utility untuk management filesystem ext2
+Summary(is.UTF-8):	Tól til að sýsla með ext2 skráarkerfið
+Summary(it.UTF-8):	Utility per la gestione del filesystem (ext2)
+Summary(ja.UTF-8):	Second Extended (ext2) ファイルシステムを管理するためのユーティリティ
+Summary(ko.UTF-8):	ext2 파일 시스템을 관리하는 유틸리티
+Summary(nb.UTF-8):	Verktøy for håndtering av ext2 filsystemet
+Summary(pl.UTF-8):	Narzędzia do systemu plikowego ext2
+Summary(pt.UTF-8):	Utilitários para gerir o sistema de ficheiros ext2
+Summary(pt_BR.UTF-8):	Ferramentas para o sistema de arquivos ext2
+Summary(ru.UTF-8):	Утилиты управления файловой системой ext2
+Summary(sk.UTF-8):	Pomocné programy pre správu ext2 súborového systému
+Summary(sl.UTF-8):	Pripomočki za upravljanje datotečnega sistema ext2
+Summary(sv.UTF-8):	Verktyg för att hantera det andra utökade (ext2) filsystemet
+Summary(tr.UTF-8):	ext2 dosya sistemi için araçlar
+Summary(uk.UTF-8):	Утиліти для роботи з файловою системою ext2
+Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
+Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.39
 Release:	4
@@ -273,27 +273,27 @@ ext2fs 文件系统实用程序。
 
 %package devel
 Summary:	ext2 filesystem-specific libraries and headers
-Summary(cs.UTF-8):   Knihovny a hlavičkové soubory pro systém souborů ext2
-Summary(da.UTF-8):   ext2 filsystemsspecifikke biblioteker og headerfiler
-Summary(de.UTF-8):   Bibliotheken und Header-Dateien für ext2-Dateisysteme
-Summary(es.UTF-8):   Bibliotecas y archivos de inclusión para e2fs
-Summary(fr.UTF-8):   Bibliothèques et en-têtes spécifiques au système de fichiers ext2
-Summary(id.UTF-8):   Library dan file header untuk e2fsprogs
-Summary(is.UTF-8):   Aðgerðasöfn og hausaskrár fyrir ext2 skráarkerfið
-Summary(it.UTF-8):   Librerie e file header specifici per il filesystem ext2
-Summary(ja.UTF-8):   ext2 ファイルシステムに固有の静的ライブラリとヘッダー
-Summary(ko.UTF-8):   ext2 파일시스템-지정 정적 라이브러리와 헤더들
-Summary(nb.UTF-8):   ext2 filsystemspesifikke bibliotek og headerfiler
-Summary(pl.UTF-8):   Pliki nagłówkowe do bibliotek e2fs
-Summary(pt.UTF-8):   Bibliotecas e ficheiros de inclusão específicos do sistema de ficheiros ext2
-Summary(pt_BR.UTF-8):   Bibliotecas e arquivos de inclusão para e2fs
-Summary(ru.UTF-8):   Библиотеки и файлы заголовков для разработки программ, использующих ext2
-Summary(sk.UTF-8):   Knižnice a hlavičkové súbory pre ext2-špecifické programy
-Summary(sl.UTF-8):   Knjižnice in glave, specifične datotečnemu sistemu ext2
-Summary(sv.UTF-8):   ext2 filsystemspecifika bibliotek och huvuden
-Summary(uk.UTF-8):   Бібліотки програміста та хедери для роботи з ext2fs
-Summary(zh_CN.UTF-8):   ext2 文件系统特有的静态库和头文件。
-Summary(zh_TW.UTF-8):   ext2 檔案系統特定的靜態函式庫與表頭。
+Summary(cs.UTF-8):	Knihovny a hlavičkové soubory pro systém souborů ext2
+Summary(da.UTF-8):	ext2 filsystemsspecifikke biblioteker og headerfiler
+Summary(de.UTF-8):	Bibliotheken und Header-Dateien für ext2-Dateisysteme
+Summary(es.UTF-8):	Bibliotecas y archivos de inclusión para e2fs
+Summary(fr.UTF-8):	Bibliothèques et en-têtes spécifiques au système de fichiers ext2
+Summary(id.UTF-8):	Library dan file header untuk e2fsprogs
+Summary(is.UTF-8):	Aðgerðasöfn og hausaskrár fyrir ext2 skráarkerfið
+Summary(it.UTF-8):	Librerie e file header specifici per il filesystem ext2
+Summary(ja.UTF-8):	ext2 ファイルシステムに固有の静的ライブラリとヘッダー
+Summary(ko.UTF-8):	ext2 파일시스템-지정 정적 라이브러리와 헤더들
+Summary(nb.UTF-8):	ext2 filsystemspesifikke bibliotek og headerfiler
+Summary(pl.UTF-8):	Pliki nagłówkowe do bibliotek e2fs
+Summary(pt.UTF-8):	Bibliotecas e ficheiros de inclusão específicos do sistema de ficheiros ext2
+Summary(pt_BR.UTF-8):	Bibliotecas e arquivos de inclusão para e2fs
+Summary(ru.UTF-8):	Библиотеки и файлы заголовков для разработки программ, использующих ext2
+Summary(sk.UTF-8):	Knižnice a hlavičkové súbory pre ext2-špecifické programy
+Summary(sl.UTF-8):	Knjižnice in glave, specifične datotečnemu sistemu ext2
+Summary(sv.UTF-8):	ext2 filsystemspecifika bibliotek och huvuden
+Summary(uk.UTF-8):	Бібліотки програміста та хедери для роботи з ext2fs
+Summary(zh_CN.UTF-8):	ext2 文件系统特有的静态库和头文件。
+Summary(zh_TW.UTF-8):	ext2 檔案系統特定的靜態函式庫與表頭。
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	libcom_err-devel = %{version}-%{release}
@@ -386,20 +386,20 @@ e2fsprogs-devel 包含开发辅助扩展 (ext2)
 
 %package static
 Summary:	ext2 filesystem-specific static libraries
-Summary(cs.UTF-8):   Statické knihovny pro systém souborů ext2
-Summary(da.UTF-8):   ext2 filsystemsspecifikke statiske biblioteker
-Summary(de.UTF-8):   Statische Bibliotheken für ext2-Dateisysteme
-Summary(es.UTF-8):   Bibliotecas estaticas para e2fs
-Summary(fr.UTF-8):   Bibliothèques statiques spécifiques au système de fichiers ext2
-Summary(it.UTF-8):   Librerie statiche specifici per il filesystem ext2
-Summary(nb.UTF-8):   ext2 filsystemspesifikke statiske bibliotek
-Summary(pl.UTF-8):   Biblioteki statyczne do obsługi systemu plików ext2
-Summary(pt.UTF-8):   Bibliotecas estaticas específicos do sistema de ficheiros ext2
-Summary(pt_BR.UTF-8):   Bibliotecas estaticas para e2fs
-Summary(ru.UTF-8):   Статические библиотеки для разработки программ, использующих ext2
-Summary(sk.UTF-8):   Statické knižnice a hlavičkové súbory pre ext2-špecifické programy
-Summary(sv.UTF-8):   ext2 filsystemspecifika statiska bibliotek
-Summary(uk.UTF-8):   Статичні бібліотки програміста для роботи з ext2fs
+Summary(cs.UTF-8):	Statické knihovny pro systém souborů ext2
+Summary(da.UTF-8):	ext2 filsystemsspecifikke statiske biblioteker
+Summary(de.UTF-8):	Statische Bibliotheken für ext2-Dateisysteme
+Summary(es.UTF-8):	Bibliotecas estaticas para e2fs
+Summary(fr.UTF-8):	Bibliothèques statiques spécifiques au système de fichiers ext2
+Summary(it.UTF-8):	Librerie statiche specifici per il filesystem ext2
+Summary(nb.UTF-8):	ext2 filsystemspesifikke statiske bibliotek
+Summary(pl.UTF-8):	Biblioteki statyczne do obsługi systemu plików ext2
+Summary(pt.UTF-8):	Bibliotecas estaticas específicos do sistema de ficheiros ext2
+Summary(pt_BR.UTF-8):	Bibliotecas estaticas para e2fs
+Summary(ru.UTF-8):	Статические библиотеки для разработки программ, использующих ext2
+Summary(sk.UTF-8):	Statické knižnice a hlavičkové súbory pre ext2-špecifické programy
+Summary(sv.UTF-8):	ext2 filsystemspecifika statiska bibliotek
+Summary(uk.UTF-8):	Статичні бібліотки програміста для роботи з ext2fs
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -433,7 +433,7 @@ e2fsprogs-devel-static містить статичні бібліотеки, н�
 
 %package -n libcom_err
 Summary:	A Common Error Description Library for unices
-Summary(pl.UTF-8):   Biblioteka opisu popularnych błędów dla uniksów
+Summary(pl.UTF-8):	Biblioteka opisu popularnych błędów dla uniksów
 Group:		Libraries
 Conflicts:	e2fsprogs < 1.34-3
 
@@ -445,7 +445,7 @@ Biblioteka opisu popularnych błędów dla uniksów.
 
 %package -n libcom_err-devel
 Summary:	Development files for Common Error Description Library for unices
-Summary(pl.UTF-8):   Pliki dla programistów do biblioteki opisu popularnych błędów dla uniksów
+Summary(pl.UTF-8):	Pliki dla programistów do biblioteki opisu popularnych błędów dla uniksów
 Group:		Development/Libraries
 Requires:	libcom_err = %{version}-%{release}
 Conflicts:	e2fsprogs-devel < 1.34-3
@@ -459,7 +459,7 @@ programistów.
 
 %package -n libcom_err-static
 Summary:	Static version of Common Error Description Library for unices
-Summary(pl.UTF-8):   Statyczna biblioteka opisu popularnych błędów dla uniksów
+Summary(pl.UTF-8):	Statyczna biblioteka opisu popularnych błędów dla uniksów
 Group:		Development/Libraries
 Requires:	libcom_err-devel = %{version}-%{release}
 Conflicts:	e2fsprogs-static < 1.34-3
@@ -472,7 +472,7 @@ Biblioteka opisu popularnych błędów dla uniksów - wersja statyczna.
 
 %package -n libuuid
 Summary:	Library for accessing and manipulating UUID
-Summary(pl.UTF-8):   Biblioteka umożliwiająca dostęp i zmiany UUID
+Summary(pl.UTF-8):	Biblioteka umożliwiająca dostęp i zmiany UUID
 Group:		Libraries
 Conflicts:	e2fsprogs < 1.34-3
 
@@ -484,7 +484,7 @@ Biblioteka umożliwiająca dostęp i zmiany UUID.
 
 %package -n libuuid-devel
 Summary:	Header files for library for accessing and manipulating UUID
-Summary(pl.UTF-8):   Pliki nagłówkowe biblioteki umożliwiającej dostęp i zmiany UUID
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki umożliwiającej dostęp i zmiany UUID
 Group:		Development/Libraries
 Requires:	libuuid = %{version}-%{release}
 Conflicts:	e2fsprogs-devel < 1.34-3
@@ -498,7 +498,7 @@ programistów.
 
 %package -n libuuid-static
 Summary:	Static library for accessing and manipulating UUID
-Summary(pl.UTF-8):   Statyczna biblioteka umożliwiająca dostęp i zmiany UUID
+Summary(pl.UTF-8):	Statyczna biblioteka umożliwiająca dostęp i zmiany UUID
 Group:		Development/Libraries
 Requires:	libuuid-devel = %{version}-%{release}
 Conflicts:	e2fsprogs-static < 1.34-3
@@ -511,7 +511,7 @@ Biblioteka umożliwiająca dostęp i zmiany UUID - wersja statyczna.
 
 %package -n fsck
 Summary:	Check and repair a Linux file system
-Summary(pl.UTF-8):   Sprawdzenie i naprawa linuksowego systemu plików
+Summary(pl.UTF-8):	Sprawdzenie i naprawa linuksowego systemu plików
 Group:		Applications/System
 Requires:	libuuid = %{version}-%{release}
 
