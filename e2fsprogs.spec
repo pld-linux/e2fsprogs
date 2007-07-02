@@ -29,7 +29,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.40
-Release:	1
+Release:	2
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -533,7 +533,7 @@ gunzip < %{SOURCE1} > doc/e2compr.texinfo
 sed -i -e "
 	s,DEVMAPPER_REQ='libselinux libsepol',DEVMAPPER_REQ=,;
 	s,DEVMAPPER_LIBS='-ldevmapper -lselinux -lsepol',DEVMAPPER_LIBS='-ldevmapper',;
-	s,STATIC_DEVMAPPER_LIBS='/usr/lib/libdevmapper.a /usr/lib/libselinux.a /usr/lib/libsepol.a',STATIC_DEVMAPPER_LIBS='/usr/%{_lib}/libdevmapper.a /usr/%{_lib}/libselinux.a /usr/%{_lib}/libsepol.a'," \
+	s,/usr/lib/libdevmapper.a /usr/lib/libselinux.a /usr/lib/libsepol.a,/usr/%{_lib}/libdevmapper.a /usr/%{_lib}/libselinux.a /usr/%{_lib}/libsepol.a," \
 	-e '/AC_SUBST(DO_TEST_SUITE/a\MKINSTALLDIRS="install -d"\nAC_SUBST(MKINSTALLDIRS)\n' configure.in
 
 %{!?with_static:sed '/^all:/s/e2fsck\.static//' -i e2fsck/Makefile.in}
