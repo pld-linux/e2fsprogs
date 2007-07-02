@@ -28,19 +28,18 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.39
-Release:	5
-License:	GPL
+Version:	1.40
+Release:	1
+License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	06f7806782e357797fad1d34b7ced0c6
+# Source0-md5:	40095356dbe3d970b898469fe598317c
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
-Patch2:		%{name}-libblkid-leak-fixes.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -474,6 +473,7 @@ Biblioteka opisu popularnych błędów dla uniksów - wersja statyczna.
 %package -n libuuid
 Summary:	Library for accessing and manipulating UUID
 Summary(pl.UTF-8):	Biblioteka umożliwiająca dostęp i zmiany UUID
+License:	BSD
 Group:		Libraries
 Conflicts:	e2fsprogs < 1.34-3
 
@@ -486,6 +486,7 @@ Biblioteka umożliwiająca dostęp i zmiany UUID.
 %package -n libuuid-devel
 Summary:	Header files for library for accessing and manipulating UUID
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki umożliwiającej dostęp i zmiany UUID
+License:	BSD
 Group:		Development/Libraries
 Requires:	libuuid = %{version}-%{release}
 Conflicts:	e2fsprogs-devel < 1.34-3
@@ -500,6 +501,7 @@ programistów.
 %package -n libuuid-static
 Summary:	Static library for accessing and manipulating UUID
 Summary(pl.UTF-8):	Statyczna biblioteka umożliwiająca dostęp i zmiany UUID
+License:	BSD
 Group:		Development/Libraries
 Requires:	libuuid-devel = %{version}-%{release}
 Conflicts:	e2fsprogs-static < 1.34-3
@@ -527,7 +529,6 @@ Sprawdzenie i naprawa linuksowego systemu plików.
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
-%patch2 -p1
 
 sed -i -e "
 	s,DEVMAPPER_REQ='libselinux libsepol',DEVMAPPER_REQ=,;
@@ -632,7 +633,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files %{?with_nls:-f %{name}.lang}
 %defattr(644,root,root,755)
-%doc ChangeLog README RELEASE-NOTES
+# COPYING specifies license details for some parts of package
+%doc COPYING ChangeLog README RELEASE-NOTES
 %attr(755,root,root) /sbin/*
 %exclude /sbin/fsck
 %attr(755,root,root) %{_sbindir}/*
@@ -714,6 +716,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n libuuid
 %defattr(644,root,root,755)
+%doc lib/uuid/COPYING
 %attr(755,root,root) %{_bindir}/uuidgen
 %{!?with_allstatic:%attr(755,root,root) /%{_lib}/libuuid.so.*}
 %{_mandir}/man1/uuidgen.1*
