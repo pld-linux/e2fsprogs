@@ -28,18 +28,19 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.40
-Release:	2
+Version:	1.40.1
+Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	40095356dbe3d970b898469fe598317c
+# Source0-md5:	6bde5e7ca69ebf939098906c203d754c
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
+Patch2:		%{name}-pl.po-update.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -529,6 +530,7 @@ Sprawdzenie i naprawa linuksowego systemu plików.
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
+%patch2 -p1
 
 sed -i -e "
 	s,DEVMAPPER_REQ='libselinux libsepol',DEVMAPPER_REQ=,;
@@ -634,7 +636,7 @@ rm -rf $RPM_BUILD_ROOT
 %files %{?with_nls:-f %{name}.lang}
 %defattr(644,root,root,755)
 # COPYING specifies license details for some parts of package
-%doc COPYING ChangeLog README RELEASE-NOTES
+%doc COPYING README RELEASE-NOTES
 %attr(755,root,root) /sbin/*
 %exclude /sbin/fsck
 %attr(755,root,root) %{_sbindir}/*
