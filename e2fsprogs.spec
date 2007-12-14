@@ -28,18 +28,19 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.40.2
-Release:	2
+Version:	1.40.3
+Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	130ce559a0f311ea2bc04a47b4982d0a
+# Source0-md5:	ad7ff4da7e200b9b25df58dc39989053
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
+Patch2:		%{name}-pl.po-update.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -529,6 +530,7 @@ Sprawdzenie i naprawa linuksowego systemu plików.
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
+%patch2 -p1
 
 sed -i -e "
 	s,DEVMAPPER_REQ='libselinux libsepol',DEVMAPPER_REQ=,;
