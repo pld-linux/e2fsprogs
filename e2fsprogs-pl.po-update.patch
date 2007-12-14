@@ -1,0 +1,94 @@
+--- e2fsprogs-1.40.3/po/pl.po.orig	2007-12-06 02:54:58.000000000 +0100
++++ e2fsprogs-1.40.3/po/pl.po	2007-12-14 20:18:51.932960714 +0100
+@@ -63,10 +63,10 @@
+ #.
+ msgid ""
+ msgstr ""
+-"Project-Id-Version: e2fsprogs 1.40.1\n"
++"Project-Id-Version: e2fsprogs 1.40.3\n"
+ "Report-Msgid-Bugs-To: tytso@alum.mit.edu\n"
+ "POT-Creation-Date: 2007-12-05 19:25-0500\n"
+-"PO-Revision-Date: 2007-07-09 21:11+0200\n"
++"PO-Revision-Date: 2007-12-11 17:50+0100\n"
+ "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
+ "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+ "MIME-Version: 1.0\n"
+@@ -2443,7 +2443,7 @@
+ 
+ #: e2fsck/unix.c:284
+ msgid " primary superblock features different from backup"
+-msgstr ""
++msgstr " cechy g³ównego superbloku ró¿ni± siê od kopii zapasowej"
+ 
+ #: e2fsck/unix.c:288
+ #, c-format
+@@ -2545,6 +2545,8 @@
+ "E2FSCK_JBD_DEBUG \"%s\" not an integer\n"
+ "\n"
+ msgstr ""
++"E2FSCK_JBD_DEBUG \"%s\" nie jest liczb± ca³kowit±\n"
++"\n"
+ 
+ #: e2fsck/unix.c:864
+ #, c-format
+@@ -2553,6 +2555,9 @@
+ "Invalid non-numeric argument to -%c (\"%s\")\n"
+ "\n"
+ msgstr ""
++"\n"
++"B³êdny argument nieliczbowy dla -%c (\"%s\")\n"
++"\n"
+ 
+ #: e2fsck/unix.c:903
+ #, c-format
+@@ -2573,13 +2578,13 @@
+ msgstr "interaktywna naprawa wymaga terminala"
+ 
+ #: e2fsck/unix.c:977
+-#, fuzzy, c-format
++#, c-format
+ msgid "%s: %s trying backup blocks...\n"
+-msgstr "%s podczas próby wykonania kopii zapasowej bloków...\n"
++msgstr "%s: %s podczas próby wykonania kopii zapasowej bloków...\n"
+ 
+ #: e2fsck/unix.c:979
+ msgid "Superblock invalid,"
+-msgstr ""
++msgstr "Superblok b³êdny,"
+ 
+ #: e2fsck/unix.c:980
+ msgid "Group descriptors look bad..."
+@@ -3416,6 +3421,8 @@
+ "%s: skipping bad line in /etc/fstab: bind mount with nonzero fsck pass "
+ "number\n"
+ msgstr ""
++"%s: pominiêto b³êdn± liniê w /etc/fstab: montowanie bind z niezerowym "
++"numerem przebiegu fsck\n"
+ 
+ #: misc/fsck.c:902
+ #, c-format
+@@ -3464,7 +3471,7 @@
+ msgstr "Podczas odczytu wersji %s"
+ 
+ #: misc/mke2fs.c:97
+-#, fuzzy, c-format
++#, c-format
+ msgid ""
+ "Usage: %s [-c|-t|-l filename] [-b block-size] [-f fragment-size]\n"
+ "\t[-i bytes-per-inode] [-I inode-size] [-j] [-J journal-options]\n"
+@@ -3477,7 +3484,7 @@
+ "\t[-i bajtów-na-i-wêze³] [-I rozm-i-wêz³a] [-j] [-J opcje-kroniki]\n"
+ "\t[-N liczba-i-wêz³ów] [-m procent-rezerw.-bloków] [-o os-twórcy]\n"
+ "\t[-g bloków-w-grupie] [-L etykieta-wolumenu] [-M ost.-mont.-katalog]\n"
+-"\t[-O cecha[,...]] [-r wersja-fs] [-R opcje] [-qvSV]\n"
++"\t[-O cecha[,...]] [-r wersja-fs] [-E opcja-rozszerzona[,...]] [-qvSV]\n"
+ "\turz±dzenie [liczba-bloków]\n"
+ 
+ #: misc/mke2fs.c:197
+@@ -4511,6 +4518,3 @@
+ #, c-format
+ msgid "Should never happen: resize inode corrupt!\n"
+ msgstr "Nigdy siê nie powinno zdarzyæ: i-wêze³ zmiany rozmiaru uszkodzony!\n"
+-
+-#~ msgid "Couldn't find ext2 superblock,"
+-#~ msgstr "Nie znaleziono superbloku ext2,"
