@@ -3,6 +3,12 @@
 %bcond_with	allstatic	# link everything statically
 %bcond_without	static		# link e2fsck dynamically with libc
 %bcond_without	nls		# build without NLS
+%bcond_without	initrd		# don't build initrd version
+%bcond_without	uClibc		# link initrd version with static glibc instead of uClibc
+#
+%ifarch sparc64 sparc
+%undefine       with_uClibc
+%endif
 #
 Summary:	Utilities for managing the second extended (ext2) filesystem
 Summary(cs.UTF-8):	Nástroje pro správu souborových systémů typu ext2
@@ -53,6 +59,15 @@ BuildRequires:	glibc-static
 BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static
 %endif
+%if %{with initrd}
+	%if %{with uClibc}
+		%ifarch ppc
+BuildRequires:  uClibc-static >= 2:0.9.29
+		%else
+BuildRequires:  uClibc-static >= 2:0.9.26
+		%endif
+	%endif
+%endif
 Requires(post,postun):	/sbin/ldconfig
 Requires:	fsck = %{version}-%{release}
 Requires:	libcom_err = %{version}-%{release}
@@ -60,6 +75,9 @@ Requires:	libuuid = %{version}-%{release}
 Obsoletes:	e2fsprogs-evms
 Obsoletes:	libext2fs2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# changing CFLAGS in the middle confuses confcache
+%undefine       configure_cache
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
@@ -525,6 +543,19 @@ Check and repair a Linux file system.
 %description -n fsck -l pl.UTF-8
 Sprawdzenie i naprawa linuksowego systemu plików.
 
+%package initrd
+Summary:	blkid - initrd version
+Summary(pl.UTF-8):	blkid - wersja dla initrd
+Group:	Base
+
+%description initrd
+This package includes a blkid utility to recognize partitions by label or uuid
+- staticaly linked for initrd.
+
+%description initrd -l pl.UTF-8
+Pakiet ten zawiera narzędzie blkid do rozpozywania partycji przez etykietke lub
+uuid - statycznie skonsolidowane na potrzeby initrd.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -545,6 +576,23 @@ cp -f /usr/share/automake/config.sub .
 %{__gettextize}
 %{__aclocal}
 %{__autoconf}
+
+%if %{with initrd}
+%configure \
+	%{?with_uClibc:CC="%{_target_cpu}-uclibc-gcc"} \
+	ac_cv_lib_dl_dlopen=no \
+	--with-ccopts="-Os" \
+	--with-ldopts="-static" \
+	--disable-elf-shlibs \
+	--disable-selinux \
+	--disable-nls
+
+%{__make} -j1 libs
+%{__make} progs
+mv -f misc/blkid initrd-blkid
+%{__make} clean
+%endif
+
 %configure \
 	--with-root-prefix="" \
 	%{!?with_nls:--disable-nls} \
@@ -606,6 +654,8 @@ echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/mkfs.ext3.8
 
 rm -f $RPM_BUILD_ROOT%{_mandir}/README.e2fsprogs-non-english-man-pages
 touch $RPM_BUILD_ROOT%{_sysconfdir}/blkid.tab
+
+%{?with_initrd:install initrd-blkid $RPM_BUILD_ROOT/sbin/initrd-blkid}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -747,3 +797,9 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_mandir}/ja/man8/fsck.8*
 %lang(ko) %{_mandir}/ko/man8/fsck.8*
 %lang(pl) %{_mandir}/pl/man8/fsck.8*
+
+%if %{with initrd}
+%files initrd
+%defattr(644,root,root,755)
+%attr(755,root,root) /sbin/initrd-blkid
+%endif
