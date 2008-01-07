@@ -34,19 +34,18 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.40.3
-Release:	2
+Version:	1.40.4
+Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	ad7ff4da7e200b9b25df58dc39989053
+# Source0-md5:	124d744bdf9d443591eb8193c085944b
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
-Patch2:		%{name}-pl.po-update.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -561,7 +560,6 @@ uuid - statycznie skonsolidowane na potrzeby initrd.
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
-%patch2 -p1
 
 sed -i -e "
 	s,DEVMAPPER_REQ='libselinux libsepol',DEVMAPPER_REQ=,;
@@ -615,6 +613,8 @@ makeinfo --no-split e2compr.texinfo
 %install
 rm -rf $RPM_BUILD_ROOT
 export PATH=/sbin:$PATH
+
+install -d $RPM_BUILD_ROOT/var/lib/libuuid
 
 echo "install-shlibs:" >> intl/Makefile
 
@@ -677,8 +677,18 @@ rm -rf $RPM_BUILD_ROOT
 %post	-n libcom_err -p /sbin/ldconfig
 %postun	-n libcom_err -p /sbin/ldconfig
 
+%pre	-n libuuid
+%groupadd -g 222 libuuid
+%useradd -u 222 -r -d /var/lib/libuuid -s /bin/false -c "libuuid" -g libuuid libuuid
+
 %post	-n libuuid -p /sbin/ldconfig
-%postun	-n libuuid -p /sbin/ldconfig
+
+%postun	-n libuuid
+if [ "$1" = "0" ]; then
+	%userremove libuuid
+	%groupremove libuuid
+fi
+/sbin/ldconfig
 
 %post	-n fsck -p /sbin/ldconfig
 %postun	-n fsck -p /sbin/ldconfig
@@ -690,6 +700,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /sbin/*
 %exclude /sbin/fsck
 %attr(755,root,root) %{_sbindir}/*
+%exclude %{_sbindir}/uuidd
 %attr(755,root,root) %{_bindir}/*attr
 %attr(755,root,root) %{_bindir}/mk_cmds
 %if ! %{with allstatic}
@@ -770,7 +781,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc lib/uuid/COPYING
 %attr(755,root,root) %{_bindir}/uuidgen
+%attr(4755,root,root) %{_sbindir}/uuidd
 %{!?with_allstatic:%attr(755,root,root) /%{_lib}/libuuid.so.*}
+%attr(750,libuuid,libuuid) /var/lib/libuuid
 %{_mandir}/man1/uuidgen.1*
 %lang(ja) %{_mandir}/ja/man1/uuidgen.1*
 
