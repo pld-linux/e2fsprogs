@@ -545,15 +545,15 @@ Sprawdzenie i naprawa linuksowego systemu plików.
 %package initrd
 Summary:	blkid - initrd version
 Summary(pl.UTF-8):	blkid - wersja dla initrd
-Group:	Base
+Group:		Base
 
 %description initrd
-This package includes a blkid utility to recognize partitions by label or uuid
-- staticaly linked for initrd.
+This package includes a blkid utility to recognize partitions by label
+or UUID - staticaly linked for initrd.
 
 %description initrd -l pl.UTF-8
-Pakiet ten zawiera narzędzie blkid do rozpozywania partycji przez etykietke lub
-uuid - statycznie skonsolidowane na potrzeby initrd.
+Pakiet ten zawiera narzędzie blkid do rozpoznawania partycji przez
+etykietę lub UUID - statycznie skonsolidowane na potrzeby initrd.
 
 %prep
 %setup -q
@@ -704,8 +704,12 @@ fi
 %attr(755,root,root) %{_bindir}/*attr
 %attr(755,root,root) %{_bindir}/mk_cmds
 %if ! %{with allstatic}
-%attr(755,root,root) /%{_lib}/libe2p.so.*
-%attr(755,root,root) /%{_lib}/libext2fs.so.*
+%attr(755,root,root) /%{_lib}/libe2p.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libe2p.so.2
+%attr(755,root,root) /%{_lib}/libext2fs.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libext2fs.so.2
+%attr(755,root,root) /%{_lib}/libss.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libss.so.2
 %attr(755,root,root) /%{_lib}/libss.so.*
 %endif
 %attr(755,root,root) %{_libdir}/e2initrd_helper
@@ -759,7 +763,10 @@ fi
 
 %files -n libcom_err
 %defattr(644,root,root,755)
-%{!?with_allstatic:%attr(755,root,root) /%{_lib}/libcom_err.so.*}
+%if %{without allstatic}
+%attr(755,root,root) /%{_lib}/libcom_err.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libcom_err.so.2
+%endif
 
 %files -n libcom_err-devel
 %defattr(644,root,root,755)
@@ -781,8 +788,11 @@ fi
 %defattr(644,root,root,755)
 %doc lib/uuid/COPYING
 %attr(755,root,root) %{_bindir}/uuidgen
-%attr(4755,root,root) %{_sbindir}/uuidd
-%{!?with_allstatic:%attr(755,root,root) /%{_lib}/libuuid.so.*}
+%attr(6755,libuuid,libuuid) %{_sbindir}/uuidd
+%if %{without allstatic}
+%attr(755,root,root) /%{_lib}/libuuid.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libuuid.so.2
+%endif
 %attr(750,libuuid,libuuid) /var/lib/libuuid
 %{_mandir}/man1/uuidgen.1*
 %lang(ja) %{_mandir}/ja/man1/uuidgen.1*
@@ -803,7 +813,8 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) /sbin/fsck
 %if ! %{with allstatic}
-%attr(755,root,root) /%{_lib}/libblkid.so.*
+%attr(755,root,root) /%{_lib}/libblkid.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libblkid.so.1
 %endif
 %{_mandir}/man8/fsck.8*
 %lang(it) %{_mandir}/it/man8/fsck.8*
