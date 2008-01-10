@@ -569,6 +569,9 @@ sed -i -e "
 
 %{!?with_static:sed '/^all:/s/e2fsck\.static//' -i e2fsck/Makefile.in}
 
+# AX_TLS
+tail -n +2604 aclocal.m4 > acinclude.m4
+
 %build
 cp -f /usr/share/automake/config.sub .
 %{__gettextize}
@@ -697,47 +700,140 @@ fi
 %defattr(644,root,root,755)
 # COPYING specifies license details for some parts of package
 %doc COPYING README RELEASE-NOTES
-%attr(755,root,root) /sbin/*
-%exclude /sbin/fsck
-%attr(755,root,root) %{_sbindir}/*
-%exclude %{_sbindir}/uuidd
-%attr(755,root,root) %{_bindir}/*attr
+%attr(755,root,root) /sbin/badblocks
+%attr(755,root,root) /sbin/blkid
+%attr(755,root,root) /sbin/debugfs
+%attr(755,root,root) /sbin/dumpe2fs
+%attr(755,root,root) /sbin/e2fsck
+%attr(755,root,root) /sbin/e2image
+%attr(755,root,root) /sbin/e2label
+%attr(755,root,root) /sbin/findfs
+%attr(755,root,root) /sbin/fsck.ext2
+%attr(755,root,root) /sbin/fsck.ext3
+%attr(755,root,root) /sbin/logsave
+%attr(755,root,root) /sbin/mke2fs
+%attr(755,root,root) /sbin/mkfs.ext2
+%attr(755,root,root) /sbin/mkfs.ext3
+%attr(755,root,root) /sbin/resize2fs
+%attr(755,root,root) /sbin/tune2fs
+%attr(755,root,root) %{_bindir}/chattr
+%attr(755,root,root) %{_bindir}/lsattr
 %attr(755,root,root) %{_bindir}/mk_cmds
-%if ! %{with allstatic}
+%attr(755,root,root) %{_sbindir}/filefrag
+%attr(755,root,root) %{_sbindir}/mklost+found
+%if %{without allstatic}
 %attr(755,root,root) /%{_lib}/libe2p.so.*.*
 %attr(755,root,root) %ghost /%{_lib}/libe2p.so.2
 %attr(755,root,root) /%{_lib}/libext2fs.so.*.*
 %attr(755,root,root) %ghost /%{_lib}/libext2fs.so.2
 %attr(755,root,root) /%{_lib}/libss.so.*.*
 %attr(755,root,root) %ghost /%{_lib}/libss.so.2
-%attr(755,root,root) /%{_lib}/libss.so.*
 %endif
 %attr(755,root,root) %{_libdir}/e2initrd_helper
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2fsck.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mke2fs.conf
 %ghost %{_sysconfdir}/blkid.tab
-%{_mandir}/man1/*attr.1*
+%{_mandir}/man1/chattr.1*
+%{_mandir}/man1/lsattr.1*
 %{_mandir}/man1/mk_cmds.1*
 %{_mandir}/man5/e2fsck.conf.5*
 %{_mandir}/man5/mke2fs.conf.5*
-%{_mandir}/man8/*
-%lang(fi) %{_mandir}/fi/man[18]/*
-%lang(fr) %{_mandir}/fr/man[18]/*
-%lang(hu) %{_mandir}/hu/man[18]/*
-%lang(it) %{_mandir}/it/man[18]/*
-%lang(ja) %{_mandir}/ja/man1/*attr.1*
-%lang(ja) %{_mandir}/ja/man8/*
-%lang(ko) %{_mandir}/ko/man[18]/*
-%lang(pl) %{_mandir}/pl/man[18]/*
-%exclude %{_mandir}/*/man8/fsck.8*
-%exclude %{_mandir}/man8/fsck.8*
+%{_mandir}/man8/badblocks.8*
+%{_mandir}/man8/blkid.8*
+%{_mandir}/man8/debugfs.8*
+%{_mandir}/man8/dumpe2fs.8*
+%{_mandir}/man8/e2fsck.8*
+%{_mandir}/man8/e2image.8*
+%{_mandir}/man8/e2label.8*
+%{_mandir}/man8/filefrag.8*
+%{_mandir}/man8/findfs.8*
+%{_mandir}/man8/fsck.ext2.8*
+%{_mandir}/man8/fsck.ext3.8*
+%{_mandir}/man8/logsave.8*
+%{_mandir}/man8/mke2fs.8*
+%{_mandir}/man8/mkfs.ext2.8*
+%{_mandir}/man8/mkfs.ext3.8*
+%{_mandir}/man8/mklost+found.8*
+%{_mandir}/man8/resize2fs.8*
+%{_mandir}/man8/tune2fs.8*
+%lang(fi) %{_mandir}/fi/man1/chattr.1*
+%lang(fi) %{_mandir}/fi/man1/lsattr.1*
+%lang(fr) %{_mandir}/fr/man1/lsattr.1*
+%lang(fr) %{_mandir}/fr/man8/badblocks.8*
+%lang(fr) %{_mandir}/fr/man8/dumpe2fs.8*
+%lang(fr) %{_mandir}/fr/man8/e2label.8*
+%lang(fr) %{_mandir}/fr/man8/mklost+found.8*
+%lang(hu) %{_mandir}/hu/man1/chattr.1*
+%lang(hu) %{_mandir}/hu/man1/lsattr.1*
+%lang(hu) %{_mandir}/hu/man8/dumpe2fs.8*
+%lang(hu) %{_mandir}/hu/man8/e2fsck.8*
+%lang(hu) %{_mandir}/hu/man8/fsck.ext2.8*
+%lang(hu) %{_mandir}/hu/man8/fsck.ext3.8*
+%lang(hu) %{_mandir}/hu/man8/tune2fs.8*
+%lang(it) %{_mandir}/it/man1/chattr.1*
+%lang(it) %{_mandir}/it/man1/lsattr.1*
+%lang(it) %{_mandir}/it/man8/badblocks.8*
+%lang(it) %{_mandir}/it/man8/debugfs.8*
+%lang(it) %{_mandir}/it/man8/dumpe2fs.8*
+%lang(it) %{_mandir}/it/man8/e2fsck.8*
+%lang(it) %{_mandir}/it/man8/fsck.ext2.8*
+%lang(it) %{_mandir}/it/man8/fsck.ext3.8*
+%lang(it) %{_mandir}/it/man8/mke2fs.8*
+%lang(it) %{_mandir}/it/man8/mkfs.ext2.8*
+%lang(it) %{_mandir}/it/man8/mkfs.ext3.8*
+%lang(it) %{_mandir}/it/man8/mklost+found.8*
+%lang(it) %{_mandir}/it/man8/tune2fs.8*
+%lang(ja) %{_mandir}/ja/man1/chattr.1*
+%lang(ja) %{_mandir}/ja/man1/lsattr.1*
+%lang(ja) %{_mandir}/ja/man8/badblocks.8*
+%lang(ja) %{_mandir}/ja/man8/debugfs.8*
+%lang(ja) %{_mandir}/ja/man8/dumpe2fs.8*
+%lang(ja) %{_mandir}/ja/man8/e2fsck.8*
+%lang(ja) %{_mandir}/ja/man8/e2image.8*
+%lang(ja) %{_mandir}/ja/man8/e2label.8*
+%lang(ja) %{_mandir}/ja/man8/findfs.8*
+%lang(ja) %{_mandir}/ja/man8/fsck.ext2.8*
+%lang(ja) %{_mandir}/ja/man8/fsck.ext3.8*
+%lang(ja) %{_mandir}/ja/man8/mke2fs.8*
+%lang(ja) %{_mandir}/ja/man8/mkfs.ext2.8*
+%lang(ja) %{_mandir}/ja/man8/mkfs.ext3.8*
+%lang(ja) %{_mandir}/ja/man8/mklost+found.8*
+%lang(ja) %{_mandir}/ja/man8/resize2fs.8*
+%lang(ja) %{_mandir}/ja/man8/tune2fs.8*
+%lang(ko) %{_mandir}/ko/man1/chattr.1*
+%lang(ko) %{_mandir}/ko/man1/lsattr.1*
+%lang(ko) %{_mandir}/ko/man8/badblocks.8*
+%lang(ko) %{_mandir}/ko/man8/debugfs.8*
+%lang(ko) %{_mandir}/ko/man8/dumpe2fs.8*
+%lang(ko) %{_mandir}/ko/man8/e2fsck.8*
+%lang(ko) %{_mandir}/ko/man8/fsck.ext2.8*
+%lang(ko) %{_mandir}/ko/man8/fsck.ext3.8*
+%lang(ko) %{_mandir}/ko/man8/mke2fs.8*
+%lang(ko) %{_mandir}/ko/man8/mkfs.ext2.8*
+%lang(ko) %{_mandir}/ko/man8/mkfs.ext3.8*
+%lang(ko) %{_mandir}/ko/man8/mklost+found.8*
+%lang(ko) %{_mandir}/ko/man8/tune2fs.8*
+%lang(pl) %{_mandir}/pl/man1/chattr.1*
+%lang(pl) %{_mandir}/pl/man1/lsattr.1*
+%lang(pl) %{_mandir}/pl/man8/badblocks.8*
+%lang(pl) %{_mandir}/pl/man8/debugfs.8*
+%lang(pl) %{_mandir}/pl/man8/dumpe2fs.8*
+%lang(pl) %{_mandir}/pl/man8/e2fsck.8*
+%lang(pl) %{_mandir}/pl/man8/e2label.8*
+%lang(pl) %{_mandir}/pl/man8/fsck.ext2.8*
+%lang(pl) %{_mandir}/pl/man8/fsck.ext3.8*
+%lang(pl) %{_mandir}/pl/man8/mke2fs.8*
+%lang(pl) %{_mandir}/pl/man8/mkfs.ext2.8*
+%lang(pl) %{_mandir}/pl/man8/mkfs.ext3.8*
+%lang(pl) %{_mandir}/pl/man8/mklost+found.8*
+%lang(pl) %{_mandir}/pl/man8/tune2fs.8*
 %{_datadir}/ss
 %{_infodir}/e2compr.info*
 
 %files devel
 %defattr(644,root,root,755)
 %doc doc/libblkid.txt
-%if !%{with allstatic}
+%if %{without allstatic}
 %attr(755,root,root) %{_libdir}/libblkid.so
 %attr(755,root,root) %{_libdir}/libe2p.so
 %attr(755,root,root) %{_libdir}/libext2fs.so
@@ -791,10 +887,11 @@ fi
 %attr(6755,libuuid,libuuid) %{_sbindir}/uuidd
 %if %{without allstatic}
 %attr(755,root,root) /%{_lib}/libuuid.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libuuid.so.2
+%attr(755,root,root) %ghost /%{_lib}/libuuid.so.1
 %endif
 %attr(750,libuuid,libuuid) /var/lib/libuuid
 %{_mandir}/man1/uuidgen.1*
+%{_mandir}/man8/uuidd.8*
 %lang(ja) %{_mandir}/ja/man1/uuidgen.1*
 
 %files -n libuuid-devel
@@ -802,8 +899,9 @@ fi
 %{!?with_allstatic:%attr(755,root,root) %{_libdir}/libuuid.so}
 %{_includedir}/uuid
 %{_pkgconfigdir}/uuid.pc
-%{_mandir}/man3/*uuid*
-%lang(ja) %{_mandir}/ja/man3/*uuid*
+%{_mandir}/man3/uuid*.3*
+%lang(ja) %{_mandir}/ja/man3/libuuid.3*
+%lang(ja) %{_mandir}/ja/man3/uuid_*.3*
 
 %files -n libuuid-static
 %defattr(644,root,root,755)
@@ -812,7 +910,7 @@ fi
 %files -n fsck
 %defattr(644,root,root,755)
 %attr(755,root,root) /sbin/fsck
-%if ! %{with allstatic}
+%if %{without allstatic}
 %attr(755,root,root) /%{_lib}/libblkid.so.*.*
 %attr(755,root,root) %ghost /%{_lib}/libblkid.so.1
 %endif
