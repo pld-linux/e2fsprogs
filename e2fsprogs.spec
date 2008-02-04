@@ -1,3 +1,5 @@
+# TODO
+# - run uidd via init.d
 #
 # Conditional build:
 %bcond_with	allstatic	# link everything statically
@@ -52,6 +54,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	device-mapper-devel >= 1.02.18-2
 BuildRequires:	gettext-devel >= 0.11
+BuildRequires:	rpmbuild(macros) >= 1.202
 BuildRequires:	texinfo
 %if %{with static}
 BuildRequires:	device-mapper-static
@@ -531,6 +534,28 @@ Library for accessing and manipulating UUID - static version.
 %description -n libuuid-static -l pl.UTF-8
 Biblioteka umożliwiająca dostęp i zmiany UUID - wersja statyczna.
 
+%package -n uuidd
+Summary:	helper daemon to guarantee uniqueness of time-based UUIDs
+License:	GPL v2
+Group:		Daemons
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/groupmod
+Requires(pre):	/usr/sbin/useradd
+Requires(pre):	/usr/sbin/usermod
+Requires:	libuuid = %{version}-%{release}
+Provides:	group(uuidd)
+Provides:	user(uuidd)
+Conflicts:	libuuid < 1.40.5-0.1
+
+%description -n uuidd
+The uuidd package contains a userspace daemon (uuidd) which guarantees
+uniqueness of time-based UUID generation even at very high rates on
+SMP systems.
+
 %package -n fsck
 Summary:	Check and repair a Linux file system
 Summary(pl.UTF-8):	Sprawdzenie i naprawa linuksowego systemu plików
@@ -682,18 +707,24 @@ rm -rf $RPM_BUILD_ROOT
 %post	-n libcom_err -p /sbin/ldconfig
 %postun	-n libcom_err -p /sbin/ldconfig
 
-%pre	-n libuuid
-%groupadd -g 222 libuuid
-%useradd -u 222 -r -d /var/lib/libuuid -s /bin/false -c "libuuid" -g libuuid libuuid
-
 %post	-n libuuid -p /sbin/ldconfig
+%postun	-n libuuid -p /sbin/ldconfig
 
-%postun	-n libuuid
-if [ "$1" = "0" ]; then
-	%userremove libuuid
-	%groupremove libuuid
+%pre	-n uuidd
+if [ "$(getgid libuuid)" = "222" ]; then
+	/usr/sbin/groupmod -n uuidd libuuid
 fi
-/sbin/ldconfig
+%groupadd -g 222 uuidd
+if [ "$(id -u libuuid 2>/dev/null)" = "222" ]; then
+	/usr/sbin/usermod -l uuidd libuuid
+fi
+%useradd -u 222 -r -d /var/lib/libuuid -s /bin/false -c "UUID generator helper daemon" -g uuidd uuidd
+
+%postun	-n uuidd
+if [ "$1" = "0" ]; then
+	%userremove uuidd
+	%groupremove uuidd
+fi
 
 %post	-n fsck -p /sbin/ldconfig
 %postun	-n fsck -p /sbin/ldconfig
@@ -886,14 +917,11 @@ fi
 %defattr(644,root,root,755)
 %doc lib/uuid/COPYING
 %attr(755,root,root) %{_bindir}/uuidgen
-%attr(6755,libuuid,libuuid) %{_sbindir}/uuidd
 %if %{without allstatic}
 %attr(755,root,root) /%{_lib}/libuuid.so.*.*
 %attr(755,root,root) %ghost /%{_lib}/libuuid.so.1
 %endif
-%attr(750,libuuid,libuuid) /var/lib/libuuid
 %{_mandir}/man1/uuidgen.1*
-%{_mandir}/man8/uuidd.8*
 %lang(ja) %{_mandir}/ja/man1/uuidgen.1*
 
 %files -n libuuid-devel
@@ -908,6 +936,12 @@ fi
 %files -n libuuid-static
 %defattr(644,root,root,755)
 %{_libdir}/libuuid.a
+
+%files -n uuidd
+%defattr(644,root,root,755)
+%attr(2775,uuidd,uuidd) /var/lib/libuuid
+%attr(6755,uuidd,uuidd) %{_sbindir}/uuidd
+%{_mandir}/man8/uuidd.8*
 
 %files -n fsck
 %defattr(644,root,root,755)
