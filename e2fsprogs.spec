@@ -49,7 +49,7 @@ Patch1:		e2compr-info.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	device-mapper-devel
+BuildRequires:	device-mapper-devel >= 1.02.18-2
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	texinfo
 %if %{with static}
