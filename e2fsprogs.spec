@@ -63,14 +63,8 @@ BuildRequires:	glibc-static
 BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static
 %endif
-%if %{with initrd}
-	%if %{with uClibc}
-		%ifarch ppc
+%if %{with initrd} && %{with uClibc}
 BuildRequires:	uClibc-static >= 2:0.9.29
-		%else
-BuildRequires:	uClibc-static >= 2:0.9.26
-		%endif
-	%endif
 %endif
 Requires(post,postun):	/sbin/ldconfig
 Requires:	fsck = %{version}-%{release}
@@ -536,7 +530,8 @@ Library for accessing and manipulating UUID - static version.
 Biblioteka umożliwiająca dostęp i zmiany UUID - wersja statyczna.
 
 %package -n uuidd
-Summary:	helper daemon to guarantee uniqueness of time-based UUIDs
+Summary:	Helper daemon to guarantee uniqueness of time-based UUIDs
+Summary(pl.UTF-8):	Pomocniczy demon gwarantujący unikalność UUID-ów opartych na czasie
 License:	GPL v2
 Group:		Daemons
 Requires(postun):	/usr/sbin/groupdel
@@ -556,6 +551,11 @@ Conflicts:	libuuid < 1.40.5-0.1
 The uuidd package contains a userspace daemon (uuidd) which guarantees
 uniqueness of time-based UUID generation even at very high rates on
 SMP systems.
+
+%description -n uuidd -l pl.UTF-8
+Ten pakiet zawiera działającego w przestrzeni użytkownika demona
+(uuidd) gwarantującego unikalność generowania UUID-ów opartych na
+czasie nawet przy bardzo dużej częstotliwości na systemach SMP.
 
 %package -n fsck
 Summary:	Check and repair a Linux file system
@@ -697,10 +697,10 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%post devel	-p	/sbin/postshell
+%post	devel -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun devel	-p	/sbin/postshell
+%postun	devel -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
 %post	-n libcom_err -p /sbin/ldconfig
