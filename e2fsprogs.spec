@@ -46,6 +46,7 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
+Patch2:		%{name}-no-bashism.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -61,9 +62,9 @@ BuildRequires:	libsepol-static
 %if %{with initrd}
 	%if %{with uClibc}
 		%ifarch ppc
-BuildRequires:  uClibc-static >= 2:0.9.29
+BuildRequires:	uClibc-static >= 2:0.9.29
 		%else
-BuildRequires:  uClibc-static >= 2:0.9.26
+BuildRequires:	uClibc-static >= 2:0.9.26
 		%endif
 	%endif
 %endif
@@ -560,6 +561,7 @@ etykietę lub UUID - statycznie skonsolidowane na potrzeby initrd.
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
+%patch2 -p1
 
 sed -i -e "
 	s,DEVMAPPER_REQ='libselinux libsepol',DEVMAPPER_REQ=,;
@@ -588,7 +590,7 @@ cp -f /usr/share/automake/config.sub .
 	--disable-selinux \
 	--disable-nls
 
-%{__make} -j1 libs
+%{__make} libs
 %{__make} progs
 mv -f misc/blkid initrd-blkid
 %{__make} clean
