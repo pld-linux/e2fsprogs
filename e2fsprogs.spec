@@ -590,10 +590,7 @@ gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch2 -p1
 %patch3 -p1
 
-sed -i -e "
-	s,DEVMAPPER_REQ='libselinux libsepol',DEVMAPPER_REQ=,;
-	s,DEVMAPPER_LIBS='-ldevmapper -lselinux -lsepol',DEVMAPPER_LIBS='-ldevmapper',;
-	s,/usr/lib/libdevmapper.a /usr/lib/libselinux.a /usr/lib/libsepol.a,/usr/%{_lib}/libdevmapper.a /usr/%{_lib}/libselinux.a /usr/%{_lib}/libsepol.a," \
+sed -i \
 	-e '/AC_SUBST(DO_TEST_SUITE/a\MKINSTALLDIRS="install -d"\nAC_SUBST(MKINSTALLDIRS)\n' configure.in
 
 %{!?with_static:sed '/^all:/s/e2fsck\.static//' -i e2fsck/Makefile.in}
