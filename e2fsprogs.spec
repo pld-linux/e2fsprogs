@@ -56,7 +56,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	device-mapper-devel >= 1.02.18-2
 BuildRequires:	gettext-devel >= 0.11
-BuildRequires:	rpmbuild(macros) >= 1.202
+BuildRequires:	rpmbuild(macros) >= 1.426
 BuildRequires:	texinfo
 %if %{with static}
 BuildRequires:	device-mapper-static
@@ -586,11 +586,13 @@ etykietę lub UUID - statycznie skonsolidowane na potrzeby initrd.
 %prep
 %setup -q
 %patch0 -p1
-gunzip < %{SOURCE1} > doc/e2compr.texinfo
+%{__gzip} -dc < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+
+%{__rm} debugfs/*.o
 
 sed -i \
 	-e '/AC_SUBST(DO_TEST_SUITE/a\MKINSTALLDIRS="install -d"\nAC_SUBST(MKINSTALLDIRS)\n' configure.in
