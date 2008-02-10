@@ -58,7 +58,7 @@ BuildRequires:	device-mapper-devel >= 1.02.18-2
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	rpmbuild(macros) >= 1.426
 BuildRequires:	texinfo
-%if %{with static}
+%if %{with allstatic}
 BuildRequires:	device-mapper-static
 BuildRequires:	glibc-static
 BuildRequires:	libselinux-static
@@ -594,10 +594,7 @@ etykietę lub UUID - statycznie skonsolidowane na potrzeby initrd.
 
 %{__rm} debugfs/*.o
 
-sed -i \
-	-e '/AC_SUBST(DO_TEST_SUITE/a\MKINSTALLDIRS="install -d"\nAC_SUBST(MKINSTALLDIRS)\n' configure.in
-
-%{!?with_static:sed '/^all:/s/e2fsck\.static//' -i e2fsck/Makefile.in}
+sed -i -e '/AC_SUBST(DO_TEST_SUITE/a\MKINSTALLDIRS="install -d"\nAC_SUBST(MKINSTALLDIRS)\n' configure.in
 
 # AX_TLS
 tail -n +2604 aclocal.m4 > acinclude.m4
@@ -631,7 +628,6 @@ mv -f misc/blkid initrd-blkid
 	--enable-blkid-devmapper \
 	--enable-compression \
 	--enable-htree \
-	%{!?with_static:--enable-dynamic-e2fsck} \
 	--enable-fsck \
 	--disable-rpath
 
