@@ -36,12 +36,12 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.40.5
-Release:	2
+Version:	1.40.6
+Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	69e55eaf543acfab8e2eb8ba2883d8cd
+# Source0-md5:	d219b7be4f7170400c646f5611c0b702
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
@@ -50,7 +50,6 @@ Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-no-bashism.patch
 Patch3:		%{name}-498381.patch
-Patch4:		%{name}-1886394.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -590,7 +589,6 @@ etykietę lub UUID - statycznie skonsolidowane na potrzeby initrd.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 %{__rm} debugfs/*.o
 
