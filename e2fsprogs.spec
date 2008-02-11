@@ -1,5 +1,3 @@
-# TODO
-# - run uidd via init.d
 #
 # Conditional build:
 %bcond_with	allstatic	# link everything statically
@@ -50,6 +48,7 @@ Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-no-bashism.patch
 Patch3:		%{name}-498381.patch
+Patch4:		%{name}-pl.po-update.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -589,6 +588,7 @@ etykietę lub UUID - statycznie skonsolidowane na potrzeby initrd.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %{__rm} debugfs/*.o
 
