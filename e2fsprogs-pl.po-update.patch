@@ -71,7 +71,7 @@
 +#, c-format
  msgid "Filesystem %s has unsupported features enabled.\n"
 -msgstr "Cechy systemu plików nie obs³ugiwane przez systemy plików w wersji 0\n"
-+msgstr "Systemu plików %s ma w³±czone nie obs³ugiwane cechy.\n"
++msgstr "System plików %s ma w³±czone nie obs³ugiwane cechy.\n"
  
  #: misc/tune2fs.c:886
  #, c-format
