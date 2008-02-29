@@ -35,7 +35,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.40.4
-Release:	1
+Release:	2
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -46,6 +46,7 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
+Patch2:		%{name}-1886394.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -588,6 +589,7 @@ etykietę lub UUID - statycznie skonsolidowane na potrzeby initrd.
 %patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
+%patch2 -p1
 
 sed -i -e "
 	s,DEVMAPPER_REQ='libselinux libsepol',DEVMAPPER_REQ=,;
