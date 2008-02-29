@@ -3,7 +3,7 @@
 %bcond_with	allstatic	# link everything statically
 %bcond_without	static		# link e2fsck dynamically with libc
 %bcond_without	nls		# build without NLS
-%bcond_without	initrd		# don't build initrd version
+%bcond_with	initrd		# don't build initrd version
 %bcond_without	uClibc		# link initrd version with static glibc instead of uClibc
 #
 %ifarch sparc64 sparc
@@ -530,6 +530,34 @@ Library for accessing and manipulating UUID - static version.
 %description -n libuuid-static -l pl.UTF-8
 Biblioteka umożliwiająca dostęp i zmiany UUID - wersja statyczna.
 
+%package -n uuidd
+Summary:	Helper daemon to guarantee uniqueness of time-based UUIDs
+Summary(pl.UTF-8):	Pomocniczy demon gwarantujący unikalność UUID-ów opartych na czasie
+License:	GPL v2
+Group:		Daemons
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/groupmod
+Requires(pre):	/usr/sbin/useradd
+Requires(pre):	/usr/sbin/usermod
+Requires:	libuuid = %{version}-%{release}
+Provides:	group(uuidd)
+Provides:	user(uuidd)
+Conflicts:	libuuid < 1.40.5-0.1
+
+%description -n uuidd
+The uuidd package contains a userspace daemon (uuidd) which guarantees
+uniqueness of time-based UUID generation even at very high rates on
+SMP systems.
+
+%description -n uuidd -l pl.UTF-8
+Ten pakiet zawiera działającego w przestrzeni użytkownika demona
+(uuidd) gwarantującego unikalność generowania UUID-ów opartych na
+czasie nawet przy bardzo dużej częstotliwości na systemach SMP.
+
 %package -n fsck
 Summary:	Check and repair a Linux file system
 Summary(pl.UTF-8):	Sprawdzenie i naprawa linuksowego systemu plików
@@ -671,27 +699,33 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%post devel
-[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+%post	devel -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun devel
-[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+%postun	devel -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
 
 %post	-n libcom_err -p /sbin/ldconfig
 %postun	-n libcom_err -p /sbin/ldconfig
 
-%pre	-n libuuid
-%groupadd -g 222 libuuid
-%useradd -u 222 -r -d /var/lib/libuuid -s /bin/false -c "libuuid" -g libuuid libuuid
-
 %post	-n libuuid -p /sbin/ldconfig
+%postun	-n libuuid -p /sbin/ldconfig
 
-%postun	-n libuuid
-if [ "$1" = "0" ]; then
-	%userremove libuuid
-	%groupremove libuuid
+%pre	-n uuidd
+if [ "$(getgid libuuid)" = "222" ]; then
+	/usr/sbin/groupmod -n uuidd libuuid
 fi
-/sbin/ldconfig
+%groupadd -g 222 uuidd
+if [ "$(id -u libuuid 2>/dev/null)" = "222" ]; then
+	/usr/sbin/usermod -l uuidd libuuid
+fi
+%useradd -u 222 -r -d /var/lib/libuuid -s /bin/false -c "UUID generator helper daemon" -g uuidd uuidd
+
+%postun	-n uuidd
+if [ "$1" = "0" ]; then
+	%userremove uuidd
+	%groupremove uuidd
+fi
 
 %post	-n fsck -p /sbin/ldconfig
 %postun	-n fsck -p /sbin/ldconfig
@@ -884,14 +918,11 @@ fi
 %defattr(644,root,root,755)
 %doc lib/uuid/COPYING
 %attr(755,root,root) %{_bindir}/uuidgen
-%attr(6755,libuuid,libuuid) %{_sbindir}/uuidd
 %if %{without allstatic}
 %attr(755,root,root) /%{_lib}/libuuid.so.*.*
 %attr(755,root,root) %ghost /%{_lib}/libuuid.so.1
 %endif
-%attr(750,libuuid,libuuid) /var/lib/libuuid
 %{_mandir}/man1/uuidgen.1*
-%{_mandir}/man8/uuidd.8*
 %lang(ja) %{_mandir}/ja/man1/uuidgen.1*
 
 %files -n libuuid-devel
@@ -906,6 +937,12 @@ fi
 %files -n libuuid-static
 %defattr(644,root,root,755)
 %{_libdir}/libuuid.a
+
+%files -n uuidd
+%defattr(644,root,root,755)
+%attr(2775,uuidd,uuidd) /var/lib/libuuid
+%attr(6755,uuidd,uuidd) %{_sbindir}/uuidd
+%{_mandir}/man8/uuidd.8*
 
 %files -n fsck
 %defattr(644,root,root,755)
