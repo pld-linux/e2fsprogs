@@ -6,7 +6,7 @@
 %bcond_with	initrd		# don't build initrd version
 %bcond_without	uClibc		# link initrd version with static glibc instead of uClibc
 #
-%ifarch sparc64 sparc
+%ifarch sparc64 sparc alpha ppc ppc64
 %undefine       with_uClibc
 %endif
 #
