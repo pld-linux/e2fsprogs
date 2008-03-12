@@ -3,49 +3,71 @@
 %bcond_with	allstatic	# link everything statically
 %bcond_without	static		# link e2fsck dynamically with libc
 %bcond_without	nls		# build without NLS
+%bcond_with	initrd		# don't build initrd version
+%bcond_without	uClibc		# link initrd version with static glibc instead of uClibc
+#
+%ifarch sparc64 sparc alpha ppc ppc64
+%undefine       with_uClibc
+%endif
 #
 Summary:	Utilities for managing the second extended (ext2) filesystem
-Summary(cs):	Nástroje pro správu souborovıch systémù typu ext2
-Summary(da):	Værktøjer til håndtering af ext2 filsystemer
-Summary(de):	Dienstprogramme zum Verwalten des Second Extended-Dateisystems (ext2)
-Summary(es):	Utilidades para la gestión de un sistema de ficheros ext2
-Summary(fr):	Utilitaires pour la gestion du système de fichiers ext2
-Summary(id):	Utility untuk management filesystem ext2
-Summary(is):	Tól til ağ sısla meğ ext2 skráarkerfiğ
-Summary(it):	Utility per la gestione del filesystem (ext2)
-Summary(ja):	Second Extended (ext2) ¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤ò´ÉÍı¤¹¤ë¤¿¤á¤Î¥æ¡¼¥Æ¥£¥ê¥Æ¥£
-Summary(ko):	ext2 ÆÄÀÏ ½Ã½ºÅÛÀ» °ü¸®ÇÏ´Â À¯Æ¿¸®Æ¼
-Summary(nb):	Verktøy for håndtering av ext2 filsystemet
-Summary(pl):	Narzêdzia do systemu plikowego ext2
-Summary(pt):	Utilitários para gerir o sistema de ficheiros ext2
-Summary(pt_BR):	Ferramentas para o sistema de arquivos ext2
-Summary(ru):	õÔÉÌÉÔÙ ÕĞÒÁ×ÌÅÎÉÑ ÆÁÊÌÏ×ÏÊ ÓÉÓÔÅÍÏÊ ext2
-Summary(sk):	Pomocné programy pre správu ext2 súborového systému
-Summary(sl):	Pripomoèki za upravljanje datoteènega sistema ext2
-Summary(sv):	Verktyg för att hantera det andra utökade (ext2) filsystemet
-Summary(tr):	ext2 dosya sistemi için araçlar
-Summary(uk):	õÔÉÌ¦ÔÉ ÄÌÑ ÒÏÂÏÔÉ Ú ÆÁÊÌÏ×ÏÀ ÓÉÓÔÅÍÏÀ ext2
-Summary(zh_CN):	¹ÜÀíµÚ¶şÀ©Õ¹£¨ext2£©ÎÄ¼şÏµÍ³µÄ¹¤¾ß¡£
-Summary(zh_TW):	¥Î©óºŞ²z ext2 ÀÉ®×¨t²Îªº¤u¨ãµ{¦¡¡C
+Summary(cs.UTF-8):	NÃ¡stroje pro sprÃ¡vu souborovÃ½ch systÃ©mÅ¯ typu ext2
+Summary(da.UTF-8):	VÃ¦rktÃ¸jer til hÃ¥ndtering af ext2 filsystemer
+Summary(de.UTF-8):	Dienstprogramme zum Verwalten des Second Extended-Dateisystems (ext2)
+Summary(es.UTF-8):	Utilidades para la gestiÃ³n de un sistema de ficheros ext2
+Summary(fr.UTF-8):	Utilitaires pour la gestion du systÃ¨me de fichiers ext2
+Summary(id.UTF-8):	Utility untuk management filesystem ext2
+Summary(is.UTF-8):	TÃ³l til aÃ° sÃ½sla meÃ° ext2 skrÃ¡arkerfiÃ°
+Summary(it.UTF-8):	Utility per la gestione del filesystem (ext2)
+Summary(ja.UTF-8):	Second Extended (ext2) ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã‚’ç®¡ç†ã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+Summary(ko.UTF-8):	ext2 íŒŒì¼ ì‹œìŠ¤í…œì„ ê´€ë¦¬í•˜ëŠ” ìœ í‹¸ë¦¬í‹°
+Summary(nb.UTF-8):	VerktÃ¸y for hÃ¥ndtering av ext2 filsystemet
+Summary(pl.UTF-8):	NarzÄ™dzia do systemu plikowego ext2
+Summary(pt.UTF-8):	UtilitÃ¡rios para gerir o sistema de ficheiros ext2
+Summary(pt_BR.UTF-8):	Ferramentas para o sistema de arquivos ext2
+Summary(ru.UTF-8):	Ğ£Ñ‚Ğ¸Ğ»Ğ¸Ñ‚Ñ‹ ÑƒĞ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ñ Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ğ¹ ÑĞ¸ÑÑ‚ĞµĞ¼Ğ¾Ğ¹ ext2
+Summary(sk.UTF-8):	PomocnÃ© programy pre sprÃ¡vu ext2 sÃºborovÃ©ho systÃ©mu
+Summary(sl.UTF-8):	PripomoÄki za upravljanje datoteÄnega sistema ext2
+Summary(sv.UTF-8):	Verktyg fÃ¶r att hantera det andra utÃ¶kade (ext2) filsystemet
+Summary(tr.UTF-8):	ext2 dosya sistemi iÃ§in araÃ§lar
+Summary(uk.UTF-8):	Ğ£Ñ‚Ğ¸Ğ»Ñ–Ñ‚Ğ¸ Ğ´Ğ»Ñ Ñ€Ğ¾Ğ±Ğ¾Ñ‚Ğ¸ Ğ· Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ñ ÑĞ¸ÑÑ‚ĞµĞ¼Ğ¾Ñ ext2
+Summary(zh_CN.UTF-8):	ç®¡ç†ç¬¬äºŒæ‰©å±•ï¼ˆext2ï¼‰æ–‡ä»¶ç³»ç»Ÿçš„å·¥å…·ã€‚
+Summary(zh_TW.UTF-8):	ç”¨æ–¼ç®¡ç† ext2 æª”æ¡ˆç³»çµ±çš„å·¥å…·ç¨‹å¼ã€‚
 Name:		e2fsprogs
-Version:	1.37
-Release:	1
-License:	GPL
+Version:	1.40.4
+Release:	3
+License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	084b49e919121fc0bf53c8dae23a71f8
+# Source0-md5:	124d744bdf9d443591eb8193c085944b
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
-Patch2:		%{name}-pl.po-update.patch
+Patch2:		%{name}-1886394.patch
 URL:		http://e2fsprogs.sourceforge.net/
-BuildRequires:	automake
 BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	device-mapper-devel
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	texinfo
+%if %{with static}
+BuildRequires:	device-mapper-static
+BuildRequires:	glibc-static
+BuildRequires:	libselinux-static
+BuildRequires:	libsepol-static
+%endif
+%if %{with initrd}
+	%if %{with uClibc}
+		%ifarch ppc
+BuildRequires:	uClibc-static >= 2:0.9.29
+		%else
+BuildRequires:	uClibc-static >= 2:0.9.26
+		%endif
+	%endif
+%endif
 Requires(post,postun):	/sbin/ldconfig
 Requires:	fsck = %{version}-%{release}
 Requires:	libcom_err = %{version}-%{release}
@@ -53,6 +75,9 @@ Requires:	libuuid = %{version}-%{release}
 Obsoletes:	e2fsprogs-evms
 Obsoletes:	libext2fs2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# changing CFLAGS in the middle confuses confcache
+%undefine       configure_cache
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
@@ -65,68 +90,68 @@ repair a corrupted filesystem or to create test cases for e2fsck),
 tune2fs (used to modify filesystem parameters) and most of the other
 core ext2fs filesystem utilities.
 
-%description -l cs
-Balíèek e2fsprogs obsahuje nìkolik programù pro vytváøení, kontrolu
-úpravy a opravy nekonzistencí v systémech souborù typu ext2 (second
-extended filesystem). Balíèek obsahuje program e2fsck (na opravy
-nekonzistencí systémù souborù, které nebyly odpojeny pøi vypnutí
-systému), mke2fs (pro vytvoøení prázdného systému souborù typu ext2 v
-diskovém oddílu), debugfs (pro kontrolu interní struktury systému
-souborù, manuální opravu po¹kozeného systému souborù a pro vytváøení
-testovacích pøípadù pro e2fsck), tune2fs (pro úpravu parametrù systému
-souborù) a vìt¹inu dal¹ích programù pro práci se systémy souborù typu
+%description -l cs.UTF-8
+BalÃ­Äek e2fsprogs obsahuje nÄ›kolik programÅ¯ pro vytvÃ¡Å™enÃ­, kontrolu
+Ãºpravy a opravy nekonzistencÃ­ v systÃ©mech souborÅ¯ typu ext2 (second
+extended filesystem). BalÃ­Äek obsahuje program e2fsck (na opravy
+nekonzistencÃ­ systÃ©mÅ¯ souborÅ¯, kterÃ© nebyly odpojeny pÅ™i vypnutÃ­
+systÃ©mu), mke2fs (pro vytvoÅ™enÃ­ prÃ¡zdnÃ©ho systÃ©mu souborÅ¯ typu ext2 v
+diskovÃ©m oddÃ­lu), debugfs (pro kontrolu internÃ­ struktury systÃ©mu
+souborÅ¯, manuÃ¡lnÃ­ opravu poÅ¡kozenÃ©ho systÃ©mu souborÅ¯ a pro vytvÃ¡Å™enÃ­
+testovacÃ­ch pÅ™Ã­padÅ¯ pro e2fsck), tune2fs (pro Ãºpravu parametrÅ¯ systÃ©mu
+souborÅ¯) a vÄ›tÅ¡inu dalÅ¡Ã­ch programÅ¯ pro prÃ¡ci se systÃ©my souborÅ¯ typu
 ext2fs.
 
-%description -l da
-e2fsprogs-pakken indeholder diverse værktøjer for at lave,
+%description -l da.UTF-8
+e2fsprogs-pakken indeholder diverse vÃ¦rktÃ¸jer for at lave,
 kontrollere, modificere og reparere ext2-filsystemer. e2fsprogs
 indeholder e2fsck (bruges for at reparere filsystemer efter uren
 nedlukning af systemet), mke2fs (bruges for at initialisere en
 partition med et tomt ext2-filsystem), debugfs (bruges for at
-undersøge de interne strukturer i filsystemet, for manuelt at kunne
-reparere et ødelagt filsystem eller lave testscenarier for e2fsck),
+undersÃ¸ge de interne strukturer i filsystemet, for manuelt at kunne
+reparere et Ã¸delagt filsystem eller lave testscenarier for e2fsck),
 tune2fs (bruges for at modificere filsystem-parametre) og flere andre
-værktøjer for at ændre og undersøge ext2-filsystemer.
+vÃ¦rktÃ¸jer for at Ã¦ndre og undersÃ¸ge ext2-filsystemer.
 
-%description -l de
-Das Paket e2fsprogs enthält eine Reihe von Dienstprogrammen zum
-Anlegen, Überprüfen, Ändern und Reparieren von Inkonsistenzen in
-Second Extended-Dateisystemen (ext2). e2fsprogs enthält: e2fsck (zum
+%description -l de.UTF-8
+Das Paket e2fsprogs enthÃ¤lt eine Reihe von Dienstprogrammen zum
+Anlegen, ÃœberprÃ¼fen, Ã„ndern und Reparieren von Inkonsistenzen in
+Second Extended-Dateisystemen (ext2). e2fsprogs enthÃ¤lt: e2fsck (zum
 Korrigieren von Inkonsistenzen im Dateisystem nach einem
 Computerabsturz), mke2fs (zum Initialisieren einer Partition mit einem
-leeren ext2-Dateisystem), debugfs (zum Überprüfen der internen
+leeren ext2-Dateisystem), debugfs (zum ÃœberprÃ¼fen der internen
 Struktur eines Dateisystems, zum manuellen Reparieren eines
-beschädigten Dateisystems oder zum Erstellen von Testfällen für
-e2fsck), tune2fs (zum Ändern der Dateisystemparameter) und die meisten
-anderen wichtigen Dienstprogramme für ext2fs-Dateisystemem.
+beschÃ¤digten Dateisystems oder zum Erstellen von TestfÃ¤llen fÃ¼r
+e2fsck), tune2fs (zum Ã„ndern der Dateisystemparameter) und die meisten
+anderen wichtigen Dienstprogramme fÃ¼r ext2fs-Dateisystemem.
 
-%description -l es
+%description -l es.UTF-8
 El paquete e2fsprogs contiene varias utilidades para crear, controlar,
 modificar y corregir las inconsistencias en un sistema de ficheros
 ext2. e2fsprogs contiene e2fsck (resuelve el problema de
-inconsistencia después de haber apagado el ordenador de manera
-incorrecta), mke2fs (inicializa una nueva partición para contener un
-sistema de ficheros ext2 vacío), debugfs (examina la estructura
+inconsistencia despuÃ©s de haber apagado el ordenador de manera
+incorrecta), mke2fs (inicializa una nueva particiÃ³n para contener un
+sistema de ficheros ext2 vacÃ­o), debugfs (examina la estructura
 interna de un sistema de ficheros para reparar manualmente los errores
 presentes en un sistema de ficheros o crear casos de prueba para
-e2fsck), tune2fs (modifica los parámetros del sistema de ficheros) y
-la mayoría de las utilidades principales del systema de ficheros
+e2fsck), tune2fs (modifica los parÃ¡metros del sistema de ficheros) y
+la mayorÃ­a de las utilidades principales del systema de ficheros
 ext2fs.
 
-%description -l fr
+%description -l fr.UTF-8
 Le paquetage e2fsprogs contient plusieurs utilitaires permettant de
-créer, vérifier, modifier et corriger des incohérences dans des
-systèmes de fichiers de type ext2. e2fsprogs contient e2fsck
-(réparation d'incohérences de système de fichiers après un arrêt
+crÃ©er, vÃ©rifier, modifier et corriger des incohÃ©rences dans des
+systÃ¨mes de fichiers de type ext2. e2fsprogs contient e2fsck
+(rÃ©paration d'incohÃ©rences de systÃ¨me de fichiers aprÃ¨s un arrÃªt
 brutal), mke2fs (initialisation d'une partition devant contenir un
-système de fichiers ext2 vide), debugfs (examen de la structure
-interne d'un système de fichiers afin de réparer manuellement un
-système de fichiers corrompu ou de créer des cas de test pour e2fsck),
-tune2fs (modification des paramètres de systèmes de fichiers) et la
-plupart des autres utilitaires clés pour les systèmes de fichiers
+systÃ¨me de fichiers ext2 vide), debugfs (examen de la structure
+interne d'un systÃ¨me de fichiers afin de rÃ©parer manuellement un
+systÃ¨me de fichiers corrompu ou de crÃ©er des cas de test pour e2fsck),
+tune2fs (modification des paramÃ¨tres de systÃ¨mes de fichiers) et la
+plupart des autres utilitaires clÃ©s pour les systÃ¨mes de fichiers
 ext2fs.
 
-%description -l id
+%description -l id.UTF-8
 Package e2fsprogs berisi beberapa utility untuk membuat, cek, merubah,
 dan memperbaiki kerusakan, pada second extended (ext2) filesystem.
 e2fsprogs berisi e2fsck (digunakan untuk memperbaiki filesystem
@@ -137,157 +162,157 @@ memperbaiki corrupted filesystem atau untuk membuat test cases untuk
 e2fsck), tune2fs (untuk merubah parameter filesystem) dan kebanyakan
 utility untuk filesystem ext2.
 
-%description -l is
-e2fsprogs pakkinn inniheldur nokkur forrit til ağ búa til, skoğa,
-breyta og laga allar villur í Linux skráarkerfinu (ext2). e2fsprogs
-inniheldur e2fsck (notağ til ağ laga villur í skráarkerfinu eftir
-vonda enduruppkeyrslu), mke2fs (notağ til ağ undirbúa harğa disk töflu
-til ağ innihalda tómt ext2 skráarkerfi), debugfs (notağ til ağ skoğa
-innihald tóms ext2 skráarkerfis, til ağ handvirkt laga ónıtt
-skráarkerfi eğa til ağ undirbúa tilraunir fyrir e2fsck)m tune2fs(notağ
-til ağ breyta skráarkerfis möguleikum) og flest önnur ext2fs
-skráarkerfis forritum
+%description -l is.UTF-8
+e2fsprogs pakkinn inniheldur nokkur forrit til aÃ° bÃºa til, skoÃ°a,
+breyta og laga allar villur Ã­ Linux skrÃ¡arkerfinu (ext2). e2fsprogs
+inniheldur e2fsck (notaÃ° til aÃ° laga villur Ã­ skrÃ¡arkerfinu eftir
+vonda enduruppkeyrslu), mke2fs (notaÃ° til aÃ° undirbÃºa harÃ°a disk tÃ¶flu
+til aÃ° innihalda tÃ³mt ext2 skrÃ¡arkerfi), debugfs (notaÃ° til aÃ° skoÃ°a
+innihald tÃ³ms ext2 skrÃ¡arkerfis, til aÃ° handvirkt laga Ã³nÃ½tt
+skrÃ¡arkerfi eÃ°a til aÃ° undirbÃºa tilraunir fyrir e2fsck)m tune2fs(notaÃ°
+til aÃ° breyta skrÃ¡arkerfis mÃ¶guleikum) og flest Ã¶nnur ext2fs
+skrÃ¡arkerfis forritum
 
-%description -l it
+%description -l it.UTF-8
 Il pacchetto e2fsprogs contiene varie utility per creare, controllare,
 modificare e correggere le inconsistenze in un filesystem ext2.
 e2fsprogs contiene e2fsck (risolve le inconsistenze di un filesystem
 dopo un arresto non corretto del calcolatore), mke2fs (inizializza una
 nuova partizione per un filesystem ext2 vuoto), debugfs (esamina la
-struttura interna di un filesystem, è usato per riparare manualmente
+struttura interna di un filesystem, Ã¨ usato per riparare manualmente
 gli errori presenti in un filesystem e per creare casi di test per
 e2fsck), tune2fs (modifica i parametri del filesystem) e molte delle
 utility principali per il filesystem ext2fs.
 
-%description -l ja
-e2fsprogs ¥Ñ¥Ã¥±¡¼¥¸¤Ë¤Ï Second Extended (ext2) ¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤Î
-ºîÀ®¡¢¸¡ºº¡¢ÊÑ¹¹¤ò¹Ô¤Ã¤¿¤ê¡¢ÉÔÀ°¹ç¤ò½¤Éü¤¹¤ë¤¿¤á¤Î¥æ¡¼¥Æ¥£¥ê¥Æ¥£¤¬
-¿ôÂ¿¤¯´Ş¤Ş¤ì¤Æ¤¤¤Ş¤¹¡£e2fsprogs ¤Ë¤Ï e2fsck (°Û¾ï½ªÎ»¸å¤Ë¥Õ¥¡¥¤¥ë
-¥·¥¹¥Æ¥à¤ÎÉÔÀ°¹ç¤ò½¤Éü¤¹¤ë)¡¢mke2fs (¥Ñ¡¼¥Æ¥£¥·¥ç¥ó¤ò½é´ü²½¤·¤Æ¶õ¤Î
-ext2 ¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤òºîÀ®¤¹¤ë)¡¢debugfs (¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤ÎÆâÉô
-¹½Â¤¤ò¸¡ºº¤·¡¢ÇËÂ»¤·¤¿¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤ò¼êÆ°¤Ç½¤Éü¤·¤¿¤ê¡¢e2fsck
-ÍÑ¤Î¥Æ¥¹¥È¥±¡¼¥¹¤òºîÀ®¤¹¤ë)¡¢tune2fs (¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤Î¥Ñ¥é¥á¡¼¥¿
-¤òÊÑ¹¹¤¹¤ë) ¤Î¤Û¤«¡¢¼ç¤Ê ext2fs ¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¥æ¡¼¥Æ¥£¥ê¥Æ¥£¤Î
-¤Û¤È¤ó¤É¤¬´Ş¤Ş¤ì¤Ş¤¹¡£
+%description -l ja.UTF-8
+e2fsprogs ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã«ã¯ Second Extended (ext2) ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®
+ä½œæˆã€æ¤œæŸ»ã€å¤‰æ›´ã‚’è¡Œã£ãŸã‚Šã€ä¸æ•´åˆã‚’ä¿®å¾©ã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ãŒ
+æ•°å¤šãå«ã¾ã‚Œã¦ã„ã¾ã™ã€‚e2fsprogs ã«ã¯ e2fsck (ç•°å¸¸çµ‚äº†å¾Œã«ãƒ•ã‚¡ã‚¤ãƒ«
+ã‚·ã‚¹ãƒ†ãƒ ã®ä¸æ•´åˆã‚’ä¿®å¾©ã™ã‚‹)ã€mke2fs (ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ³ã‚’åˆæœŸåŒ–ã—ã¦ç©ºã®
+ext2 ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã‚’ä½œæˆã™ã‚‹)ã€debugfs (ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®å†…éƒ¨
+æ§‹é€ ã‚’æ¤œæŸ»ã—ã€ç ´æã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã‚’æ‰‹å‹•ã§ä¿®å¾©ã—ãŸã‚Šã€e2fsck
+ç”¨ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã‚’ä½œæˆã™ã‚‹)ã€tune2fs (ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+ã‚’å¤‰æ›´ã™ã‚‹) ã®ã»ã‹ã€ä¸»ãª ext2fs ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã®
+ã»ã¨ã‚“ã©ãŒå«ã¾ã‚Œã¾ã™ã€‚
 
-%description -l nb
-e2fsprogs-pakken inneholder diverse verktøy for å lage, kontrollere,
+%description -l nb.UTF-8
+e2fsprogs-pakken inneholder diverse verktÃ¸y for Ã¥ lage, kontrollere,
 modifisere og reparere ext2-filsystemer. e2fsprogs inneholder e2fsck
-(brukes for å reparere filsystemer etter uren nedkjøring av systemet),
-mke2fs (brukes for å initialisere en partisjon med et tomt
-ext2-filsystem), debugfs (brukes for å undersøke de interne
-strukturene i filsystemet, for manuelt å kunne reparere et ødelagt
-filsystem eller lage testscenarier for e2fsck), tune2fs (brukes for å
-modifisere filsystem-parametre) og flere andre verktøy for å endre og
-undersøke ext2-filsystemer.
+(brukes for Ã¥ reparere filsystemer etter uren nedkjÃ¸ring av systemet),
+mke2fs (brukes for Ã¥ initialisere en partisjon med et tomt
+ext2-filsystem), debugfs (brukes for Ã¥ undersÃ¸ke de interne
+strukturene i filsystemet, for manuelt Ã¥ kunne reparere et Ã¸delagt
+filsystem eller lage testscenarier for e2fsck), tune2fs (brukes for Ã¥
+modifisere filsystem-parametre) og flere andre verktÃ¸y for Ã¥ endre og
+undersÃ¸ke ext2-filsystemer.
 
-%description -l pl
-Pakiet ten zawiera narzêdzia do tworzenia, sprawdzania i naprawiania
-wolumenów dyskowych z systemem plikowym ext2. e2fsprogs zawiera e2fsck
-(u¿ywany do naprawiania niespójno¶ci w systemie plikowym po
-niepoprawnym zamkniêciu systemu), mke2fs (u¿ywany do inicjacji
-wolumenów ext2), debugfs (u¿ywany do sprawdzania wewnêtrznej struktury
-wolumenów ext2, a tak¿e do rêcznego naprawiania b³êdów), tune2fs
-(u¿ywany do modyfikacji parametrów wolumenów ext2) i kilka innych
-narzêdzi do ext2.
+%description -l pl.UTF-8
+Pakiet ten zawiera narzÄ™dzia do tworzenia, sprawdzania i naprawiania
+wolumenÃ³w dyskowych z systemem plikowym ext2. e2fsprogs zawiera e2fsck
+(uÅ¼ywany do naprawiania niespÃ³jnoÅ›ci w systemie plikowym po
+niepoprawnym zamkniÄ™ciu systemu), mke2fs (uÅ¼ywany do inicjacji
+wolumenÃ³w ext2), debugfs (uÅ¼ywany do sprawdzania wewnÄ™trznej struktury
+wolumenÃ³w ext2, a takÅ¼e do rÄ™cznego naprawiania bÅ‚Ä™dÃ³w), tune2fs
+(uÅ¼ywany do modyfikacji parametrÃ³w wolumenÃ³w ext2) i kilka innych
+narzÄ™dzi do ext2.
 
-%description -l pt
-O pacote e2fsprogs contém uma quantidade de utilitários para criar,
-verificar, modificar e corrigir algumas inconsistências no sistema de
-ficheiros ext2. O e2fsprogs contém o e2fsck (usado para reparar as
-inconsistências do sistema de ficheiros depois duma terminação
-forçada), o mke2fs (usado para inicializar uma partição para esta
+%description -l pt.UTF-8
+O pacote e2fsprogs contÃ©m uma quantidade de utilitÃ¡rios para criar,
+verificar, modificar e corrigir algumas inconsistÃªncias no sistema de
+ficheiros ext2. O e2fsprogs contÃ©m o e2fsck (usado para reparar as
+inconsistÃªncias do sistema de ficheiros depois duma terminaÃ§Ã£o
+forÃ§ada), o mke2fs (usado para inicializar uma partiÃ§Ã£o para esta
 conter um sistema de ficheiros ext2 vazio), o debugfs (usado para
 examinar a estrutura interna dum sistema de ficheiros, para reparar
-manualmente um sistema de ficheiros corrompido ou para criar situações
-de teste para o e2fsck), o tune2fs (usado para modificar os parâmetros
-do sistema de ficheiros) e a maioria dos outros utilitários de base do
+manualmente um sistema de ficheiros corrompido ou para criar situaÃ§Ãµes
+de teste para o e2fsck), o tune2fs (usado para modificar os parÃ¢metros
+do sistema de ficheiros) e a maioria dos outros utilitÃ¡rios de base do
 sistema de ficheiros ext2.
 
-%description -l pt_BR
-Este pacote inclui vários utilitários para criação, checagem e reparo
+%description -l pt_BR.UTF-8
+Este pacote inclui vÃ¡rios utilitÃ¡rios para criaÃ§Ã£o, checagem e reparo
 de sistema de arquivos ext2.
 
-%description -l ru
-ğÁËÅÔ e2fsprogs ÓÏÄÅÒÖÉÔ ÕÔÉÌÉÔÙ ÄÌÑ ÓÏÚÄÁÎÉÑ, ĞÒÏ×ÅÒËÉ, ÉÚÍÅÎÅÎÉÑ É
-ËÏÒÒÅËÔÉÒÏ×ËÉ ×ÎÕÔÒÅÎÎÅÇÏ ÓÏÓÔÏÑÎÉÑ ÆÁÊÌÏ×ÏÊ ÓÉÓÔÅÍÙ ext2. e2fsprogs
-ÓÏÄÅÒÖÉÔ e2fsck (ÄÌÑ ×ÏÓÓÔÁÎÏ×ÌÅÎÉÑ ÆÁÊÌÏ×ÏÊ ÓÔÒÕËÔÕÒÙ ĞÏÓÌÅ
-ÎÅËÏÒÒÅËÔÎÏÇÏ ÚÁ×ÅÒÛÅÎÉÑ ÒÁÂÏÔÙ), mke2fs (ÄÌÑ ÉÎÉÃÉÁÌÉÚÁÃÉÉ ÒÁÚÄÅÌÁ
-ĞÒÉ ÓÏÚÄÁÎÉÉ ĞÕÓÔÏÊ ÆÁÊÌÏ×ÏÊ ÓÉÓÔÅÍÙ ext2), debugfs (ĞÒÏÓÍÏÔÒ
-×ÎÕÔÒÅÎÎÅÊ ÓÔÒÕËÔÕÒÙ ÆÁÊÌÏ×ÏÊ ÓÉÓÔÅÍÙ ÄÌÑ ÒÕŞÎÏÇÏ ×ÏÓÓÔÁÎÏ×ÌÅÎÉÑ
-ĞÏ×ÒÅÖÄÅÎÎÏÊ ÆÁÊÌÏ×ÏÊ ÓÉÓÔÅÍÙ ÉÌÉ ÓÏÚÄÁÎÉÑ ÔÅÓÔÏ×ÙÈ ÓÉÔÕÁÃÉÊ ÄÌÑ
-e2fsck), tune2fs (ÄÌÑ ÉÚÍÅÎÅÎÉÑ ĞÁÒÁÍÅÔÒÏ× ÆÁÊÌÏ×ÏÊ ÓÉÓÔÅÍÙ) É
-ÍÎÏÖÅÓÔ×Ï ÄÒÕÇÉÈ ÕÔÉÌÉÔ ÄÌÑ ÆÁÊÌÏ×ÏÊ ÓÉÓÔÅÍÙ ext2.
+%description -l ru.UTF-8
+ĞŸĞ°ĞºĞµÑ‚ e2fsprogs ÑĞ¾Ğ´ĞµÑ€Ğ¶Ğ¸Ñ‚ ÑƒÑ‚Ğ¸Ğ»Ğ¸Ñ‚Ñ‹ Ğ´Ğ»Ñ ÑĞ¾Ğ·Ğ´Ğ°Ğ½Ğ¸Ñ, Ğ¿Ñ€Ğ¾Ğ²ĞµÑ€ĞºĞ¸, Ğ¸Ğ·Ğ¼ĞµĞ½ĞµĞ½Ğ¸Ñ Ğ¸
+ĞºĞ¾Ñ€Ñ€ĞµĞºÑ‚Ğ¸Ñ€Ğ¾Ğ²ĞºĞ¸ Ğ²Ğ½ÑƒÑ‚Ñ€ĞµĞ½Ğ½ĞµĞ³Ğ¾ ÑĞ¾ÑÑ‚Ğ¾ÑĞ½Ğ¸Ñ Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ğ¹ ÑĞ¸ÑÑ‚ĞµĞ¼Ñ‹ ext2. e2fsprogs
+ÑĞ¾Ğ´ĞµÑ€Ğ¶Ğ¸Ñ‚ e2fsck (Ğ´Ğ»Ñ Ğ²Ğ¾ÑÑÑ‚Ğ°Ğ½Ğ¾Ğ²Ğ»ĞµĞ½Ğ¸Ñ Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ğ¹ ÑÑ‚Ñ€ÑƒĞºÑ‚ÑƒÑ€Ñ‹ Ğ¿Ğ¾ÑĞ»Ğµ
+Ğ½ĞµĞºĞ¾Ñ€Ñ€ĞµĞºÑ‚Ğ½Ğ¾Ğ³Ğ¾ Ğ·Ğ°Ğ²ĞµÑ€ÑˆĞµĞ½Ğ¸Ñ Ñ€Ğ°Ğ±Ğ¾Ñ‚Ñ‹), mke2fs (Ğ´Ğ»Ñ Ğ¸Ğ½Ğ¸Ñ†Ğ¸Ğ°Ğ»Ğ¸Ğ·Ğ°Ñ†Ğ¸Ğ¸ Ñ€Ğ°Ğ·Ğ´ĞµĞ»Ğ°
+Ğ¿Ñ€Ğ¸ ÑĞ¾Ğ·Ğ´Ğ°Ğ½Ğ¸Ğ¸ Ğ¿ÑƒÑÑ‚Ğ¾Ğ¹ Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ğ¹ ÑĞ¸ÑÑ‚ĞµĞ¼Ñ‹ ext2), debugfs (Ğ¿Ñ€Ğ¾ÑĞ¼Ğ¾Ñ‚Ñ€
+Ğ²Ğ½ÑƒÑ‚Ñ€ĞµĞ½Ğ½ĞµĞ¹ ÑÑ‚Ñ€ÑƒĞºÑ‚ÑƒÑ€Ñ‹ Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ğ¹ ÑĞ¸ÑÑ‚ĞµĞ¼Ñ‹ Ğ´Ğ»Ñ Ñ€ÑƒÑ‡Ğ½Ğ¾Ğ³Ğ¾ Ğ²Ğ¾ÑÑÑ‚Ğ°Ğ½Ğ¾Ğ²Ğ»ĞµĞ½Ğ¸Ñ
+Ğ¿Ğ¾Ğ²Ñ€ĞµĞ¶Ğ´ĞµĞ½Ğ½Ğ¾Ğ¹ Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ğ¹ ÑĞ¸ÑÑ‚ĞµĞ¼Ñ‹ Ğ¸Ğ»Ğ¸ ÑĞ¾Ğ·Ğ´Ğ°Ğ½Ğ¸Ñ Ñ‚ĞµÑÑ‚Ğ¾Ğ²Ñ‹Ñ… ÑĞ¸Ñ‚ÑƒĞ°Ñ†Ğ¸Ğ¹ Ğ´Ğ»Ñ
+e2fsck), tune2fs (Ğ´Ğ»Ñ Ğ¸Ğ·Ğ¼ĞµĞ½ĞµĞ½Ğ¸Ñ Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ğ¾Ğ² Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ğ¹ ÑĞ¸ÑÑ‚ĞµĞ¼Ñ‹) Ğ¸
+Ğ¼Ğ½Ğ¾Ğ¶ĞµÑÑ‚Ğ²Ğ¾ Ğ´Ñ€ÑƒĞ³Ğ¸Ñ… ÑƒÑ‚Ğ¸Ğ»Ğ¸Ñ‚ Ğ´Ğ»Ñ Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ğ¹ ÑĞ¸ÑÑ‚ĞµĞ¼Ñ‹ ext2.
 
-%description -l sk
-Balík e2fsprogs obsahuje niekoµko programov pre vytváranie, kontrolu,
-zmenu a opravu nekonzistencií na ext2 súborovom systéme. e2fsprogs
-obsahuje e2fsck (pre opravu nekonzistentnıch údajov na súborovom
-systéme po neèistom ukonèení), mke2fs (pre vytvorenie prázdneho
-súborového systému na diskovom oddieli), debugfs (pre skúmanie
-vnútornıch ¹truktúr súborového systému, jeho ruènú opravu alebo pre
-vytvorenie testovacích prípadov pre e2fsck), tune2fs (pre modifikáciu
-parametrov súborového systému) a väè¹inu ïal¹ích základnıch pomôcok
-pre prácu s ext2fs.
+%description -l sk.UTF-8
+BalÃ­k e2fsprogs obsahuje niekoÄ¾ko programov pre vytvÃ¡ranie, kontrolu,
+zmenu a opravu nekonzistenciÃ­ na ext2 sÃºborovom systÃ©me. e2fsprogs
+obsahuje e2fsck (pre opravu nekonzistentnÃ½ch Ãºdajov na sÃºborovom
+systÃ©me po neÄistom ukonÄenÃ­), mke2fs (pre vytvorenie prÃ¡zdneho
+sÃºborovÃ©ho systÃ©mu na diskovom oddieli), debugfs (pre skÃºmanie
+vnÃºtornÃ½ch Å¡truktÃºr sÃºborovÃ©ho systÃ©mu, jeho ruÄnÃº opravu alebo pre
+vytvorenie testovacÃ­ch prÃ­padov pre e2fsck), tune2fs (pre modifikÃ¡ciu
+parametrov sÃºborovÃ©ho systÃ©mu) a vÃ¤ÄÅ¡inu ÄalÅ¡Ã­ch zÃ¡kladnÃ½ch pomÃ´cok
+pre prÃ¡cu s ext2fs.
 
-%description -l sv
-Paketet e2fsprogs innehåller ett antal verktyg för att skapa,
-kontrollera, modifiera och rätta felaktigheter i det andra utökade
-(ext2) filsystemet. e2fsprogs innehåller e2fsck (används för att
-reparera felaktigheter efter en oren avstängning), mke2fs (används för
-att initiera en partition att innehålla ett tomt ext2-filsystem),
-debugfs (används för att undersöka den interna strukturen i ett
+%description -l sv.UTF-8
+Paketet e2fsprogs innehÃ¥ller ett antal verktyg fÃ¶r att skapa,
+kontrollera, modifiera och rÃ¤tta felaktigheter i det andra utÃ¶kade
+(ext2) filsystemet. e2fsprogs innehÃ¥ller e2fsck (anvÃ¤nds fÃ¶r att
+reparera felaktigheter efter en oren avstÃ¤ngning), mke2fs (anvÃ¤nds fÃ¶r
+att initiera en partition att innehÃ¥lla ett tomt ext2-filsystem),
+debugfs (anvÃ¤nds fÃ¶r att undersÃ¶ka den interna strukturen i ett
 filsystem, manuellt reparera trasiga filsystem eller skapa testfall
-för e2fsck), tune2fs (används för att modifiera filsystemparametrar)
-och de flesta andra basverktygen för filsystemet ext2fs.
+fÃ¶r e2fsck), tune2fs (anvÃ¤nds fÃ¶r att modifiera filsystemparametrar)
+och de flesta andra basverktygen fÃ¶r filsystemet ext2fs.
 
-%description -l tr
+%description -l tr.UTF-8
 Bu paket, ext2 dosya sistemlerini yaratmak, onarmak, kontrol etmek ve
-bazı parametrelerini değiştirmek için gerekli yazılımları içerir.
+bazÄ± parametrelerini deÄŸiÅŸtirmek iÃ§in gerekli yazÄ±lÄ±mlarÄ± iÃ§erir.
 
-%description -l uk
-ğÁËÅÔ e2fsprogs Í¦ÓÔÉÔØ ÎÁÂ¦Ò ÕÔÉÌ¦Ô ÄÌÑ ÓÔ×ÏÒÅÎÎÑ, ĞÅÒÅ×¦ÒËÉ,
-ÍÏÄÉÆ¦ËÁÃ¦§ ÔÁ ×ÉĞÒÁ×ÌÅÎÎÑ ÂÕÄØ-ÑËÉÈ ĞÏÍÉÌÏË Õ ÆÁÊÌÏ×¦Ê ÓÉÓÔÅÍ¦ ext2.
-e2fsprogs Í¦ÓÔÉÔØ e2fsck (×ÉËÏÒÉÓÔÏ×Õ¤ÔØÓÑ ÄÌÑ ×ÉĞÒÁ×ÌÅÎÎÑ ĞÏÍÉÌÏË
-Ğ¦ÓÌÑ "ÂÒÕÄÎÏ§" ÚÕĞÉÎËÉ ÍÁÛÉÎÉ), mke2fs (ÄÌÑ ¦Î¦ÃÉÁÌ¦ÚÁÃ¦§ ÒÏÚÄ¦ÌÕ ÔÁ
-ÓÔ×ÏÒÅÎÎÑ ĞÏÒÏÖÎØÏ§ ÆÁÊÌÏ×Ï§ ÓÉÓÔÅÍÉ ext2), debugfs (ÄÌÑ ×É×ŞÅÎÎÑ
-×ÎÕÔÒ¦ÛÎØÏ§ ÓÔÒÕËÔÕÒÉ ÆÁÊÌÏ×Ï§ ÓÉÓÔÅÍÉ, ÒÕŞÎÏÇÏ ÒÅÍÏÎÔÕ ĞÏÛËÏÄÖÅÎÏ§
-ÆÁÊÌÏ×Ï§ ÓÉÓÔÅÍÉ ÁÂÏ ÄÌÑ ÓÔ×ÏÒÅÎÎÑ ÔÅÓÔ¦× ÄÌÑ e2fsck), tune2fs (ÄÌÑ
-ÍÏÄÉÆ¦ËÁÃ¦§ ĞÁÒÁÍÅÔÒ¦× ÆÁÊÌÏ×Ï§ ÓÉÓÔÅÍÉ) ÔÁ Â¦ÌØÛ¦ÓÔØ ¦ÎÛÉÈ ÂÁÚÏ×ÉÈ
-ÕÔÉÌ¦Ô ÄÌÑ ext2fs.
+%description -l uk.UTF-8
+ĞŸĞ°ĞºĞµÑ‚ e2fsprogs Ğ¼Ñ–ÑÑ‚Ğ¸Ñ‚ÑŒ Ğ½Ğ°Ğ±Ñ–Ñ€ ÑƒÑ‚Ğ¸Ğ»Ñ–Ñ‚ Ğ´Ğ»Ñ ÑÑ‚Ğ²Ğ¾Ñ€ĞµĞ½Ğ½Ñ, Ğ¿ĞµÑ€ĞµĞ²Ñ–Ñ€ĞºĞ¸,
+Ğ¼Ğ¾Ğ´Ğ¸Ñ„Ñ–ĞºĞ°Ñ†Ñ–Ñ— Ñ‚Ğ° Ğ²Ğ¸Ğ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ½Ñ Ğ±ÑƒĞ´ÑŒ-ÑĞºĞ¸Ñ… Ğ¿Ğ¾Ğ¼Ğ¸Ğ»Ğ¾Ğº Ñƒ Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ñ–Ğ¹ ÑĞ¸ÑÑ‚ĞµĞ¼Ñ– ext2.
+e2fsprogs Ğ¼Ñ–ÑÑ‚Ğ¸Ñ‚ÑŒ e2fsck (Ğ²Ğ¸ĞºĞ¾Ñ€Ğ¸ÑÑ‚Ğ¾Ğ²ÑƒÑ”Ñ‚ÑŒÑÑ Ğ´Ğ»Ñ Ğ²Ğ¸Ğ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ½Ñ Ğ¿Ğ¾Ğ¼Ğ¸Ğ»Ğ¾Ğº
+Ğ¿Ñ–ÑĞ»Ñ "Ğ±Ñ€ÑƒĞ´Ğ½Ğ¾Ñ—" Ğ·ÑƒĞ¿Ğ¸Ğ½ĞºĞ¸ Ğ¼Ğ°ÑˆĞ¸Ğ½Ğ¸), mke2fs (Ğ´Ğ»Ñ Ñ–Ğ½Ñ–Ñ†Ğ¸Ğ°Ğ»Ñ–Ğ·Ğ°Ñ†Ñ–Ñ— Ñ€Ğ¾Ğ·Ğ´Ñ–Ğ»Ñƒ Ñ‚Ğ°
+ÑÑ‚Ğ²Ğ¾Ñ€ĞµĞ½Ğ½Ñ Ğ¿Ğ¾Ñ€Ğ¾Ğ¶Ğ½ÑŒĞ¾Ñ— Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ñ— ÑĞ¸ÑÑ‚ĞµĞ¼Ğ¸ ext2), debugfs (Ğ´Ğ»Ñ Ğ²Ğ¸Ğ²Ñ‡ĞµĞ½Ğ½Ñ
+Ğ²Ğ½ÑƒÑ‚Ñ€Ñ–ÑˆĞ½ÑŒĞ¾Ñ— ÑÑ‚Ñ€ÑƒĞºÑ‚ÑƒÑ€Ğ¸ Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ñ— ÑĞ¸ÑÑ‚ĞµĞ¼Ğ¸, Ñ€ÑƒÑ‡Ğ½Ğ¾Ğ³Ğ¾ Ñ€ĞµĞ¼Ğ¾Ğ½Ñ‚Ñƒ Ğ¿Ğ¾ÑˆĞºĞ¾Ğ´Ğ¶ĞµĞ½Ğ¾Ñ—
+Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ñ— ÑĞ¸ÑÑ‚ĞµĞ¼Ğ¸ Ğ°Ğ±Ğ¾ Ğ´Ğ»Ñ ÑÑ‚Ğ²Ğ¾Ñ€ĞµĞ½Ğ½Ñ Ñ‚ĞµÑÑ‚Ñ–Ğ² Ğ´Ğ»Ñ e2fsck), tune2fs (Ğ´Ğ»Ñ
+Ğ¼Ğ¾Ğ´Ğ¸Ñ„Ñ–ĞºĞ°Ñ†Ñ–Ñ— Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ñ–Ğ² Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ñ— ÑĞ¸ÑÑ‚ĞµĞ¼Ğ¸) Ñ‚Ğ° Ğ±Ñ–Ğ»ÑŒÑˆÑ–ÑÑ‚ÑŒ Ñ–Ğ½ÑˆĞ¸Ñ… Ğ±Ğ°Ğ·Ğ¾Ğ²Ğ¸Ñ…
+ÑƒÑ‚Ğ¸Ğ»Ñ–Ñ‚ Ğ´Ğ»Ñ ext2fs.
 
-%description -l zh_CN
-e2fsprogs Èí¼ş°ü°üº¬Ò»Ğ©ÊµÓÃ³ÌĞò£¬ÓÃÓÚ´´½¨¡¢¼ì²é¡¢ ĞŞ¸ÄºÍ¾ÀÕı¸¨ÖúÀ©Õ¹
-(ext2) ÎÄ¼şÏµÍ³ÖĞµÄÈÎºÎ²»Í³Ò»Ö®´¦¡£ e2fsprogs °üº¬
-e2fsck£¨ÓÃÓÚÔÚ·ÇÕı³£¹Ø»úºóĞŞ¸´ÎÄ¼şÏµÍ³µÄ²»Í³Ò»Ö®´¦£©¡¢
-mke2fs£¨ÓÃÓÚ½«·ÖÇø³õÊ¼»¯Îª°üº¬¿Õ°×ext2 ÎÄ¼şÏµÍ³£©¡¢
-debugfs£¨ÓÃÓÚ¼ì²éÎÄ¼şÏµÍ³µÄÄÚ²¿½á¹¹¡¢ÊÖ¶¯ĞŞ¸´±»ÆÆ»µµÄÎÄ¼şÏµÍ³»òÎªe2fsck
-´´½¨²âÊÔ·¶Àı£©¡¢ tune2fs£¨ÓÃÓÚĞŞ¸ÄÎÄ¼şÏµÍ³²ÎÊı£©ºÍÆäËü´ó¶àÊıºËĞÄ
-ext2fs ÎÄ¼şÏµÍ³ÊµÓÃ³ÌĞò¡£
+%description -l zh_CN.UTF-8
+e2fsprogs è½¯ä»¶åŒ…åŒ…å«ä¸€äº›å®ç”¨ç¨‹åºï¼Œç”¨äºåˆ›å»ºã€æ£€æŸ¥ã€ ä¿®æ”¹å’Œçº æ­£è¾…åŠ©æ‰©å±•
+(ext2) æ–‡ä»¶ç³»ç»Ÿä¸­çš„ä»»ä½•ä¸ç»Ÿä¸€ä¹‹å¤„ã€‚ e2fsprogs åŒ…å«
+e2fsckï¼ˆç”¨äºåœ¨éæ­£å¸¸å…³æœºåä¿®å¤æ–‡ä»¶ç³»ç»Ÿçš„ä¸ç»Ÿä¸€ä¹‹å¤„ï¼‰ã€
+mke2fsï¼ˆç”¨äºå°†åˆ†åŒºåˆå§‹åŒ–ä¸ºåŒ…å«ç©ºç™½ext2 æ–‡ä»¶ç³»ç»Ÿï¼‰ã€
+debugfsï¼ˆç”¨äºæ£€æŸ¥æ–‡ä»¶ç³»ç»Ÿçš„å†…éƒ¨ç»“æ„ã€æ‰‹åŠ¨ä¿®å¤è¢«ç ´åçš„æ–‡ä»¶ç³»ç»Ÿæˆ–ä¸ºe2fsck
+åˆ›å»ºæµ‹è¯•èŒƒä¾‹ï¼‰ã€ tune2fsï¼ˆç”¨äºä¿®æ”¹æ–‡ä»¶ç³»ç»Ÿå‚æ•°ï¼‰å’Œå…¶å®ƒå¤§å¤šæ•°æ ¸å¿ƒ
+ext2fs æ–‡ä»¶ç³»ç»Ÿå®ç”¨ç¨‹åºã€‚
 
 %package devel
 Summary:	ext2 filesystem-specific libraries and headers
-Summary(cs):	Knihovny a hlavièkové soubory pro systém souborù ext2
-Summary(da):	ext2 filsystemsspecifikke biblioteker og headerfiler
-Summary(de):	Bibliotheken und Header-Dateien für ext2-Dateisysteme
-Summary(es):	Bibliotecas y archivos de inclusión para e2fs
-Summary(fr):	Bibliothèques et en-têtes spécifiques au système de fichiers ext2
-Summary(id):	Library dan file header untuk e2fsprogs
-Summary(is):	Ağgerğasöfn og hausaskrár fyrir ext2 skráarkerfiğ
-Summary(it):	Librerie e file header specifici per il filesystem ext2
-Summary(ja):	ext2 ¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤Ë¸ÇÍ­¤ÎÀÅÅª¥é¥¤¥Ö¥é¥ê¤È¥Ø¥Ã¥À¡¼
-Summary(ko):	ext2 ÆÄÀÏ½Ã½ºÅÛ-ÁöÁ¤ Á¤Àû ¶óÀÌºê·¯¸®¿Í Çì´õµé
-Summary(nb):	ext2 filsystemspesifikke bibliotek og headerfiler
-Summary(pl):	Pliki nag³ówkowe do bibliotek e2fs
-Summary(pt):	Bibliotecas e ficheiros de inclusão específicos do sistema de ficheiros ext2
-Summary(pt_BR):	Bibliotecas e arquivos de inclusão para e2fs
-Summary(ru):	âÉÂÌÉÏÔÅËÉ É ÆÁÊÌÙ ÚÁÇÏÌÏ×ËÏ× ÄÌÑ ÒÁÚÒÁÂÏÔËÉ ĞÒÏÇÒÁÍÍ, ÉÓĞÏÌØÚÕÀİÉÈ ext2
-Summary(sk):	Kni¾nice a hlavièkové súbory pre ext2-¹pecifické programy
-Summary(sl):	Knji¾nice in glave, specifiène datoteènemu sistemu ext2
-Summary(sv):	ext2 filsystemspecifika bibliotek och huvuden
-Summary(uk):	â¦ÂÌ¦ÏÔËÉ ĞÒÏÇÒÁÍ¦ÓÔÁ ÔÁ ÈÅÄÅÒÉ ÄÌÑ ÒÏÂÏÔÉ Ú ext2fs
-Summary(zh_CN):	ext2 ÎÄ¼şÏµÍ³ÌØÓĞµÄ¾²Ì¬¿âºÍÍ·ÎÄ¼ş¡£
-Summary(zh_TW):	ext2 ÀÉ®×¨t²Î¯S©wªºÀRºA¨ç¦¡®w»PªíÀY¡C
+Summary(cs.UTF-8):	Knihovny a hlaviÄkovÃ© soubory pro systÃ©m souborÅ¯ ext2
+Summary(da.UTF-8):	ext2 filsystemsspecifikke biblioteker og headerfiler
+Summary(de.UTF-8):	Bibliotheken und Header-Dateien fÃ¼r ext2-Dateisysteme
+Summary(es.UTF-8):	Bibliotecas y archivos de inclusiÃ³n para e2fs
+Summary(fr.UTF-8):	BibliothÃ¨ques et en-tÃªtes spÃ©cifiques au systÃ¨me de fichiers ext2
+Summary(id.UTF-8):	Library dan file header untuk e2fsprogs
+Summary(is.UTF-8):	AÃ°gerÃ°asÃ¶fn og hausaskrÃ¡r fyrir ext2 skrÃ¡arkerfiÃ°
+Summary(it.UTF-8):	Librerie e file header specifici per il filesystem ext2
+Summary(ja.UTF-8):	ext2 ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã«å›ºæœ‰ã®é™çš„ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã¨ãƒ˜ãƒƒãƒ€ãƒ¼
+Summary(ko.UTF-8):	ext2 íŒŒì¼ì‹œìŠ¤í…œ-ì§€ì • ì •ì  ë¼ì´ë¸ŒëŸ¬ë¦¬ì™€ í—¤ë”ë“¤
+Summary(nb.UTF-8):	ext2 filsystemspesifikke bibliotek og headerfiler
+Summary(pl.UTF-8):	Pliki nagÅ‚Ã³wkowe do bibliotek e2fs
+Summary(pt.UTF-8):	Bibliotecas e ficheiros de inclusÃ£o especÃ­ficos do sistema de ficheiros ext2
+Summary(pt_BR.UTF-8):	Bibliotecas e arquivos de inclusÃ£o para e2fs
+Summary(ru.UTF-8):	Ğ‘Ğ¸Ğ±Ğ»Ğ¸Ğ¾Ñ‚ĞµĞºĞ¸ Ğ¸ Ñ„Ğ°Ğ¹Ğ»Ñ‹ Ğ·Ğ°Ğ³Ğ¾Ğ»Ğ¾Ğ²ĞºĞ¾Ğ² Ğ´Ğ»Ñ Ñ€Ğ°Ğ·Ñ€Ğ°Ğ±Ğ¾Ñ‚ĞºĞ¸ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ğ¼, Ğ¸ÑĞ¿Ğ¾Ğ»ÑŒĞ·ÑƒÑÑ‰Ğ¸Ñ… ext2
+Summary(sk.UTF-8):	KniÅ¾nice a hlaviÄkovÃ© sÃºbory pre ext2-Å¡pecifickÃ© programy
+Summary(sl.UTF-8):	KnjiÅ¾nice in glave, specifiÄne datoteÄnemu sistemu ext2
+Summary(sv.UTF-8):	ext2 filsystemspecifika bibliotek och huvuden
+Summary(uk.UTF-8):	Ğ‘Ñ–Ğ±Ğ»Ñ–Ğ¾Ñ‚ĞºĞ¸ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ñ–ÑÑ‚Ğ° Ñ‚Ğ° Ñ…ĞµĞ´ĞµÑ€Ğ¸ Ğ´Ğ»Ñ Ñ€Ğ¾Ğ±Ğ¾Ñ‚Ğ¸ Ğ· ext2fs
+Summary(zh_CN.UTF-8):	ext2 æ–‡ä»¶ç³»ç»Ÿç‰¹æœ‰çš„é™æ€åº“å’Œå¤´æ–‡ä»¶ã€‚
+Summary(zh_TW.UTF-8):	ext2 æª”æ¡ˆç³»çµ±ç‰¹å®šçš„éœæ…‹å‡½å¼åº«èˆ‡è¡¨é ­ã€‚
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	libcom_err-devel = %{version}-%{release}
@@ -298,102 +323,102 @@ Obsoletes:	libext2fs2-devel
 e2fsprogs-devel contains the libraries and header files needed to
 develop second extended (ext2) filesystem-specific programs.
 
-%description devel -l cs
-Balíèek e2fsprogs-devel obsahuje knihovny a hlavièkové soubory
-potøebné pro vıvoj programù pracujících se systémem souborù ext2
+%description devel -l cs.UTF-8
+BalÃ­Äek e2fsprogs-devel obsahuje knihovny a hlaviÄkovÃ© soubory
+potÅ™ebnÃ© pro vÃ½voj programÅ¯ pracujÃ­cÃ­ch se systÃ©mem souborÅ¯ ext2
 (second extended fs).
 
-%description devel -l da
-e2fsprogs-devel indeholder de headerfiler og biblioteker man behøver
+%description devel -l da.UTF-8
+e2fsprogs-devel indeholder de headerfiler og biblioteker man behÃ¸ver
 for at udvikle programmer specielt rettet mod ext2-filsystemer.
 
-%description devel -l de
-Das Paket e2fsprogs-devel enthält die Bibliotheken und Header-Dateien,
-die für die Entwicklung von Programmen für das Second
+%description devel -l de.UTF-8
+Das Paket e2fsprogs-devel enthÃ¤lt die Bibliotheken und Header-Dateien,
+die fÃ¼r die Entwicklung von Programmen fÃ¼r das Second
 Extended-Dateisystem (ext2) erforderlich sind.
 
-%description devel -l es
+%description devel -l es.UTF-8
 e2fsprogs-devel contiene las bibliotecas y los ficheros de cabecera
-necesarios para desarrollar programas específicos para el sistema de
+necesarios para desarrollar programas especÃ­ficos para el sistema de
 ficheros ext2.
 
-%description devel -l fr
-e2fsprogs-devel contient les bibliothèques et fichiers d'en-tête
-nécessaires au développement de programmes spécifiques au système de
+%description devel -l fr.UTF-8
+e2fsprogs-devel contient les bibliothÃ¨ques et fichiers d'en-tÃªte
+nÃ©cessaires au dÃ©veloppement de programmes spÃ©cifiques au systÃ¨me de
 fichiers ext2.
 
-%description devel -l id
+%description devel -l id.UTF-8
 e2fsprogs-devel berisi library dan file header yang dibutuhkan untuk
 develop program yang berkaitan dengan filesystem ext2.
 
-%description devel -l is
-e2fsprogs-devel inniheldur library og header skrár sem şarf til ağ búa
-til (ext2) skráarsafns forrit
+%description devel -l is.UTF-8
+e2fsprogs-devel inniheldur library og header skrÃ¡r sem Ã¾arf til aÃ° bÃºa
+til (ext2) skrÃ¡arsafns forrit
 
-%description devel -l it
+%description devel -l it.UTF-8
 e2fsprogs-devel contiene le librerie e i file header necessari per
 sviluppare programmi specifici per il filesystem ext2.
 
-%description devel -l ja
-e2fspgrogs-devel ¤Ë¤Ï¡¢Second Extended (ext2) ¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¤Ë¸ÇÍ­
-¤Î¥×¥í¥°¥é¥à¤ò³«È¯¤¹¤ë¤¿¤á¤ËÉ¬Í×¤Ê¥é¥¤¥Ö¥é¥ê¤È¥Ø¥Ã¥À¡¼¥Õ¥¡¥¤¥ë¤¬´Ş¤Ş¤ì
-¤Æ¤¤¤Ş¤¹¡£
+%description devel -l ja.UTF-8
+e2fspgrogs-devel ã«ã¯ã€Second Extended (ext2) ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã«å›ºæœ‰
+ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’é–‹ç™ºã™ã‚‹ãŸã‚ã«å¿…è¦ãªãƒ©ã‚¤ãƒ–ãƒ©ãƒªã¨ãƒ˜ãƒƒãƒ€ãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«ãŒå«ã¾ã‚Œ
+ã¦ã„ã¾ã™ã€‚
 
-%description devel -l nb
+%description devel -l nb.UTF-8
 e2fsprogs-devel inneholder de headerfiler og bibliotek man trenger for
-å utvikle programmer spesielt rettet mot ext2-filsystemer.
+Ã¥ utvikle programmer spesielt rettet mot ext2-filsystemer.
 
-%description devel -l pl
-Pliki nag³ówkowe i dokumentacja niezbêdne do tworzenia programów
-obs³uguj±cych e2fs.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe i dokumentacja niezbÄ™dne do tworzenia programÃ³w
+obsÅ‚ugujÄ…cych e2fs.
 
-%description devel -l pt
-O pacote e2fsprogs-devel contém as bibliotecas e ficheiros de inclusão
-necessários para desenvolver programas específicos do sistema de
+%description devel -l pt.UTF-8
+O pacote e2fsprogs-devel contÃ©m as bibliotecas e ficheiros de inclusÃ£o
+necessÃ¡rios para desenvolver programas especÃ­ficos do sistema de
 ficheiros ext2.
 
-%description devel -l pt_BR
-Bibliotecas e arquivos de inclusão para desenvolvimento de programas
-específicos para sistema de arquivo ext2.
+%description devel -l pt_BR.UTF-8
+Bibliotecas e arquivos de inclusÃ£o para desenvolvimento de programas
+especÃ­ficos para sistema de arquivo ext2.
 
-%description devel -l ru
-e2fsprogs-devel ÓÏÄÅÒÖÉÔ ÓÔÁÔÉŞÅÓËÉÅ ÂÉÂÌÉÏÔÅËÉ É ÆÁÊÌÙ ÚÁÇÏÌÏ×ËÏ×,
-ÎÅÏÂÈÏÄÉÍÙÅ ĞÒÉ ÒÁÚÒÁÂÏÔËÅ ĞÒÏÇÒÁÍÍ, ÉÓĞÏÌØÚÕÀİÉÈ ÆÁÊÌÏ×ÕÀ ÓÉÓÔÅÍÕ
+%description devel -l ru.UTF-8
+e2fsprogs-devel ÑĞ¾Ğ´ĞµÑ€Ğ¶Ğ¸Ñ‚ ÑÑ‚Ğ°Ñ‚Ğ¸Ñ‡ĞµÑĞºĞ¸Ğµ Ğ±Ğ¸Ğ±Ğ»Ğ¸Ğ¾Ñ‚ĞµĞºĞ¸ Ğ¸ Ñ„Ğ°Ğ¹Ğ»Ñ‹ Ğ·Ğ°Ğ³Ğ¾Ğ»Ğ¾Ğ²ĞºĞ¾Ğ²,
+Ğ½ĞµĞ¾Ğ±Ñ…Ğ¾Ğ´Ğ¸Ğ¼Ñ‹Ğµ Ğ¿Ñ€Ğ¸ Ñ€Ğ°Ğ·Ñ€Ğ°Ğ±Ğ¾Ñ‚ĞºĞµ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ğ¼, Ğ¸ÑĞ¿Ğ¾Ğ»ÑŒĞ·ÑƒÑÑ‰Ğ¸Ñ… Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²ÑƒÑ ÑĞ¸ÑÑ‚ĞµĞ¼Ñƒ
 ext2.
 
-%description devel -l sk
-e2fsprogs-devel obsahuje kni¾nice a hlavièkové súbory potrebné pre
-vıvoj programov pre ext2 súborovı systém.
+%description devel -l sk.UTF-8
+e2fsprogs-devel obsahuje kniÅ¾nice a hlaviÄkovÃ© sÃºbory potrebnÃ© pre
+vÃ½voj programov pre ext2 sÃºborovÃ½ systÃ©m.
 
-%description devel -l sv
-e2fsprogs-devel innehåller bibliotek och huvudfiler som behövs för att
-utveckla filsystemsspecifika program för det andra utökade (ext2)
+%description devel -l sv.UTF-8
+e2fsprogs-devel innehÃ¥ller bibliotek och huvudfiler som behÃ¶vs fÃ¶r att
+utveckla filsystemsspecifika program fÃ¶r det andra utÃ¶kade (ext2)
 filsystemet.
 
-%description devel -l uk
-e2fsprogs-devel Í¦ÓÔÉÔØ Â¦ÂÌ¦ÏÔÅËÉ ÔÁ ÈÅÄÅÒÉ, ÎÅÏÂÈ¦ÄÎ¦ ÄÌÑ ÎÁĞÉÓÁÎÎÑ
-ĞÒÏÇÒÁÍ, ÑË¦ ĞÒÁÃÀÀÔØ Ú ÆÁÊÌÏ×ÏÀ ÓÉÓÔÅÍÏÀ ext2.
+%description devel -l uk.UTF-8
+e2fsprogs-devel Ğ¼Ñ–ÑÑ‚Ğ¸Ñ‚ÑŒ Ğ±Ñ–Ğ±Ğ»Ñ–Ğ¾Ñ‚ĞµĞºĞ¸ Ñ‚Ğ° Ñ…ĞµĞ´ĞµÑ€Ğ¸, Ğ½ĞµĞ¾Ğ±Ñ…Ñ–Ğ´Ğ½Ñ– Ğ´Ğ»Ñ Ğ½Ğ°Ğ¿Ğ¸ÑĞ°Ğ½Ğ½Ñ
+Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼, ÑĞºÑ– Ğ¿Ñ€Ğ°Ñ†ÑÑÑ‚ÑŒ Ğ· Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ñ ÑĞ¸ÑÑ‚ĞµĞ¼Ğ¾Ñ ext2.
 
-%description devel -l zh_CN
-e2fsprogs-devel °üº¬¿ª·¢¸¨ÖúÀ©Õ¹ (ext2)
-ÎÄ¼şÏµÍ³×¨ÓÃ³ÌĞòËùĞèµÄ³ÌĞò¿âºÍÍ·ÎÄ¼ş¡£
+%description devel -l zh_CN.UTF-8
+e2fsprogs-devel åŒ…å«å¼€å‘è¾…åŠ©æ‰©å±• (ext2)
+æ–‡ä»¶ç³»ç»Ÿä¸“ç”¨ç¨‹åºæ‰€éœ€çš„ç¨‹åºåº“å’Œå¤´æ–‡ä»¶ã€‚
 
 %package static
 Summary:	ext2 filesystem-specific static libraries
-Summary(cs):	Statické knihovny pro systém souborù ext2
-Summary(da):	ext2 filsystemsspecifikke statiske biblioteker
-Summary(de):	Statische Bibliotheken für ext2-Dateisysteme
-Summary(es):	Bibliotecas estaticas para e2fs
-Summary(fr):	Bibliothèques statiques spécifiques au système de fichiers ext2
-Summary(it):	Librerie statiche specifici per il filesystem ext2
-Summary(nb):	ext2 filsystemspesifikke statiske bibliotek
-Summary(pl):	Biblioteki statyczne do obs³ugi systemu plików ext2
-Summary(pt):	Bibliotecas estaticas específicos do sistema de ficheiros ext2
-Summary(pt_BR):	Bibliotecas estaticas para e2fs
-Summary(ru):	óÔÁÔÉŞÅÓËÉÅ ÂÉÂÌÉÏÔÅËÉ ÄÌÑ ÒÁÚÒÁÂÏÔËÉ ĞÒÏÇÒÁÍÍ, ÉÓĞÏÌØÚÕÀİÉÈ ext2
-Summary(sk):	Statické kni¾nice a hlavièkové súbory pre ext2-¹pecifické programy
-Summary(sv):	ext2 filsystemspecifika statiska bibliotek
-Summary(uk):	óÔÁÔÉŞÎ¦ Â¦ÂÌ¦ÏÔËÉ ĞÒÏÇÒÁÍ¦ÓÔÁ ÄÌÑ ÒÏÂÏÔÉ Ú ext2fs
+Summary(cs.UTF-8):	StatickÃ© knihovny pro systÃ©m souborÅ¯ ext2
+Summary(da.UTF-8):	ext2 filsystemsspecifikke statiske biblioteker
+Summary(de.UTF-8):	Statische Bibliotheken fÃ¼r ext2-Dateisysteme
+Summary(es.UTF-8):	Bibliotecas estaticas para e2fs
+Summary(fr.UTF-8):	BibliothÃ¨ques statiques spÃ©cifiques au systÃ¨me de fichiers ext2
+Summary(it.UTF-8):	Librerie statiche specifici per il filesystem ext2
+Summary(nb.UTF-8):	ext2 filsystemspesifikke statiske bibliotek
+Summary(pl.UTF-8):	Biblioteki statyczne do obsÅ‚ugi systemu plikÃ³w ext2
+Summary(pt.UTF-8):	Bibliotecas estaticas especÃ­ficos do sistema de ficheiros ext2
+Summary(pt_BR.UTF-8):	Bibliotecas estaticas para e2fs
+Summary(ru.UTF-8):	Ğ¡Ñ‚Ğ°Ñ‚Ğ¸Ñ‡ĞµÑĞºĞ¸Ğµ Ğ±Ğ¸Ğ±Ğ»Ğ¸Ğ¾Ñ‚ĞµĞºĞ¸ Ğ´Ğ»Ñ Ñ€Ğ°Ğ·Ñ€Ğ°Ğ±Ğ¾Ñ‚ĞºĞ¸ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ğ¼, Ğ¸ÑĞ¿Ğ¾Ğ»ÑŒĞ·ÑƒÑÑ‰Ğ¸Ñ… ext2
+Summary(sk.UTF-8):	StatickÃ© kniÅ¾nice a hlaviÄkovÃ© sÃºbory pre ext2-Å¡pecifickÃ© programy
+Summary(sv.UTF-8):	ext2 filsystemspecifika statiska bibliotek
+Summary(uk.UTF-8):	Ğ¡Ñ‚Ğ°Ñ‚Ğ¸Ñ‡Ğ½Ñ– Ğ±Ñ–Ğ±Ğ»Ñ–Ğ¾Ñ‚ĞºĞ¸ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ñ–ÑÑ‚Ğ° Ğ´Ğ»Ñ Ñ€Ğ¾Ğ±Ğ¾Ñ‚Ğ¸ Ğ· ext2fs
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -401,45 +426,45 @@ Requires:	%{name}-devel = %{version}-%{release}
 Static libraries needed to develop ext2 filesystem-specific programs
 statically linked with e2progs libs.
 
-%description static -l de
+%description static -l de.UTF-8
 Libraries zur Entwicklung von ext2-Dateisystemspezifischen Programmen
 erforderlich sind.
 
-%description static -l es
-Bibliotecas estaticas para desarrollo de programas específicos para
+%description static -l es.UTF-8
+Bibliotecas estaticas para desarrollo de programas especÃ­ficos para
 sistema de archivo ext2.
 
-%description static -l pl
-Biblioteki statyczne do obs³ugi e2fs niezbêdne do kompilacji programów
+%description static -l pl.UTF-8
+Biblioteki statyczne do obsÅ‚ugi e2fs niezbÄ™dne do kompilacji programÃ³w
 statycznie skonsolidowanych (linkowanych) z bibliotekami do e2fs.
 
-%description static -l pt_BR
-Bibliotecas estaticas para desenvolvimento de programas específicos
+%description static -l pt_BR.UTF-8
+Bibliotecas estaticas para desenvolvimento de programas especÃ­ficos
 para sistema de arquivo ext2.
 
-%description static -l ru
-e2fsprogs-devel-static ÓÏÄÅÒÖÉÔ ÓÔÁÔÉŞÅÓËÉÅ ÂÉÂÌÉÏÔÅËÉ, ÎÅÏÂÈÏÄÉÍÙÅ
-ÄÌÑ ÎÁĞÉÓÁÎÉÑ ĞÒÏÇÒÁÍÍ, ÒÁÂÏÔÁÀİÉÈ Ó ÆÁÊÌÏ×ÏÊ ÓÉÓÔÅÍÏÊ ext2.
+%description static -l ru.UTF-8
+e2fsprogs-devel-static ÑĞ¾Ğ´ĞµÑ€Ğ¶Ğ¸Ñ‚ ÑÑ‚Ğ°Ñ‚Ğ¸Ñ‡ĞµÑĞºĞ¸Ğµ Ğ±Ğ¸Ğ±Ğ»Ğ¸Ğ¾Ñ‚ĞµĞºĞ¸, Ğ½ĞµĞ¾Ğ±Ñ…Ğ¾Ğ´Ğ¸Ğ¼Ñ‹Ğµ
+Ğ´Ğ»Ñ Ğ½Ğ°Ğ¿Ğ¸ÑĞ°Ğ½Ğ¸Ñ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ğ¼, Ñ€Ğ°Ğ±Ğ¾Ñ‚Ğ°ÑÑ‰Ğ¸Ñ… Ñ Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ğ¹ ÑĞ¸ÑÑ‚ĞµĞ¼Ğ¾Ğ¹ ext2.
 
-%description static -l uk
-e2fsprogs-devel-static Í¦ÓÔÉÔØ ÓÔÁÔÉŞÎ¦ Â¦ÂÌ¦ÏÔÅËÉ, ÎÅÏÂÈ¦ÄÎ¦ ÄÌÑ
-ÎÁĞÉÓÁÎÎÑ ĞÒÏÇÒÁÍ, ÑË¦ ĞÒÁÃÀÀÔØ Ú ÆÁÊÌÏ×ÏÀ ÓÉÓÔÅÍÏÀ ext2.
+%description static -l uk.UTF-8
+e2fsprogs-devel-static Ğ¼Ñ–ÑÑ‚Ğ¸Ñ‚ÑŒ ÑÑ‚Ğ°Ñ‚Ğ¸Ñ‡Ğ½Ñ– Ğ±Ñ–Ğ±Ğ»Ñ–Ğ¾Ñ‚ĞµĞºĞ¸, Ğ½ĞµĞ¾Ğ±Ñ…Ñ–Ğ´Ğ½Ñ– Ğ´Ğ»Ñ
+Ğ½Ğ°Ğ¿Ğ¸ÑĞ°Ğ½Ğ½Ñ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼, ÑĞºÑ– Ğ¿Ñ€Ğ°Ñ†ÑÑÑ‚ÑŒ Ğ· Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ²Ğ¾Ñ ÑĞ¸ÑÑ‚ĞµĞ¼Ğ¾Ñ ext2.
 
 %package -n libcom_err
 Summary:	A Common Error Description Library for unices
-Summary(pl):	Biblioteka opisu popularnych b³êdów dla uniksów
+Summary(pl.UTF-8):	Biblioteka opisu popularnych bÅ‚Ä™dÃ³w dla uniksÃ³w
 Group:		Libraries
 Conflicts:	e2fsprogs < 1.34-3
 
 %description -n libcom_err
 A Common Error Description Library for unices.
 
-%description -n libcom_err -l pl
-Biblioteka opisu popularnych b³êdów dla uniksów.
+%description -n libcom_err -l pl.UTF-8
+Biblioteka opisu popularnych bÅ‚Ä™dÃ³w dla uniksÃ³w.
 
 %package -n libcom_err-devel
 Summary:	Development files for Common Error Description Library for unices
-Summary(pl):	Pliki dla programistów do biblioteki opisu popularnych b³êdów dla uniksów
+Summary(pl.UTF-8):	Pliki dla programistÃ³w do biblioteki opisu popularnych bÅ‚Ä™dÃ³w dla uniksÃ³w
 Group:		Development/Libraries
 Requires:	libcom_err = %{version}-%{release}
 Conflicts:	e2fsprogs-devel < 1.34-3
@@ -447,13 +472,13 @@ Conflicts:	e2fsprogs-devel < 1.34-3
 %description -n libcom_err-devel
 A Common Error Description Library for unices - development files.
 
-%description -n libcom_err-devel -l pl
-Biblioteka opisu popularnych b³êdów dla uniksów - pliki dla
-programistów.
+%description -n libcom_err-devel -l pl.UTF-8
+Biblioteka opisu popularnych bÅ‚Ä™dÃ³w dla uniksÃ³w - pliki dla
+programistÃ³w.
 
 %package -n libcom_err-static
 Summary:	Static version of Common Error Description Library for unices
-Summary(pl):	Statyczna biblioteka opisu popularnych b³êdów dla uniksów
+Summary(pl.UTF-8):	Statyczna biblioteka opisu popularnych bÅ‚Ä™dÃ³w dla uniksÃ³w
 Group:		Development/Libraries
 Requires:	libcom_err-devel = %{version}-%{release}
 Conflicts:	e2fsprogs-static < 1.34-3
@@ -461,24 +486,26 @@ Conflicts:	e2fsprogs-static < 1.34-3
 %description -n libcom_err-static
 A Common Error Description Library for unices - static version.
 
-%description -n libcom_err-static -l pl
-Biblioteka opisu popularnych b³êdów dla uniksów - wersja statyczna.
+%description -n libcom_err-static -l pl.UTF-8
+Biblioteka opisu popularnych bÅ‚Ä™dÃ³w dla uniksÃ³w - wersja statyczna.
 
 %package -n libuuid
 Summary:	Library for accessing and manipulating UUID
-Summary(pl):	Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID
+Summary(pl.UTF-8):	Biblioteka umoÅ¼liwiajÄ…ca dostÄ™p i zmiany UUID
+License:	BSD
 Group:		Libraries
 Conflicts:	e2fsprogs < 1.34-3
 
 %description -n libuuid
 Library for accessing and manipulating UUID.
 
-%description -n libuuid -l pl
-Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID.
+%description -n libuuid -l pl.UTF-8
+Biblioteka umoÅ¼liwiajÄ…ca dostÄ™p i zmiany UUID.
 
 %package -n libuuid-devel
 Summary:	Header files for library for accessing and manipulating UUID
-Summary(pl):	Pliki nag³ówkowe biblioteki umo¿liwiaj±cej dostêp i zmiany UUID
+Summary(pl.UTF-8):	Pliki nagÅ‚Ã³wkowe biblioteki umoÅ¼liwiajÄ…cej dostÄ™p i zmiany UUID
+License:	BSD
 Group:		Development/Libraries
 Requires:	libuuid = %{version}-%{release}
 Conflicts:	e2fsprogs-devel < 1.34-3
@@ -486,13 +513,14 @@ Conflicts:	e2fsprogs-devel < 1.34-3
 %description -n libuuid-devel
 Library for accessing and manipulating UUID - development files.
 
-%description -n libuuid-devel -l pl
-Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID - pliki dla
-programistów.
+%description -n libuuid-devel -l pl.UTF-8
+Biblioteka umoÅ¼liwiajÄ…ca dostÄ™p i zmiany UUID - pliki dla
+programistÃ³w.
 
 %package -n libuuid-static
 Summary:	Static library for accessing and manipulating UUID
-Summary(pl):	Statyczna biblioteka umo¿liwiaj±ca dostêp i zmiany UUID
+Summary(pl.UTF-8):	Statyczna biblioteka umoÅ¼liwiajÄ…ca dostÄ™p i zmiany UUID
+License:	BSD
 Group:		Development/Libraries
 Requires:	libuuid-devel = %{version}-%{release}
 Conflicts:	e2fsprogs-static < 1.34-3
@@ -500,20 +528,61 @@ Conflicts:	e2fsprogs-static < 1.34-3
 %description -n libuuid-static
 Library for accessing and manipulating UUID - static version.
 
-%description -n libuuid-static -l pl
-Biblioteka umo¿liwiaj±ca dostêp i zmiany UUID - wersja statyczna.
+%description -n libuuid-static -l pl.UTF-8
+Biblioteka umoÅ¼liwiajÄ…ca dostÄ™p i zmiany UUID - wersja statyczna.
+
+%package -n uuidd
+Summary:	Helper daemon to guarantee uniqueness of time-based UUIDs
+Summary(pl.UTF-8):	Pomocniczy demon gwarantujÄ…cy unikalnoÅ›Ä‡ UUID-Ã³w opartych na czasie
+License:	GPL v2
+Group:		Daemons
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/groupmod
+Requires(pre):	/usr/sbin/useradd
+Requires(pre):	/usr/sbin/usermod
+Requires:	libuuid = %{version}-%{release}
+Provides:	group(uuidd)
+Provides:	user(uuidd)
+Conflicts:	libuuid < 1.40.4-2
+
+%description -n uuidd
+The uuidd package contains a userspace daemon (uuidd) which guarantees
+uniqueness of time-based UUID generation even at very high rates on
+SMP systems.
+
+%description -n uuidd -l pl.UTF-8
+Ten pakiet zawiera dziaÅ‚ajÄ…cego w przestrzeni uÅ¼ytkownika demona
+(uuidd) gwarantujÄ…cego unikalnoÅ›Ä‡ generowania UUID-Ã³w opartych na
+czasie nawet przy bardzo duÅ¼ej czÄ™stotliwoÅ›ci na systemach SMP.
 
 %package -n fsck
 Summary:	Check and repair a Linux file system
-Summary(pl):	Sprawdzenie i naprawa linuksowego systemu plików
+Summary(pl.UTF-8):	Sprawdzenie i naprawa linuksowego systemu plikÃ³w
 Group:		Applications/System
 Requires:	libuuid = %{version}-%{release}
 
 %description -n fsck
 Check and repair a Linux file system.
 
-%description -n fsck -l pl
-Sprawdzenie i naprawa linuksowego systemu plików.
+%description -n fsck -l pl.UTF-8
+Sprawdzenie i naprawa linuksowego systemu plikÃ³w.
+
+%package initrd
+Summary:	blkid - initrd version
+Summary(pl.UTF-8):	blkid - wersja dla initrd
+Group:		Base
+
+%description initrd
+This package includes a blkid utility to recognize partitions by label
+or UUID - staticaly linked for initrd.
+
+%description initrd -l pl.UTF-8
+Pakiet ten zawiera narzÄ™dzie blkid do rozpoznawania partycji przez
+etykietÄ™ lub UUID - statycznie skonsolidowane na potrzeby initrd.
 
 %prep
 %setup -q
@@ -522,30 +591,53 @@ gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
 
-chmod u+w configure aclocal.m4 po/LINGUAS po/Makefile.in.in intl/Makefile.in
+sed -i -e "
+	s,DEVMAPPER_REQ='libselinux libsepol',DEVMAPPER_REQ=,;
+	s,DEVMAPPER_LIBS='-ldevmapper -lselinux -lsepol',DEVMAPPER_LIBS='-ldevmapper',;
+	s,/usr/lib/libdevmapper.a /usr/lib/libselinux.a /usr/lib/libsepol.a,/usr/%{_lib}/libdevmapper.a /usr/%{_lib}/libselinux.a /usr/%{_lib}/libsepol.a," \
+	-e '/AC_SUBST(DO_TEST_SUITE/a\MKINSTALLDIRS="install -d"\nAC_SUBST(MKINSTALLDIRS)\n' configure.in
+
+%{!?with_static:sed '/^all:/s/e2fsck\.static//' -i e2fsck/Makefile.in}
+
+# AX_TLS
+tail -n +2604 aclocal.m4 > acinclude.m4
 
 %build
 cp -f /usr/share/automake/config.sub .
 %{__gettextize}
 %{__aclocal}
 %{__autoconf}
+
+%if %{with initrd}
+%configure \
+	%{?with_uClibc:CC="%{_target_cpu}-uclibc-gcc"} \
+	ac_cv_lib_dl_dlopen=no \
+	--with-ccopts="-Os" \
+	--with-ldopts="-static" \
+	--disable-elf-shlibs \
+	--disable-selinux \
+	--disable-nls
+
+%{__make} -j1 libs
+%{__make} progs
+mv -f misc/blkid initrd-blkid
+%{__make} clean
+%endif
+
 %configure \
 	--with-root-prefix="" \
-	%{?with_nls:--enable-nls} \
 	%{!?with_nls:--disable-nls} \
-	%{?with_allstatic:--disable-elf-shlibs} \
 	%{!?with_allstatic:--enable-elf-shlibs} \
+	--enable-blkid-devmapper \
 	--enable-compression \
 	--enable-htree \
 	%{!?with_static:--enable-dynamic-e2fsck} \
 	--enable-fsck \
 	--disable-rpath
 
-%{__make} libs \
+%{__make} -j1 libs \
 	LDFLAGS="%{rpmldflags}"
-%{__make} progs \
-	LDFLAGS="%{rpmldflags}"
-%{__make} docs \
+%{__make} progs docs \
 	LDFLAGS="%{rpmldflags}"
 
 cd doc
@@ -555,16 +647,13 @@ makeinfo --no-split e2compr.texinfo
 rm -rf $RPM_BUILD_ROOT
 export PATH=/sbin:$PATH
 
+install -d $RPM_BUILD_ROOT/var/lib/libuuid
+
 echo "install-shlibs:" >> intl/Makefile
 
-%{__make} install \
+%{__make} install install-libs \
 	root_libdir=/%{_lib} \
-	DESTDIR=$RPM_BUILD_ROOT
-%{__make} install-libs \
-	root_libdir=/%{_lib} \
-	DESTDIR=$RPM_BUILD_ROOT
-%{__make} -C po install	\
-	root_libdir=/%{_lib} \
+	mkinstalldirs='install -d' \
 	DESTDIR=$RPM_BUILD_ROOT
 
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
@@ -572,6 +661,8 @@ ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext3
 ln -sf mke2fs $RPM_BUILD_ROOT/sbin/mkfs.ext2
 
 install doc/e2compr.info $RPM_BUILD_ROOT%{_infodir}
+
+touch $RPM_BUILD_ROOT%{_sysconfdir}/e2fsck.conf
 
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
@@ -594,6 +685,11 @@ echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/mkfs.ext3.8
 %find_lang %{name}
 %endif
 
+rm -f $RPM_BUILD_ROOT%{_mandir}/README.e2fsprogs-non-english-man-pages
+touch $RPM_BUILD_ROOT%{_sysconfdir}/blkid.tab
+
+%{?with_initrd:install initrd-blkid $RPM_BUILD_ROOT/sbin/initrd-blkid}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -605,11 +701,11 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%post devel
-[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+%post	devel -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun devel
-[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+%postun	devel -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
 
 %post	-n libcom_err -p /sbin/ldconfig
 %postun	-n libcom_err -p /sbin/ldconfig
@@ -617,40 +713,163 @@ rm -rf $RPM_BUILD_ROOT
 %post	-n libuuid -p /sbin/ldconfig
 %postun	-n libuuid -p /sbin/ldconfig
 
+%pre	-n uuidd
+if [ "$(getgid libuuid)" = "222" ]; then
+	/usr/sbin/groupmod -n uuidd libuuid
+fi
+%groupadd -g 222 uuidd
+if [ "$(id -u libuuid 2>/dev/null)" = "222" ]; then
+	/usr/sbin/usermod -l uuidd libuuid
+fi
+%useradd -u 222 -r -d /var/lib/libuuid -s /bin/false -c "UUID generator helper daemon" -g uuidd uuidd
+
+%postun	-n uuidd
+if [ "$1" = "0" ]; then
+	%userremove uuidd
+	%groupremove uuidd
+fi
+
+%post	-n fsck -p /sbin/ldconfig
+%postun	-n fsck -p /sbin/ldconfig
+
 %files %{?with_nls:-f %{name}.lang}
 %defattr(644,root,root,755)
-%doc ChangeLog README RELEASE-NOTES
-%attr(755,root,root) /sbin/*
-%exclude /sbin/fsck
-%attr(755,root,root) %{_sbindir}/*
-%attr(755,root,root) %{_bindir}/*attr
+# COPYING specifies license details for some parts of package
+%doc COPYING README RELEASE-NOTES
+%attr(755,root,root) /sbin/badblocks
+%attr(755,root,root) /sbin/blkid
+%attr(755,root,root) /sbin/debugfs
+%attr(755,root,root) /sbin/dumpe2fs
+%attr(755,root,root) /sbin/e2fsck
+%attr(755,root,root) /sbin/e2image
+%attr(755,root,root) /sbin/e2label
+%attr(755,root,root) /sbin/findfs
+%attr(755,root,root) /sbin/fsck.ext2
+%attr(755,root,root) /sbin/fsck.ext3
+%attr(755,root,root) /sbin/logsave
+%attr(755,root,root) /sbin/mke2fs
+%attr(755,root,root) /sbin/mkfs.ext2
+%attr(755,root,root) /sbin/mkfs.ext3
+%attr(755,root,root) /sbin/resize2fs
+%attr(755,root,root) /sbin/tune2fs
+%attr(755,root,root) %{_bindir}/chattr
+%attr(755,root,root) %{_bindir}/lsattr
 %attr(755,root,root) %{_bindir}/mk_cmds
-%if ! %{with allstatic}
+%attr(755,root,root) %{_sbindir}/filefrag
+%attr(755,root,root) %{_sbindir}/mklost+found
+%if %{without allstatic}
 %attr(755,root,root) /%{_lib}/libe2p.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libe2p.so.2
 %attr(755,root,root) /%{_lib}/libext2fs.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libext2fs.so.2
 %attr(755,root,root) /%{_lib}/libss.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libss.so.2
 %endif
 %attr(755,root,root) %{_libdir}/e2initrd_helper
-%{_mandir}/man1/*attr.1*
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2fsck.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mke2fs.conf
+%ghost %{_sysconfdir}/blkid.tab
+%{_mandir}/man1/chattr.1*
+%{_mandir}/man1/lsattr.1*
 %{_mandir}/man1/mk_cmds.1*
-%{_mandir}/man8/*
-%lang(fi) %{_mandir}/fi/man[18]/*
-%lang(fr) %{_mandir}/fr/man[18]/*
-%lang(hu) %{_mandir}/hu/man[18]/*
-%lang(it) %{_mandir}/it/man[18]/*
-%lang(ja) %{_mandir}/ja/man1/*attr.1*
-%lang(ja) %{_mandir}/ja/man8/*
-%lang(ko) %{_mandir}/ko/man[18]/*
-%lang(pl) %{_mandir}/pl/man[18]/*
-%exclude %{_mandir}/*/man8/fsck.8*
-%exclude %{_mandir}/man8/fsck.8*
+%{_mandir}/man5/e2fsck.conf.5*
+%{_mandir}/man5/mke2fs.conf.5*
+%{_mandir}/man8/badblocks.8*
+%{_mandir}/man8/blkid.8*
+%{_mandir}/man8/debugfs.8*
+%{_mandir}/man8/dumpe2fs.8*
+%{_mandir}/man8/e2fsck.8*
+%{_mandir}/man8/e2image.8*
+%{_mandir}/man8/e2label.8*
+%{_mandir}/man8/filefrag.8*
+%{_mandir}/man8/findfs.8*
+%{_mandir}/man8/fsck.ext2.8*
+%{_mandir}/man8/fsck.ext3.8*
+%{_mandir}/man8/logsave.8*
+%{_mandir}/man8/mke2fs.8*
+%{_mandir}/man8/mkfs.ext2.8*
+%{_mandir}/man8/mkfs.ext3.8*
+%{_mandir}/man8/mklost+found.8*
+%{_mandir}/man8/resize2fs.8*
+%{_mandir}/man8/tune2fs.8*
+%lang(fi) %{_mandir}/fi/man1/chattr.1*
+%lang(fi) %{_mandir}/fi/man1/lsattr.1*
+%lang(fr) %{_mandir}/fr/man1/lsattr.1*
+%lang(fr) %{_mandir}/fr/man8/badblocks.8*
+%lang(fr) %{_mandir}/fr/man8/dumpe2fs.8*
+%lang(fr) %{_mandir}/fr/man8/e2label.8*
+%lang(fr) %{_mandir}/fr/man8/mklost+found.8*
+%lang(hu) %{_mandir}/hu/man1/chattr.1*
+%lang(hu) %{_mandir}/hu/man1/lsattr.1*
+%lang(hu) %{_mandir}/hu/man8/dumpe2fs.8*
+%lang(hu) %{_mandir}/hu/man8/e2fsck.8*
+%lang(hu) %{_mandir}/hu/man8/fsck.ext2.8*
+%lang(hu) %{_mandir}/hu/man8/fsck.ext3.8*
+%lang(hu) %{_mandir}/hu/man8/tune2fs.8*
+%lang(it) %{_mandir}/it/man1/chattr.1*
+%lang(it) %{_mandir}/it/man1/lsattr.1*
+%lang(it) %{_mandir}/it/man8/badblocks.8*
+%lang(it) %{_mandir}/it/man8/debugfs.8*
+%lang(it) %{_mandir}/it/man8/dumpe2fs.8*
+%lang(it) %{_mandir}/it/man8/e2fsck.8*
+%lang(it) %{_mandir}/it/man8/fsck.ext2.8*
+%lang(it) %{_mandir}/it/man8/fsck.ext3.8*
+%lang(it) %{_mandir}/it/man8/mke2fs.8*
+%lang(it) %{_mandir}/it/man8/mkfs.ext2.8*
+%lang(it) %{_mandir}/it/man8/mkfs.ext3.8*
+%lang(it) %{_mandir}/it/man8/mklost+found.8*
+%lang(it) %{_mandir}/it/man8/tune2fs.8*
+%lang(ja) %{_mandir}/ja/man1/chattr.1*
+%lang(ja) %{_mandir}/ja/man1/lsattr.1*
+%lang(ja) %{_mandir}/ja/man8/badblocks.8*
+%lang(ja) %{_mandir}/ja/man8/debugfs.8*
+%lang(ja) %{_mandir}/ja/man8/dumpe2fs.8*
+%lang(ja) %{_mandir}/ja/man8/e2fsck.8*
+%lang(ja) %{_mandir}/ja/man8/e2image.8*
+%lang(ja) %{_mandir}/ja/man8/e2label.8*
+%lang(ja) %{_mandir}/ja/man8/findfs.8*
+%lang(ja) %{_mandir}/ja/man8/fsck.ext2.8*
+%lang(ja) %{_mandir}/ja/man8/fsck.ext3.8*
+%lang(ja) %{_mandir}/ja/man8/mke2fs.8*
+%lang(ja) %{_mandir}/ja/man8/mkfs.ext2.8*
+%lang(ja) %{_mandir}/ja/man8/mkfs.ext3.8*
+%lang(ja) %{_mandir}/ja/man8/mklost+found.8*
+%lang(ja) %{_mandir}/ja/man8/resize2fs.8*
+%lang(ja) %{_mandir}/ja/man8/tune2fs.8*
+%lang(ko) %{_mandir}/ko/man1/chattr.1*
+%lang(ko) %{_mandir}/ko/man1/lsattr.1*
+%lang(ko) %{_mandir}/ko/man8/badblocks.8*
+%lang(ko) %{_mandir}/ko/man8/debugfs.8*
+%lang(ko) %{_mandir}/ko/man8/dumpe2fs.8*
+%lang(ko) %{_mandir}/ko/man8/e2fsck.8*
+%lang(ko) %{_mandir}/ko/man8/fsck.ext2.8*
+%lang(ko) %{_mandir}/ko/man8/fsck.ext3.8*
+%lang(ko) %{_mandir}/ko/man8/mke2fs.8*
+%lang(ko) %{_mandir}/ko/man8/mkfs.ext2.8*
+%lang(ko) %{_mandir}/ko/man8/mkfs.ext3.8*
+%lang(ko) %{_mandir}/ko/man8/mklost+found.8*
+%lang(ko) %{_mandir}/ko/man8/tune2fs.8*
+%lang(pl) %{_mandir}/pl/man1/chattr.1*
+%lang(pl) %{_mandir}/pl/man1/lsattr.1*
+%lang(pl) %{_mandir}/pl/man8/badblocks.8*
+%lang(pl) %{_mandir}/pl/man8/debugfs.8*
+%lang(pl) %{_mandir}/pl/man8/dumpe2fs.8*
+%lang(pl) %{_mandir}/pl/man8/e2fsck.8*
+%lang(pl) %{_mandir}/pl/man8/e2label.8*
+%lang(pl) %{_mandir}/pl/man8/fsck.ext2.8*
+%lang(pl) %{_mandir}/pl/man8/fsck.ext3.8*
+%lang(pl) %{_mandir}/pl/man8/mke2fs.8*
+%lang(pl) %{_mandir}/pl/man8/mkfs.ext2.8*
+%lang(pl) %{_mandir}/pl/man8/mkfs.ext3.8*
+%lang(pl) %{_mandir}/pl/man8/mklost+found.8*
+%lang(pl) %{_mandir}/pl/man8/tune2fs.8*
 %{_datadir}/ss
 %{_infodir}/e2compr.info*
 
 %files devel
 %defattr(644,root,root,755)
 %doc doc/libblkid.txt
-%if ! %{with allstatic}
+%if %{without allstatic}
 %attr(755,root,root) %{_libdir}/libblkid.so
 %attr(755,root,root) %{_libdir}/libe2p.so
 %attr(755,root,root) %{_libdir}/libext2fs.so
@@ -676,7 +895,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n libcom_err
 %defattr(644,root,root,755)
-%{!?with_allstatic:%attr(755,root,root) /%{_lib}/libcom_err.so.*.*}
+%if %{without allstatic}
+%attr(755,root,root) /%{_lib}/libcom_err.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libcom_err.so.2
+%endif
 
 %files -n libcom_err-devel
 %defattr(644,root,root,755)
@@ -696,8 +918,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n libuuid
 %defattr(644,root,root,755)
+%doc lib/uuid/COPYING
 %attr(755,root,root) %{_bindir}/uuidgen
-%{!?with_allstatic:%attr(755,root,root) /%{_lib}/libuuid.so.*.*}
+%if %{without allstatic}
+%attr(755,root,root) /%{_lib}/libuuid.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libuuid.so.1
+%endif
 %{_mandir}/man1/uuidgen.1*
 %lang(ja) %{_mandir}/ja/man1/uuidgen.1*
 
@@ -706,21 +932,35 @@ rm -rf $RPM_BUILD_ROOT
 %{!?with_allstatic:%attr(755,root,root) %{_libdir}/libuuid.so}
 %{_includedir}/uuid
 %{_pkgconfigdir}/uuid.pc
-%{_mandir}/man3/*uuid*
-%lang(ja) %{_mandir}/ja/man3/*uuid*
+%{_mandir}/man3/uuid*.3*
+%lang(ja) %{_mandir}/ja/man3/libuuid.3*
+%lang(ja) %{_mandir}/ja/man3/uuid_*.3*
 
 %files -n libuuid-static
 %defattr(644,root,root,755)
 %{_libdir}/libuuid.a
 
+%files -n uuidd
+%defattr(644,root,root,755)
+%attr(2775,uuidd,uuidd) /var/lib/libuuid
+%attr(6755,uuidd,uuidd) %{_sbindir}/uuidd
+%{_mandir}/man8/uuidd.8*
+
 %files -n fsck
 %defattr(644,root,root,755)
 %attr(755,root,root) /sbin/fsck
-%if ! %{with allstatic}
+%if %{without allstatic}
 %attr(755,root,root) /%{_lib}/libblkid.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libblkid.so.1
 %endif
 %{_mandir}/man8/fsck.8*
 %lang(it) %{_mandir}/it/man8/fsck.8*
 %lang(ja) %{_mandir}/ja/man8/fsck.8*
 %lang(ko) %{_mandir}/ko/man8/fsck.8*
 %lang(pl) %{_mandir}/pl/man8/fsck.8*
+
+%if %{with initrd}
+%files initrd
+%defattr(644,root,root,755)
+%attr(755,root,root) /sbin/initrd-blkid
+%endif
