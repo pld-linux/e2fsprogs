@@ -35,7 +35,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.40.4
-Release:	2
+Release:	3
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -62,9 +62,9 @@ BuildRequires:	libsepol-static
 %if %{with initrd}
 	%if %{with uClibc}
 		%ifarch ppc
-BuildRequires:  uClibc-static >= 2:0.9.29
+BuildRequires:	uClibc-static >= 2:0.9.29
 		%else
-BuildRequires:  uClibc-static >= 2:0.9.26
+BuildRequires:	uClibc-static >= 2:0.9.26
 		%endif
 	%endif
 %endif
@@ -547,7 +547,7 @@ Requires(pre):	/usr/sbin/usermod
 Requires:	libuuid = %{version}-%{release}
 Provides:	group(uuidd)
 Provides:	user(uuidd)
-Conflicts:	libuuid < 1.40.5-0.1
+Conflicts:	libuuid < 1.40.4-2
 
 %description -n uuidd
 The uuidd package contains a userspace daemon (uuidd) which guarantees
