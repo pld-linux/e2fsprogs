@@ -35,7 +35,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.40.4
-Release:	4
+Release:	5
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -290,6 +290,13 @@ debugfs（用于检查文件系统的内部结构、手动修复被破坏的文�
 创建测试范例）、 tune2fs（用于修改文件系统参数）和其它大多数核心
 ext2fs 文件系统实用程序。
 
+%package libs
+Summary:	ext2 filesystem-specific libraries
+Group:		Libraries
+
+%description libs
+ext2 filesystem-specific libraries.
+
 %package devel
 Summary:	ext2 filesystem-specific libraries and headers
 Summary(cs.UTF-8):	Knihovny a hlavičkové soubory pro systém souborů ext2
@@ -314,7 +321,7 @@ Summary(uk.UTF-8):	Бібліотки програміста та хедери �
 Summary(zh_CN.UTF-8):	ext2 文件系统特有的静态库和头文件。
 Summary(zh_TW.UTF-8):	ext2 檔案系統特定的靜態函式庫與表頭。
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	libcom_err-devel = %{version}-%{release}
 Requires:	libuuid-devel = %{version}-%{release}
 Obsoletes:	libext2fs2-devel
@@ -564,6 +571,7 @@ Summary:	Check and repair a Linux file system
 Summary(pl.UTF-8):	Sprawdzenie i naprawa linuksowego systemu plików
 Group:		Applications/System
 Requires:	libuuid = %{version}-%{release}
+Requires:	%{name}-libs = %{version}-%{release}
 
 %description -n fsck
 Check and repair a Linux file system.
@@ -693,13 +701,14 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/blkid.tab
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-/sbin/ldconfig
-[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+%post -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun
-/sbin/ldconfig
-[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+%postun -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
+
+%post libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
 
 %post	devel -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
@@ -757,14 +766,6 @@ fi
 %attr(755,root,root) %{_bindir}/mk_cmds
 %attr(755,root,root) %{_sbindir}/filefrag
 %attr(755,root,root) %{_sbindir}/mklost+found
-%if %{without allstatic}
-%attr(755,root,root) /%{_lib}/libe2p.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libe2p.so.2
-%attr(755,root,root) /%{_lib}/libext2fs.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libext2fs.so.2
-%attr(755,root,root) /%{_lib}/libss.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libss.so.2
-%endif
 %attr(755,root,root) %{_libdir}/e2initrd_helper
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2fsck.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mke2fs.conf
@@ -866,6 +867,18 @@ fi
 %{_datadir}/ss
 %{_infodir}/e2compr.info*
 
+%files libs
+%if %{without allstatic}
+%attr(755,root,root) /%{_lib}/libblkid.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libblkid.so.1
+%attr(755,root,root) /%{_lib}/libe2p.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libe2p.so.2
+%attr(755,root,root) /%{_lib}/libext2fs.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libext2fs.so.2
+%attr(755,root,root) /%{_lib}/libss.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libss.so.2
+%endif
+
 %files devel
 %defattr(644,root,root,755)
 %doc doc/libblkid.txt
@@ -949,10 +962,6 @@ fi
 %files -n fsck
 %defattr(644,root,root,755)
 %attr(755,root,root) /sbin/fsck
-%if %{without allstatic}
-%attr(755,root,root) /%{_lib}/libblkid.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libblkid.so.1
-%endif
 %{_mandir}/man8/fsck.8*
 %lang(it) %{_mandir}/it/man8/fsck.8*
 %lang(ja) %{_mandir}/ja/man8/fsck.8*
