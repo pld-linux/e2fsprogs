@@ -35,7 +35,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.40.6
-Release:	3
+Release:	4
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -290,6 +290,7 @@ ext2fs 文件系统实用程序。
 %package libs
 Summary:	ext2 filesystem-specific libraries
 Group:		Libraries
+Conflicts:	%{name} < 1.40.6-3
 
 %description libs
 ext2 filesystem-specific libraries.
@@ -567,8 +568,8 @@ czasie nawet przy bardzo dużej częstotliwości na systemach SMP.
 Summary:	Check and repair a Linux file system
 Summary(pl.UTF-8):	Sprawdzenie i naprawa linuksowego systemu plików
 Group:		Applications/System
-Requires:	libuuid = %{version}-%{release}
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	libuuid = %{version}-%{release}
 
 %description -n fsck
 Check and repair a Linux file system.
@@ -862,6 +863,7 @@ fi
 %{_infodir}/e2compr.info*
 
 %files libs
+%defattr(644,root,root,755)
 %if %{without allstatic}
 %attr(755,root,root) /%{_lib}/libblkid.so.*.*
 %attr(755,root,root) %ghost /%{_lib}/libblkid.so.1
