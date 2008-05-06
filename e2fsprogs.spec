@@ -289,12 +289,16 @@ ext2fs 文件系统实用程序。
 
 %package libs
 Summary:	ext2 filesystem-specific libraries
+Summary(pl.UTF-8):	Biblioteki dla systemu plików ext2
 Group:		Libraries
-Conflicts:	%{name} < 1.40.6-3
+Conflicts:	e2fsprogs < 1.40.6-3
 Conflicts:	fsck < 1.40.6-3
 
 %description libs
 ext2 filesystem-specific libraries.
+
+%description libs -l pl.UTF-8
+Biblioteki dla systemu plików ext2.
 
 %package devel
 Summary:	ext2 filesystem-specific libraries and headers
@@ -320,7 +324,9 @@ Summary(uk.UTF-8):	Бібліотки програміста та хедери �
 Summary(zh_CN.UTF-8):	ext2 文件系统特有的静态库和头文件。
 Summary(zh_TW.UTF-8):	ext2 檔案系統特定的靜態函式庫與表頭。
 Group:		Development/Libraries
+%if %{with allstatic}
 Requires:	%{name}-libs = %{version}-%{release}
+%endif
 Requires:	libcom_err-devel = %{version}-%{release}
 Requires:	libuuid-devel = %{version}-%{release}
 Obsoletes:	libext2fs2-devel
@@ -569,7 +575,9 @@ czasie nawet przy bardzo dużej częstotliwości na systemach SMP.
 Summary:	Check and repair a Linux file system
 Summary(pl.UTF-8):	Sprawdzenie i naprawa linuksowego systemu plików
 Group:		Applications/System
+%if %{with allstatic}
 Requires:	%{name}-libs = %{version}-%{release}
+%endif
 Requires:	libuuid = %{version}-%{release}
 
 %description -n fsck
@@ -697,14 +705,14 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/blkid.tab
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/postshell
+%post	-p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun -p /sbin/postshell
+%postun	-p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
-%post libs -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
 
 %post	devel -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
@@ -863,9 +871,9 @@ fi
 %{_datadir}/ss
 %{_infodir}/e2compr.info*
 
+%if %{without allstatic}
 %files libs
 %defattr(644,root,root,755)
-%if %{without allstatic}
 %attr(755,root,root) /%{_lib}/libblkid.so.*.*
 %attr(755,root,root) %ghost /%{_lib}/libblkid.so.1
 %attr(755,root,root) /%{_lib}/libe2p.so.*.*
@@ -952,8 +960,8 @@ fi
 
 %files -n uuidd
 %defattr(644,root,root,755)
-%attr(2775,uuidd,uuidd) /var/lib/libuuid
 %attr(6755,uuidd,uuidd) %{_sbindir}/uuidd
+%attr(2775,uuidd,uuidd) /var/lib/libuuid
 %{_mandir}/man8/uuidd.8*
 
 %files -n fsck
