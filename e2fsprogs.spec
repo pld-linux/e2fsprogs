@@ -322,7 +322,7 @@ Summary(uk.UTF-8):	Бібліотки програміста та хедери �
 Summary(zh_CN.UTF-8):	ext2 文件系统特有的静态库和头文件。
 Summary(zh_TW.UTF-8):	ext2 檔案系統特定的靜態函式庫與表頭。
 Group:		Development/Libraries
-%if %{with allstatic}
+%if %{without allstatic}
 Requires:	%{name}-libs = %{version}-%{release}
 %endif
 Requires:	libcom_err-devel = %{version}-%{release}
@@ -573,7 +573,7 @@ czasie nawet przy bardzo dużej częstotliwości na systemach SMP.
 Summary:	Check and repair a Linux file system
 Summary(pl.UTF-8):	Sprawdzenie i naprawa linuksowego systemu plików
 Group:		Applications/System
-%if %{with allstatic}
+%if %{without allstatic}
 Requires:	%{name}-libs = %{version}-%{release}
 %endif
 Requires:	libuuid = %{version}-%{release}
