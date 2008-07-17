@@ -34,12 +34,12 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.40.11
+Version:	1.41.0
 Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	004cea70d724fdc7f1a952dffe4c9db8
+# Source0-md5:	83144fa7e0e63647f920b77650ea1836
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
@@ -47,6 +47,7 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-498381.patch
+Patch3:		%{name}-pl.po-update.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -603,6 +604,7 @@ etykietę lub UUID - statycznie skonsolidowane na potrzeby initrd.
 %{__gzip} -dc < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 sed -i -e '/AC_SUBST(DO_TEST_SUITE/a\MKINSTALLDIRS="install -d"\nAC_SUBST(MKINSTALLDIRS)\n' configure.in
 
@@ -675,15 +677,37 @@ bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 rm -f $RPM_BUILD_ROOT%{_mandir}/man8/{mkfs,fsck}.ext[23].8*
 echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/man8/fsck.ext2.8
 echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/man8/fsck.ext3.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/man8/fsck.ext4.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/man8/fsck.ext4dev.8
 echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/man8/mkfs.ext2.8
 echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/man8/mkfs.ext3.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/man8/mkfs.ext4.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/man8/mkfs.ext4dev.8
 # missing in non-english-man-pages tarball
 echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/hu/man8/fsck.ext3.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/hu/man8/fsck.ext4.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/hu/man8/fsck.ext4dev.8
 echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/it/man8/fsck.ext3.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/it/man8/fsck.ext4.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/it/man8/fsck.ext4dev.8
 echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/it/man8/mkfs.ext3.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/it/man8/mkfs.ext4.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/it/man8/mkfs.ext4dev.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/ja/man8/fsck.ext4.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/ja/man8/fsck.ext4dev.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/ja/man8/mkfs.ext4.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/ja/man8/mkfs.ext4dev.8
 echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/ko/man8/fsck.ext3.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/ko/man8/fsck.ext4.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/ko/man8/fsck.ext4dev.8
 echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/ko/man8/mkfs.ext3.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/ko/man8/mkfs.ext4.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/ko/man8/mkfs.ext4dev.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/fsck.ext4.8
+echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/fsck.ext4dev.8
 echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/mkfs.ext3.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/mkfs.ext4.8
+echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/mkfs.ext4dev.8
 
 %if %{with nls}
 [ "`file $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/e2fsprogs.mo |\
@@ -750,13 +774,18 @@ fi
 %attr(755,root,root) /sbin/e2fsck
 %attr(755,root,root) /sbin/e2image
 %attr(755,root,root) /sbin/e2label
+%attr(755,root,root) /sbin/e2undo
 %attr(755,root,root) /sbin/findfs
 %attr(755,root,root) /sbin/fsck.ext2
 %attr(755,root,root) /sbin/fsck.ext3
+%attr(755,root,root) /sbin/fsck.ext4
+%attr(755,root,root) /sbin/fsck.ext4dev
 %attr(755,root,root) /sbin/logsave
 %attr(755,root,root) /sbin/mke2fs
 %attr(755,root,root) /sbin/mkfs.ext2
 %attr(755,root,root) /sbin/mkfs.ext3
+%attr(755,root,root) /sbin/mkfs.ext4
+%attr(755,root,root) /sbin/mkfs.ext4dev
 %attr(755,root,root) /sbin/resize2fs
 %attr(755,root,root) /sbin/tune2fs
 %attr(755,root,root) %{_bindir}/chattr
@@ -780,14 +809,19 @@ fi
 %{_mandir}/man8/e2fsck.8*
 %{_mandir}/man8/e2image.8*
 %{_mandir}/man8/e2label.8*
+%{_mandir}/man8/e2undo.8*
 %{_mandir}/man8/filefrag.8*
 %{_mandir}/man8/findfs.8*
 %{_mandir}/man8/fsck.ext2.8*
 %{_mandir}/man8/fsck.ext3.8*
+%{_mandir}/man8/fsck.ext4.8*
+%{_mandir}/man8/fsck.ext4dev.8*
 %{_mandir}/man8/logsave.8*
 %{_mandir}/man8/mke2fs.8*
 %{_mandir}/man8/mkfs.ext2.8*
 %{_mandir}/man8/mkfs.ext3.8*
+%{_mandir}/man8/mkfs.ext4.8*
+%{_mandir}/man8/mkfs.ext4dev.8*
 %{_mandir}/man8/mklost+found.8*
 %{_mandir}/man8/resize2fs.8*
 %{_mandir}/man8/tune2fs.8*
@@ -804,6 +838,8 @@ fi
 %lang(hu) %{_mandir}/hu/man8/e2fsck.8*
 %lang(hu) %{_mandir}/hu/man8/fsck.ext2.8*
 %lang(hu) %{_mandir}/hu/man8/fsck.ext3.8*
+%lang(hu) %{_mandir}/hu/man8/fsck.ext4.8*
+%lang(hu) %{_mandir}/hu/man8/fsck.ext4dev.8*
 %lang(hu) %{_mandir}/hu/man8/tune2fs.8*
 %lang(it) %{_mandir}/it/man1/chattr.1*
 %lang(it) %{_mandir}/it/man1/lsattr.1*
@@ -813,9 +849,13 @@ fi
 %lang(it) %{_mandir}/it/man8/e2fsck.8*
 %lang(it) %{_mandir}/it/man8/fsck.ext2.8*
 %lang(it) %{_mandir}/it/man8/fsck.ext3.8*
+%lang(it) %{_mandir}/it/man8/fsck.ext4.8*
+%lang(it) %{_mandir}/it/man8/fsck.ext4dev.8*
 %lang(it) %{_mandir}/it/man8/mke2fs.8*
 %lang(it) %{_mandir}/it/man8/mkfs.ext2.8*
 %lang(it) %{_mandir}/it/man8/mkfs.ext3.8*
+%lang(it) %{_mandir}/it/man8/mkfs.ext4.8*
+%lang(it) %{_mandir}/it/man8/mkfs.ext4dev.8*
 %lang(it) %{_mandir}/it/man8/mklost+found.8*
 %lang(it) %{_mandir}/it/man8/tune2fs.8*
 %lang(ja) %{_mandir}/ja/man1/chattr.1*
@@ -829,9 +869,13 @@ fi
 %lang(ja) %{_mandir}/ja/man8/findfs.8*
 %lang(ja) %{_mandir}/ja/man8/fsck.ext2.8*
 %lang(ja) %{_mandir}/ja/man8/fsck.ext3.8*
+%lang(ja) %{_mandir}/ja/man8/fsck.ext4.8*
+%lang(ja) %{_mandir}/ja/man8/fsck.ext4dev.8*
 %lang(ja) %{_mandir}/ja/man8/mke2fs.8*
 %lang(ja) %{_mandir}/ja/man8/mkfs.ext2.8*
 %lang(ja) %{_mandir}/ja/man8/mkfs.ext3.8*
+%lang(ja) %{_mandir}/ja/man8/mkfs.ext4.8*
+%lang(ja) %{_mandir}/ja/man8/mkfs.ext4dev.8*
 %lang(ja) %{_mandir}/ja/man8/mklost+found.8*
 %lang(ja) %{_mandir}/ja/man8/resize2fs.8*
 %lang(ja) %{_mandir}/ja/man8/tune2fs.8*
@@ -843,9 +887,13 @@ fi
 %lang(ko) %{_mandir}/ko/man8/e2fsck.8*
 %lang(ko) %{_mandir}/ko/man8/fsck.ext2.8*
 %lang(ko) %{_mandir}/ko/man8/fsck.ext3.8*
+%lang(ko) %{_mandir}/ko/man8/fsck.ext4.8*
+%lang(ko) %{_mandir}/ko/man8/fsck.ext4dev.8*
 %lang(ko) %{_mandir}/ko/man8/mke2fs.8*
 %lang(ko) %{_mandir}/ko/man8/mkfs.ext2.8*
 %lang(ko) %{_mandir}/ko/man8/mkfs.ext3.8*
+%lang(ko) %{_mandir}/ko/man8/mkfs.ext4.8*
+%lang(ko) %{_mandir}/ko/man8/mkfs.ext4dev.8*
 %lang(ko) %{_mandir}/ko/man8/mklost+found.8*
 %lang(ko) %{_mandir}/ko/man8/tune2fs.8*
 %lang(pl) %{_mandir}/pl/man1/chattr.1*
@@ -857,9 +905,13 @@ fi
 %lang(pl) %{_mandir}/pl/man8/e2label.8*
 %lang(pl) %{_mandir}/pl/man8/fsck.ext2.8*
 %lang(pl) %{_mandir}/pl/man8/fsck.ext3.8*
+%lang(pl) %{_mandir}/pl/man8/fsck.ext4.8*
+%lang(pl) %{_mandir}/pl/man8/fsck.ext4dev.8*
 %lang(pl) %{_mandir}/pl/man8/mke2fs.8*
 %lang(pl) %{_mandir}/pl/man8/mkfs.ext2.8*
 %lang(pl) %{_mandir}/pl/man8/mkfs.ext3.8*
+%lang(pl) %{_mandir}/pl/man8/mkfs.ext4.8*
+%lang(pl) %{_mandir}/pl/man8/mkfs.ext4dev.8*
 %lang(pl) %{_mandir}/pl/man8/mklost+found.8*
 %lang(pl) %{_mandir}/pl/man8/tune2fs.8*
 %{_datadir}/ss
