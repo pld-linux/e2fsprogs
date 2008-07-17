@@ -49,7 +49,7 @@ Patch1:		e2compr-info.patch
 Patch2:		%{name}-498381.patch
 Patch3:		%{name}-pl.po-update.patch
 URL:		http://e2fsprogs.sourceforge.net/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	device-mapper-devel >= 1.02.18-2
 BuildRequires:	gettext-devel >= 0.11
