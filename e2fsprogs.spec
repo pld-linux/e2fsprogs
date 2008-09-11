@@ -34,12 +34,12 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.41.0
+Version:	1.41.1
 Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	83144fa7e0e63647f920b77650ea1836
+# Source0-md5:	ddf13b3c9ece247c457db20ca9a10c3c
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
@@ -51,12 +51,10 @@ Patch3:		%{name}-pl.po-update.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
-BuildRequires:	device-mapper-devel >= 1.02.18-2
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	rpmbuild(macros) >= 1.426
 BuildRequires:	texinfo
 %if %{with allstatic}
-BuildRequires:	device-mapper-static
 BuildRequires:	glibc-static
 BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static
@@ -637,7 +635,6 @@ mv -f misc/blkid initrd-blkid
 	--with-root-prefix="" \
 	%{!?with_nls:--disable-nls} \
 	%{!?with_allstatic:--enable-elf-shlibs} \
-	--enable-blkid-devmapper \
 	--enable-compression \
 	--enable-htree \
 	--enable-fsck \
