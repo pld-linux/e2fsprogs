@@ -740,7 +740,7 @@ rm -rf $RPM_BUILD_ROOT
 %postun	-n libuuid -p /sbin/ldconfig
 
 %pre	-n uuidd
-if [ "$(getgid libuuid)" = "222" ]; then
+if [ "$(getgid libuuid 2>/dev/null)" = "222" ]; then
 	/usr/sbin/groupmod -n uuidd libuuid
 fi
 %groupadd -g 222 uuidd
