@@ -35,7 +35,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.41.3
-Release:	1
+Release:	2
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -669,7 +669,7 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/e2fsck.conf
 
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
-rm -f $RPM_BUILD_ROOT%{_mandir}/man8/{mkfs,fsck}.ext[23].8*
+rm -f $RPM_BUILD_ROOT%{_mandir}/man8/{mkfs,fsck}.ext[234]*.8*
 echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/man8/fsck.ext2.8
 echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/man8/fsck.ext3.8
 echo '.so e2fsck.8' > $RPM_BUILD_ROOT%{_mandir}/man8/fsck.ext4.8
