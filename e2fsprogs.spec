@@ -4,7 +4,8 @@
 %bcond_without	static		# link e2fsck dynamically with libc
 %bcond_without	nls		# build without NLS
 %bcond_without	initrd		# don't build initrd version
-%bcond_without	uClibc		# link initrd version with static glibc instead of uClibc
+%bcond_with	uClibc		# link initrd version with static glibc instead of uClibc
+%bcond_without	dietlibc	# link initrd version with dietlibc instead of uClibc
 #
 %ifarch sparc64 sparc
 %undefine       with_uClibc
@@ -34,12 +35,12 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.41.3
-Release:	3
+Version:	1.41.4
+Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	b21d26fc46c584021dc9c444933ee1c2
+# Source0-md5:	59033388df36987d2b9c9bbf7e19bd57
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
@@ -47,6 +48,7 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-498381.patch
+Patch3:		%{name}-diet.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -58,8 +60,16 @@ BuildRequires:	glibc-static
 BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static
 %endif
-%if %{with initrd} && %{with uClibc}
+%if %{with initrd}
+	%if %{with uClibc}
 BuildRequires:	uClibc-static >= 2:0.9.29
+	%else
+		%if %{with dietlibc}
+BuildRequires:	dietlibc-static
+		%else
+BuildRequires:	glibc-static
+		%endif
+	%endif
 %endif
 Requires(post,postun):	/sbin/ldconfig
 Requires:	fsck = %{version}-%{release}
@@ -601,6 +611,7 @@ etykietę lub UUID - statycznie skonsolidowane na potrzeby initrd.
 %{__gzip} -dc < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 sed -i -e '/AC_SUBST(DO_TEST_SUITE/a\MKINSTALLDIRS="install -d"\nAC_SUBST(MKINSTALLDIRS)\n' configure.in
 
@@ -614,19 +625,37 @@ cp -f /usr/share/automake/config.sub .
 %{__autoconf}
 
 %if %{with initrd}
+%if %{with dietlibc}
+# needed for syscall()
+sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
+	-e 's|\(^STATIC_LIBUUID = .*\)|\1 -lcompat|g' MCONFIG.in
+%endif
 %configure \
-	%{?with_uClibc:CC="%{_target_cpu}-uclibc-gcc"} \
 	ac_cv_lib_dl_dlopen=no \
+	%{?with_uClibc:CC="%{_target_cpu}-uclibc-gcc"} \
+	%{?with_dietlibc:--with-cc="diet %{__cc}"} \
 	--with-ccopts="-Os" \
 	--with-ldopts="-static" \
 	--disable-elf-shlibs \
 	--disable-selinux \
-	--disable-nls
+	--disable-nls \
+	--disable-testio-debug \
+	--disable-e2initrd-helper \
+	--disable-uuidd \
+	--disable-tls \
+	--disable-nls \
+	--disable-threads
 
 %{__make} -j1 libs
 %{__make} progs
 mv -f misc/blkid initrd-blkid
+mv -f misc/mke2fs initrd-mke2fs
+mv -f misc/fsck initrd-e2fsck
 %{__make} clean
+%if %{with dietlibc}
+sed -i -e 's|\(^LIBUUID = .*\) -lcompat|\1|g' \
+	-e 's|\(^STATIC_LIBUUID = .*\) -lcompat|\1|g' MCONFIG.in
+%endif
 %endif
 
 %configure \
@@ -713,7 +742,11 @@ echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/mkfs.ext4dev.8
 rm -f $RPM_BUILD_ROOT%{_mandir}/README.e2fsprogs-non-english-man-pages
 touch $RPM_BUILD_ROOT%{_sysconfdir}/blkid.tab
 
-%{?with_initrd:install initrd-blkid $RPM_BUILD_ROOT/sbin/initrd-blkid}
+%if %{with initrd}
+install initrd-blkid $RPM_BUILD_ROOT/sbin/initrd-blkid
+install initrd-e2fsck $RPM_BUILD_ROOT/sbin/initrd-e2fsck
+install initrd-mke2fs $RPM_BUILD_ROOT/sbin/initrd-mke2fs
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -1017,5 +1050,5 @@ fi
 %if %{with initrd}
 %files initrd
 %defattr(644,root,root,755)
-%attr(755,root,root) /sbin/initrd-blkid
+%attr(755,root,root) /sbin/initrd-*
 %endif
