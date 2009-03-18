@@ -36,7 +36,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.41.4
-Release:	1
+Release:	2
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -81,6 +81,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # changing CFLAGS in the middle confuses confcache
 %undefine       configure_cache
+
+# for some reason known only to rpm there must be "\\|" not "\|" here
+%define		dietarch	%(echo %{_target_cpu} | sed -e 's/i.86\\|pentium.\\|athlon/i386/;s/amd64/x86_64/;s/armv.*/arm/')
+%define		dietlibdir	%{_prefix}/lib/dietlibc/lib-%{dietarch}
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
@@ -549,6 +553,20 @@ Library for accessing and manipulating UUID - static version.
 %description -n libuuid-static -l pl.UTF-8
 Biblioteka umożliwiająca dostęp i zmiany UUID - wersja statyczna.
 
+%package -n libuuid-dietlibc
+Summary:	Static dietlibc library for accessing and manipulating UUID
+Summary(pl.UTF-8):	Statyczna biblioteka dietlibc umożliwiająca dostęp i zmiany UUID
+License:	BSD
+Group:		Development/Libraries
+Requires:	libuuid-devel = %{version}-%{release}
+Conflicts:	e2fsprogs-static < 1.34-3
+
+%description -n libuuid-dietlibc
+Library for accessing and manipulating UUID - static dietlibc version.
+
+%description -n libuuid-dietlibc -l pl.UTF-8
+Biblioteka umożliwiająca dostęp i zmiany UUID - wersja statyczna dietlibc.
+
 %package -n uuidd
 Summary:	Helper daemon to guarantee uniqueness of time-based UUIDs
 Summary(pl.UTF-8):	Pomocniczy demon gwarantujący unikalność UUID-ów opartych na czasie
@@ -651,11 +669,12 @@ sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
 mv -f misc/blkid initrd-blkid
 mv -f misc/mke2fs initrd-mke2fs
 mv -f misc/fsck initrd-e2fsck
-%{__make} clean
 %if %{with dietlibc}
 sed -i -e 's|\(^LIBUUID = .*\) -lcompat|\1|g' \
 	-e 's|\(^STATIC_LIBUUID = .*\) -lcompat|\1|g' MCONFIG.in
+mv -f lib/uuid/libuuid.a diet-libuuid.a
 %endif
+%{__make} clean
 %endif
 
 %configure \
@@ -677,6 +696,7 @@ makeinfo --no-split e2compr.texinfo
 
 %install
 rm -rf $RPM_BUILD_ROOT
+%{?with_dietlibc:install -d $RPM_BUILD_ROOT%{dietlibdir}}
 export PATH=/sbin:$PATH
 
 install -d $RPM_BUILD_ROOT/var/lib/libuuid
@@ -747,6 +767,8 @@ install initrd-blkid $RPM_BUILD_ROOT/sbin/initrd-blkid
 install initrd-e2fsck $RPM_BUILD_ROOT/sbin/initrd-e2fsck
 install initrd-mke2fs $RPM_BUILD_ROOT/sbin/initrd-mke2fs
 %endif
+
+%{?with_dietlibc:install diet-libuuid.a $RPM_BUILD_ROOT%{dietlibdir}/libuuid.a}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -1031,6 +1053,12 @@ fi
 %files -n libuuid-static
 %defattr(644,root,root,755)
 %{_libdir}/libuuid.a
+
+%if %{with dietlibc}
+%files -n libuuid-dietlibc
+%defattr(644,root,root,755)
+%{dietlibdir}/libuuid.a
+%endif
 
 %files -n uuidd
 %defattr(644,root,root,755)
