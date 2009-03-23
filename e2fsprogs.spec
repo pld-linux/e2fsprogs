@@ -763,9 +763,10 @@ rm -f $RPM_BUILD_ROOT%{_mandir}/README.e2fsprogs-non-english-man-pages
 touch $RPM_BUILD_ROOT%{_sysconfdir}/blkid.tab
 
 %if %{with initrd}
-install initrd-blkid $RPM_BUILD_ROOT/sbin/initrd-blkid
-install initrd-e2fsck $RPM_BUILD_ROOT/sbin/initrd-e2fsck
-install initrd-mke2fs $RPM_BUILD_ROOT/sbin/initrd-mke2fs
+install -d $RPM_BUILD_ROOT%{_libdir}/initrd
+install initrd-blkid $RPM_BUILD_ROOT%{_libdir}/initrd/blkid
+install initrd-e2fsck $RPM_BUILD_ROOT%{_libdir}/initrd/e2fsck
+install initrd-mke2fs $RPM_BUILD_ROOT%{_libdir}/initrd/mke2fs
 %endif
 
 %{?with_dietlibc:install diet-libuuid.a $RPM_BUILD_ROOT%{dietlibdir}/libuuid.a}
@@ -1078,5 +1079,7 @@ fi
 %if %{with initrd}
 %files initrd
 %defattr(644,root,root,755)
-%attr(755,root,root) /sbin/initrd-*
+%attr(755,root,root) %{_libdir}/initrd/blkid
+%attr(755,root,root) %{_libdir}/initrd/e2fsck
+%attr(755,root,root) %{_libdir}/initrd/mke2fs
 %endif
