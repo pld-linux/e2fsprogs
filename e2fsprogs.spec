@@ -614,6 +614,7 @@ Sprawdzenie i naprawa linuksowego systemu plików.
 Summary:	blkid - initrd version
 Summary(pl.UTF-8):	blkid - wersja dla initrd
 Group:		Base
+Conflicts:	geninitrd <= 10000.3
 
 %description initrd
 This package includes a blkid utility to recognize partitions by label
