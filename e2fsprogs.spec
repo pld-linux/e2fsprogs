@@ -36,7 +36,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.41.4
-Release:	2
+Release:	3
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -614,7 +614,7 @@ Sprawdzenie i naprawa linuksowego systemu plików.
 Summary:	blkid - initrd version
 Summary(pl.UTF-8):	blkid - wersja dla initrd
 Group:		Base
-Conflicts:	geninitrd <= 10000.3
+Conflicts:	geninitrd < 10000.10
 
 %description initrd
 This package includes a blkid utility to recognize partitions by label
