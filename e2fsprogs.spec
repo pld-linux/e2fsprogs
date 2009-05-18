@@ -611,18 +611,18 @@ Check and repair a Linux file system.
 Sprawdzenie i naprawa linuksowego systemu plików.
 
 %package initrd
-Summary:	blkid - initrd version
-Summary(pl.UTF-8):	blkid - wersja dla initrd
+Summary:	e2fsck and mke2fs - initrd version
+Summary(pl.UTF-8):	e2fsck i mke2fs - wersja dla initrd
 Group:		Base
 Conflicts:	geninitrd < 10000.10
 
 %description initrd
-This package includes a blkid utility to recognize partitions by label
-or UUID - staticaly linked for initrd.
+This package includes a e2fsck and mke2fs utilities staticaly
+linked for initrd.
 
 %description initrd -l pl.UTF-8
-Pakiet ten zawiera narzędzie blkid do rozpoznawania partycji przez
-etykietę lub UUID - statycznie skonsolidowane na potrzeby initrd.
+Pakiet ten zawiera narzędziae2fsck i mke2fs statycznie skonsolidowane
+na potrzeby initrd.
 
 %prep
 %setup -q
@@ -667,7 +667,6 @@ sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
 
 %{__make} -j1 libs
 %{__make} progs
-mv -f misc/blkid initrd-blkid
 mv -f misc/mke2fs initrd-mke2fs
 mv -f misc/fsck initrd-e2fsck
 %if %{with dietlibc}
@@ -765,7 +764,6 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/blkid.tab
 
 %if %{with initrd}
 install -d $RPM_BUILD_ROOT%{_libdir}/initrd
-install initrd-blkid $RPM_BUILD_ROOT%{_libdir}/initrd/blkid
 install initrd-e2fsck $RPM_BUILD_ROOT%{_libdir}/initrd/e2fsck
 install initrd-mke2fs $RPM_BUILD_ROOT%{_libdir}/initrd/mke2fs
 %endif
@@ -1080,7 +1078,6 @@ fi
 %if %{with initrd}
 %files initrd
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/initrd/blkid
 %attr(755,root,root) %{_libdir}/initrd/e2fsck
 %attr(755,root,root) %{_libdir}/initrd/mke2fs
 %endif
