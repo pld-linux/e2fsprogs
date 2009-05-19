@@ -1,14 +1,11 @@
 --- e2fsprogs-1.41.0/doc/libext2fs.texinfo.orig	2008-07-10 23:25:33.000000000 +0200
 +++ e2fsprogs-1.41.0/doc/libext2fs.texinfo	2008-07-17 07:18:58.518034707 +0200
-@@ -6,9 +6,9 @@
+@@ -6,7 +6,7 @@
  @comment %**end of header
  
  @ifinfo
 -@dircategory Development
 +@dircategory Libraries:
  @direntry
--* libext2fs: (libext2fs.info).                  The EXT2FS library.
-+* libext2fs: (libext2fs).		The EXT2FS library
+ * libext2fs: (libext2fs).                  The EXT2FS library.
  @end direntry
- @end ifinfo
- 
