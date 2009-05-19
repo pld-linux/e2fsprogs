@@ -55,6 +55,7 @@ BuildRequires:	automake
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	rpmbuild(macros) >= 1.426
 BuildRequires:	texinfo
+BuildRequires:	util-linux-ng-devel >= 2.15-3
 %if %{with allstatic}
 BuildRequires:	glibc-static
 BuildRequires:	libselinux-static
