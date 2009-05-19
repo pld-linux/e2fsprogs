@@ -826,7 +826,6 @@ fi
 %attr(755,root,root) /sbin/e2image
 %attr(755,root,root) /sbin/e2label
 %attr(755,root,root) /sbin/e2undo
-%attr(755,root,root) /sbin/findfs
 %attr(755,root,root) /sbin/fsck.ext2
 %attr(755,root,root) /sbin/fsck.ext3
 %attr(755,root,root) /sbin/fsck.ext4
@@ -860,7 +859,6 @@ fi
 %{_mandir}/man8/e2label.8*
 %{_mandir}/man8/e2undo.8*
 %{_mandir}/man8/filefrag.8*
-%{_mandir}/man8/findfs.8*
 %{_mandir}/man8/fsck.ext2.8*
 %{_mandir}/man8/fsck.ext3.8*
 %{_mandir}/man8/fsck.ext4.8*
@@ -915,7 +913,6 @@ fi
 %lang(ja) %{_mandir}/ja/man8/e2fsck.8*
 %lang(ja) %{_mandir}/ja/man8/e2image.8*
 %lang(ja) %{_mandir}/ja/man8/e2label.8*
-%lang(ja) %{_mandir}/ja/man8/findfs.8*
 %lang(ja) %{_mandir}/ja/man8/fsck.ext2.8*
 %lang(ja) %{_mandir}/ja/man8/fsck.ext3.8*
 %lang(ja) %{_mandir}/ja/man8/fsck.ext4.8*
