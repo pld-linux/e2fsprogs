@@ -35,12 +35,12 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.41.4
-Release:	3
+Version:	1.41.5
+Release:	0.1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	59033388df36987d2b9c9bbf7e19bd57
+# Source0-md5:	e218df6c84fc17c1126d31de9472a76c
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
@@ -656,6 +656,7 @@ sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
 	--with-ccopts="%{rpmcflags} -Os" \
 	--with-ldopts="%{rpmldflags} -static" \
 	--disable-elf-shlibs \
+	--disable-libblkid \
 	--disable-selinux \
 	--disable-nls \
 	--disable-testio-debug \
@@ -681,6 +682,7 @@ mv -f lib/uuid/libuuid.a diet-libuuid.a
 	--with-root-prefix="" \
 	%{!?with_nls:--disable-nls} \
 	%{!?with_allstatic:--enable-elf-shlibs} \
+	--disable-libblkid \
 	--enable-compression \
 	--enable-htree \
 	--enable-fsck \
@@ -760,7 +762,6 @@ echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/mkfs.ext4dev.8
 %endif
 
 rm -f $RPM_BUILD_ROOT%{_mandir}/README.e2fsprogs-non-english-man-pages
-touch $RPM_BUILD_ROOT%{_sysconfdir}/blkid.tab
 
 %if %{with initrd}
 install -d $RPM_BUILD_ROOT%{_libdir}/initrd
@@ -818,7 +819,6 @@ fi
 # COPYING specifies license details for some parts of package
 %doc COPYING README RELEASE-NOTES
 %attr(755,root,root) /sbin/badblocks
-%attr(755,root,root) /sbin/blkid
 %attr(755,root,root) /sbin/debugfs
 %attr(755,root,root) /sbin/dumpe2fs
 %attr(755,root,root) /sbin/e2fsck
@@ -846,14 +846,12 @@ fi
 %attr(755,root,root) %{_libdir}/e2initrd_helper
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2fsck.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mke2fs.conf
-%ghost %{_sysconfdir}/blkid.tab
 %{_mandir}/man1/chattr.1*
 %{_mandir}/man1/lsattr.1*
 %{_mandir}/man1/mk_cmds.1*
 %{_mandir}/man5/e2fsck.conf.5*
 %{_mandir}/man5/mke2fs.conf.5*
 %{_mandir}/man8/badblocks.8*
-%{_mandir}/man8/blkid.8*
 %{_mandir}/man8/debugfs.8*
 %{_mandir}/man8/dumpe2fs.8*
 %{_mandir}/man8/e2fsck.8*
@@ -970,8 +968,6 @@ fi
 %if %{without allstatic}
 %files libs
 %defattr(644,root,root,755)
-%attr(755,root,root) /%{_lib}/libblkid.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libblkid.so.1
 %attr(755,root,root) /%{_lib}/libe2p.so.*.*
 %attr(755,root,root) %ghost /%{_lib}/libe2p.so.2
 %attr(755,root,root) /%{_lib}/libext2fs.so.*.*
@@ -982,27 +978,21 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%doc doc/libblkid.txt
 %if %{without allstatic}
-%attr(755,root,root) %{_libdir}/libblkid.so
 %attr(755,root,root) %{_libdir}/libe2p.so
 %attr(755,root,root) %{_libdir}/libext2fs.so
 %attr(755,root,root) %{_libdir}/libss.so
 %endif
-%{_includedir}/blkid
 %{_includedir}/e2p
 %{_includedir}/ext2fs
 %{_includedir}/ss
-%{_pkgconfigdir}/blkid.pc
 %{_pkgconfigdir}/e2p.pc
 %{_pkgconfigdir}/ext2fs.pc
 %{_pkgconfigdir}/ss.pc
 %{_infodir}/libext2fs.info*
-%{_mandir}/man3/libblkid.3*
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libblkid.a
 %{_libdir}/libe2p.a
 %{_libdir}/libext2fs.a
 %{_libdir}/libss.a
