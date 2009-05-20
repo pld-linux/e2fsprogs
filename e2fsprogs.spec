@@ -49,13 +49,14 @@ Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
 Patch2:		%{name}-498381.patch
 Patch3:		%{name}-diet.patch
+Patch4:		%{name}-external-libblkid.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	rpmbuild(macros) >= 1.426
 BuildRequires:	texinfo
-BuildRequires:	util-linux-ng-devel >= 2.15-3
+BuildRequires:	libblkid-devel
 %if %{with allstatic}
 BuildRequires:	glibc-static
 BuildRequires:	libselinux-static
@@ -67,6 +68,7 @@ BuildRequires:	uClibc-static >= 2:0.9.29
 	%else
 		%if %{with dietlibc}
 BuildRequires:	dietlibc-static
+BuildRequires:	libblkid-dietlibc
 		%else
 BuildRequires:	glibc-static
 		%endif
@@ -632,6 +634,7 @@ na potrzeby initrd.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 sed -i -e '/AC_SUBST(DO_TEST_SUITE/a\MKINSTALLDIRS="install -d"\nAC_SUBST(MKINSTALLDIRS)\n' configure.in
 
