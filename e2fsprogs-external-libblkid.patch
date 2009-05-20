@@ -1,0 +1,16 @@
+--- e2fsprogs-1.41.5/configure.in~	2009-05-20 15:14:42.406973865 +0200
++++ e2fsprogs-1.41.5/configure.in	2009-05-20 15:15:43.880974154 +0200
+@@ -397,11 +397,8 @@
+ 		AC_MSG_ERROR([pkg-config not installed; please install it.])
+ 	fi
+ 
+-	AC_CHECK_LIB(blkid, blkid_get_cache,
+-		[LIBBLKID=`$PKG_CONFIG --libs blkid`;
+-		 STATIC_LIBBLKID=`$PKG_CONFIG --static --libs blkid`],
+-		[AC_MSG_ERROR([external blkid library not found])],
+-		[$LIBBLKID])
++	LIBBLKID="-lblkid"
++	STATIC_LIBBLKID="-lblkid"
+ 	BLKID_CMT=#
+ 	AC_MSG_RESULT([Disabling private blkid library])
+ else
