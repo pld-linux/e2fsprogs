@@ -56,6 +56,7 @@ BuildRequires:	automake
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	rpmbuild(macros) >= 1.426
 BuildRequires:	texinfo
+BuildRequires:	texi2dvi
 BuildRequires:	libblkid-devel
 %if %{with allstatic}
 BuildRequires:	glibc-static
