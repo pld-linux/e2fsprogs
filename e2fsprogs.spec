@@ -36,7 +36,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.41.8
-Release:	4
+Release:	5
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -77,7 +77,7 @@ BuildRequires:	glibc-static
 	%endif
 %endif
 Requires(post,postun):	/sbin/ldconfig
-Requires:	fsck = %{version}-%{release}
+Requires:	fsck
 Requires:	libcom_err = %{version}-%{release}
 Obsoletes:	e2fsprogs-evms
 Obsoletes:	libext2fs2
@@ -520,20 +520,6 @@ A Common Error Description Library for unices - static version.
 %description -n libcom_err-static -l pl.UTF-8
 Biblioteka opisu popularnych błędów dla uniksów - wersja statyczna.
 
-%package -n fsck
-Summary:	Check and repair a Linux file system
-Summary(pl.UTF-8):	Sprawdzenie i naprawa linuksowego systemu plików
-Group:		Applications/System
-%if %{without allstatic}
-Requires:	%{name}-libs = %{version}-%{release}
-%endif
-
-%description -n fsck
-Check and repair a Linux file system.
-
-%description -n fsck -l pl.UTF-8
-Sprawdzenie i naprawa linuksowego systemu plików.
-
 %package initrd
 Summary:	e2fsck and mke2fs - initrd version
 Summary(pl.UTF-8):	e2fsck i mke2fs - wersja dla initrd
@@ -583,6 +569,7 @@ sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
 	--with-ccopts="%{rpmcflags} -Os" \
 	--with-ldopts="%{rpmldflags} -static" \
 	--disable-elf-shlibs \
+	--disable-fsck \
 	--disable-libblkid \
 	--disable-libuuid \
 	--disable-nls \
@@ -596,7 +583,6 @@ sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
 %{__make} -j1 libs
 %{__make} progs
 mv -f misc/mke2fs initrd-mke2fs
-mv -f misc/fsck initrd-e2fsck
 %{__make} clean
 %{?with_dietlibc:mv MCONFIG.in.org MCONFIG.in}
 %endif
@@ -605,12 +591,12 @@ mv -f misc/fsck initrd-e2fsck
 	--with-root-prefix="" \
 	%{!?with_nls:--disable-nls} \
 	%{!?with_allstatic:--enable-elf-shlibs} \
+	--disable-fsck \
 	--disable-libblkid \
 	--disable-libuuid \
 	--disable-uuidd \
 	--enable-compression \
 	--enable-htree \
-	--enable-fsck \
 	--disable-rpath
 
 %{__make} -j1 libs \
@@ -688,7 +674,6 @@ rm -f $RPM_BUILD_ROOT%{_mandir}/README.e2fsprogs-non-english-man-pages
 
 %if %{with initrd}
 install -d $RPM_BUILD_ROOT%{_libdir}/initrd
-install initrd-e2fsck $RPM_BUILD_ROOT%{_libdir}/initrd/e2fsck
 install initrd-mke2fs $RPM_BUILD_ROOT%{_libdir}/initrd/mke2fs
 %endif
 
@@ -712,9 +697,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n libcom_err -p /sbin/ldconfig
 %postun	-n libcom_err -p /sbin/ldconfig
-
-%post	-n fsck -p /sbin/ldconfig
-%postun	-n fsck -p /sbin/ldconfig
 
 %files %{?with_nls:-f %{name}.lang}
 %defattr(644,root,root,755)
@@ -919,18 +901,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libcom_err.a
 
-%files -n fsck
-%defattr(644,root,root,755)
-%attr(755,root,root) /sbin/fsck
-%{_mandir}/man8/fsck.8*
-%lang(it) %{_mandir}/it/man8/fsck.8*
-%lang(ja) %{_mandir}/ja/man8/fsck.8*
-%lang(ko) %{_mandir}/ko/man8/fsck.8*
-%lang(pl) %{_mandir}/pl/man8/fsck.8*
-
 %if %{with initrd}
 %files initrd
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/initrd/e2fsck
 %attr(755,root,root) %{_libdir}/initrd/mke2fs
 %endif
