@@ -36,7 +36,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.41.8
-Release:	3
+Release:	4
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -89,6 +89,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 # for some reason known only to rpm there must be "\\|" not "\|" here
 %define		dietarch	%(echo %{_target_cpu} | sed -e 's/i.86\\|pentium.\\|athlon/i386/;s/amd64/x86_64/;s/armv.*/arm/')
 %define		dietlibdir	%{_prefix}/lib/dietlibc/lib-%{dietarch}
+
+%ifarch ppc ppc64
+# for dietlibc
+%define		filterout_ld	-Wl,-z,relro
+%endif
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
