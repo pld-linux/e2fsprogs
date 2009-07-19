@@ -36,7 +36,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.41.8
-Release:	2
+Release:	3
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -50,6 +50,7 @@ Patch1:		e2compr-info.patch
 Patch2:		%{name}-498381.patch
 Patch3:		%{name}-diet.patch
 Patch4:		%{name}-external-libblkid.patch
+Patch5:		%{name}-external-libuuid.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -58,6 +59,7 @@ BuildRequires:	rpmbuild(macros) >= 1.426
 BuildRequires:	texinfo
 BuildRequires:	texinfo-texi2dvi
 BuildRequires:	libblkid-devel
+BuildRequires:	libuuid-devel
 %if %{with allstatic}
 BuildRequires:	glibc-static
 %endif
@@ -68,6 +70,7 @@ BuildRequires:	uClibc-static >= 2:0.9.29
 		%if %{with dietlibc}
 BuildRequires:	dietlibc-static
 BuildRequires:	libblkid-dietlibc
+BuildRequires:	libuuid-dietlibc
 		%else
 BuildRequires:	glibc-static
 		%endif
@@ -76,7 +79,6 @@ BuildRequires:	glibc-static
 Requires(post,postun):	/sbin/ldconfig
 Requires:	fsck = %{version}-%{release}
 Requires:	libcom_err = %{version}-%{release}
-Requires:	libuuid = %{version}-%{release}
 Obsoletes:	e2fsprogs-evms
 Obsoletes:	libext2fs2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -340,7 +342,7 @@ Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 %endif
 Requires:	libcom_err-devel = %{version}-%{release}
-Requires:	libuuid-devel = %{version}-%{release}
+Requires:	libuuid-devel
 Obsoletes:	libext2fs2-devel
 
 %description devel
@@ -513,90 +515,6 @@ A Common Error Description Library for unices - static version.
 %description -n libcom_err-static -l pl.UTF-8
 Biblioteka opisu popularnych błędów dla uniksów - wersja statyczna.
 
-%package -n libuuid
-Summary:	Library for accessing and manipulating UUID
-Summary(pl.UTF-8):	Biblioteka umożliwiająca dostęp i zmiany UUID
-License:	BSD
-Group:		Libraries
-Conflicts:	e2fsprogs < 1.34-3
-
-%description -n libuuid
-Library for accessing and manipulating UUID.
-
-%description -n libuuid -l pl.UTF-8
-Biblioteka umożliwiająca dostęp i zmiany UUID.
-
-%package -n libuuid-devel
-Summary:	Header files for library for accessing and manipulating UUID
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki umożliwiającej dostęp i zmiany UUID
-License:	BSD
-Group:		Development/Libraries
-Requires:	libuuid = %{version}-%{release}
-Conflicts:	e2fsprogs-devel < 1.34-3
-
-%description -n libuuid-devel
-Library for accessing and manipulating UUID - development files.
-
-%description -n libuuid-devel -l pl.UTF-8
-Biblioteka umożliwiająca dostęp i zmiany UUID - pliki dla
-programistów.
-
-%package -n libuuid-static
-Summary:	Static library for accessing and manipulating UUID
-Summary(pl.UTF-8):	Statyczna biblioteka umożliwiająca dostęp i zmiany UUID
-License:	BSD
-Group:		Development/Libraries
-Requires:	libuuid-devel = %{version}-%{release}
-Conflicts:	e2fsprogs-static < 1.34-3
-
-%description -n libuuid-static
-Library for accessing and manipulating UUID - static version.
-
-%description -n libuuid-static -l pl.UTF-8
-Biblioteka umożliwiająca dostęp i zmiany UUID - wersja statyczna.
-
-%package -n libuuid-dietlibc
-Summary:	Static dietlibc library for accessing and manipulating UUID
-Summary(pl.UTF-8):	Statyczna biblioteka dietlibc umożliwiająca dostęp i zmiany UUID
-License:	BSD
-Group:		Development/Libraries
-Requires:	libuuid-devel = %{version}-%{release}
-Conflicts:	e2fsprogs-static < 1.34-3
-
-%description -n libuuid-dietlibc
-Library for accessing and manipulating UUID - static dietlibc version.
-
-%description -n libuuid-dietlibc -l pl.UTF-8
-Biblioteka umożliwiająca dostęp i zmiany UUID - wersja statyczna dietlibc.
-
-%package -n uuidd
-Summary:	Helper daemon to guarantee uniqueness of time-based UUIDs
-Summary(pl.UTF-8):	Pomocniczy demon gwarantujący unikalność UUID-ów opartych na czasie
-License:	GPL v2
-Group:		Daemons
-Requires(postun):	/usr/sbin/groupdel
-Requires(postun):	/usr/sbin/userdel
-Requires(pre):	/bin/id
-Requires(pre):	/usr/bin/getgid
-Requires(pre):	/usr/sbin/groupadd
-Requires(pre):	/usr/sbin/groupmod
-Requires(pre):	/usr/sbin/useradd
-Requires(pre):	/usr/sbin/usermod
-Requires:	libuuid = %{version}-%{release}
-Provides:	group(uuidd)
-Provides:	user(uuidd)
-Conflicts:	libuuid < 1.40.5-0.1
-
-%description -n uuidd
-The uuidd package contains a userspace daemon (uuidd) which guarantees
-uniqueness of time-based UUID generation even at very high rates on
-SMP systems.
-
-%description -n uuidd -l pl.UTF-8
-Ten pakiet zawiera działającego w przestrzeni użytkownika demona
-(uuidd) gwarantującego unikalność generowania UUID-ów opartych na
-czasie nawet przy bardzo dużej częstotliwości na systemach SMP.
-
 %package -n fsck
 Summary:	Check and repair a Linux file system
 Summary(pl.UTF-8):	Sprawdzenie i naprawa linuksowego systemu plików
@@ -604,7 +522,6 @@ Group:		Applications/System
 %if %{without allstatic}
 Requires:	%{name}-libs = %{version}-%{release}
 %endif
-Requires:	libuuid = %{version}-%{release}
 
 %description -n fsck
 Check and repair a Linux file system.
@@ -634,6 +551,7 @@ na potrzeby initrd.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 sed -i -e '/AC_SUBST(DO_TEST_SUITE/a\MKINSTALLDIRS="install -d"\nAC_SUBST(MKINSTALLDIRS)\n' configure.in
 
@@ -649,6 +567,7 @@ cp -f /usr/share/automake/config.sub .
 %if %{with initrd}
 %if %{with dietlibc}
 # needed for syscall()
+cp -a MCONFIG.in MCONFIG.in.org
 sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
 	-e 's|\(^STATIC_LIBUUID = .*\)|\1 -lcompat|g' MCONFIG.in
 %endif
@@ -660,6 +579,7 @@ sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
 	--with-ldopts="%{rpmldflags} -static" \
 	--disable-elf-shlibs \
 	--disable-libblkid \
+	--disable-libuuid \
 	--disable-nls \
 	--disable-testio-debug \
 	--disable-e2initrd-helper \
@@ -672,12 +592,8 @@ sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
 %{__make} progs
 mv -f misc/mke2fs initrd-mke2fs
 mv -f misc/fsck initrd-e2fsck
-%if %{with dietlibc}
-sed -i -e 's|\(^LIBUUID = .*\) -lcompat|\1|g' \
-	-e 's|\(^STATIC_LIBUUID = .*\) -lcompat|\1|g' MCONFIG.in
-mv -f lib/uuid/libuuid.a diet-libuuid.a
-%endif
 %{__make} clean
+%{?with_dietlibc:mv MCONFIG.in.org MCONFIG.in}
 %endif
 
 %configure \
@@ -685,6 +601,8 @@ mv -f lib/uuid/libuuid.a diet-libuuid.a
 	%{!?with_nls:--disable-nls} \
 	%{!?with_allstatic:--enable-elf-shlibs} \
 	--disable-libblkid \
+	--disable-libuuid \
+	--disable-uuidd \
 	--enable-compression \
 	--enable-htree \
 	--enable-fsck \
@@ -702,8 +620,6 @@ makeinfo --no-split e2compr.texinfo
 rm -rf $RPM_BUILD_ROOT
 %{?with_dietlibc:install -d $RPM_BUILD_ROOT%{dietlibdir}}
 export PATH=/sbin:$PATH
-
-install -d $RPM_BUILD_ROOT/var/lib/libuuid
 
 echo "install-shlibs:" >> intl/Makefile
 
@@ -771,8 +687,6 @@ install initrd-e2fsck $RPM_BUILD_ROOT%{_libdir}/initrd/e2fsck
 install initrd-mke2fs $RPM_BUILD_ROOT%{_libdir}/initrd/mke2fs
 %endif
 
-%{?with_dietlibc:install diet-libuuid.a $RPM_BUILD_ROOT%{dietlibdir}/libuuid.a}
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -793,25 +707,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n libcom_err -p /sbin/ldconfig
 %postun	-n libcom_err -p /sbin/ldconfig
-
-%post	-n libuuid -p /sbin/ldconfig
-%postun	-n libuuid -p /sbin/ldconfig
-
-%pre	-n uuidd
-if [ "$(getgid libuuid 2>/dev/null)" = "222" ]; then
-	/usr/sbin/groupmod -n uuidd libuuid
-fi
-%groupadd -g 222 uuidd
-if [ "$(id -u libuuid 2>/dev/null)" = "222" ]; then
-	/usr/sbin/usermod -l uuidd libuuid
-fi
-%useradd -u 222 -r -d /var/lib/libuuid -s /bin/false -c "UUID generator helper daemon" -g uuidd uuidd
-
-%postun	-n uuidd
-if [ "$1" = "0" ]; then
-	%userremove uuidd
-	%groupremove uuidd
-fi
 
 %post	-n fsck -p /sbin/ldconfig
 %postun	-n fsck -p /sbin/ldconfig
@@ -1018,42 +913,6 @@ fi
 %files -n libcom_err-static
 %defattr(644,root,root,755)
 %{_libdir}/libcom_err.a
-
-%files -n libuuid
-%defattr(644,root,root,755)
-%doc lib/uuid/COPYING
-%attr(755,root,root) %{_bindir}/uuidgen
-%if %{without allstatic}
-%attr(755,root,root) /%{_lib}/libuuid.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libuuid.so.1
-%endif
-%{_mandir}/man1/uuidgen.1*
-%lang(ja) %{_mandir}/ja/man1/uuidgen.1*
-
-%files -n libuuid-devel
-%defattr(644,root,root,755)
-%{!?with_allstatic:%attr(755,root,root) %{_libdir}/libuuid.so}
-%{_includedir}/uuid
-%{_pkgconfigdir}/uuid.pc
-%{_mandir}/man3/uuid*.3*
-%lang(ja) %{_mandir}/ja/man3/libuuid.3*
-%lang(ja) %{_mandir}/ja/man3/uuid_*.3*
-
-%files -n libuuid-static
-%defattr(644,root,root,755)
-%{_libdir}/libuuid.a
-
-%if %{with dietlibc}
-%files -n libuuid-dietlibc
-%defattr(644,root,root,755)
-%{dietlibdir}/libuuid.a
-%endif
-
-%files -n uuidd
-%defattr(644,root,root,755)
-%attr(6755,uuidd,uuidd) %{_sbindir}/uuidd
-%attr(2775,uuidd,uuidd) /var/lib/libuuid
-%{_mandir}/man8/uuidd.8*
 
 %files -n fsck
 %defattr(644,root,root,755)
