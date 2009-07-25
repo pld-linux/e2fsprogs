@@ -531,7 +531,7 @@ This package includes a e2fsck and mke2fs utilities staticaly
 linked for initrd.
 
 %description initrd -l pl.UTF-8
-Pakiet ten zawiera narzędziae2fsck i mke2fs statycznie skonsolidowane
+Pakiet ten zawiera narzędzia e2fsck i mke2fs statycznie skonsolidowane
 na potrzeby initrd.
 
 %prep
