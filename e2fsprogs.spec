@@ -34,19 +34,18 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.40.4
-Release:	6
+Version:	1.41.9
+Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	124d744bdf9d443591eb8193c085944b
+# Source0-md5:	52f60a9e19a02f142f5546f1b5681927
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
 Patch1:		e2compr-info.patch
-Patch2:		%{name}-1886394.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -596,10 +595,9 @@ etykietę lub UUID - statycznie skonsolidowane na potrzeby initrd.
 
 %prep
 %setup -q
-%patch0 -p1
+#%%patch0 -p1
 gunzip < %{SOURCE1} > doc/e2compr.texinfo
 %patch1 -p1
-%patch2 -p1
 
 sed -i -e "
 	s,DEVMAPPER_REQ='libselinux libsepol',DEVMAPPER_REQ=,;
@@ -663,6 +661,7 @@ echo "install-shlibs:" >> intl/Makefile
 
 %{__make} install install-libs \
 	root_libdir=/%{_lib} \
+	root_sbindir=/sbin \
 	mkinstalldirs='install -d' \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -754,19 +753,25 @@ fi
 %attr(755,root,root) /sbin/e2fsck
 %attr(755,root,root) /sbin/e2image
 %attr(755,root,root) /sbin/e2label
+%attr(755,root,root) /sbin/e2undo
 %attr(755,root,root) /sbin/findfs
 %attr(755,root,root) /sbin/fsck.ext2
 %attr(755,root,root) /sbin/fsck.ext3
+%attr(755,root,root) /sbin/fsck.ext4
+%attr(755,root,root) /sbin/fsck.ext4dev
 %attr(755,root,root) /sbin/logsave
 %attr(755,root,root) /sbin/mke2fs
 %attr(755,root,root) /sbin/mkfs.ext2
 %attr(755,root,root) /sbin/mkfs.ext3
+%attr(755,root,root) /sbin/mkfs.ext4
+%attr(755,root,root) /sbin/mkfs.ext4dev
 %attr(755,root,root) /sbin/resize2fs
 %attr(755,root,root) /sbin/tune2fs
 %attr(755,root,root) %{_bindir}/chattr
 %attr(755,root,root) %{_bindir}/lsattr
 %attr(755,root,root) %{_bindir}/mk_cmds
 %attr(755,root,root) %{_sbindir}/filefrag
+%attr(755,root,root) %{_sbindir}/e2freefrag
 %attr(755,root,root) %{_sbindir}/mklost+found
 %attr(755,root,root) %{_libdir}/e2initrd_helper
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2fsck.conf
@@ -781,17 +786,23 @@ fi
 %{_mandir}/man8/blkid.8*
 %{_mandir}/man8/debugfs.8*
 %{_mandir}/man8/dumpe2fs.8*
+%{_mandir}/man8/e2freefrag.8*
 %{_mandir}/man8/e2fsck.8*
 %{_mandir}/man8/e2image.8*
 %{_mandir}/man8/e2label.8*
+%{_mandir}/man8/e2undo.8*
 %{_mandir}/man8/filefrag.8*
 %{_mandir}/man8/findfs.8*
 %{_mandir}/man8/fsck.ext2.8*
 %{_mandir}/man8/fsck.ext3.8*
+%{_mandir}/man8/fsck.ext4.8*
+%{_mandir}/man8/fsck.ext4dev.8*
 %{_mandir}/man8/logsave.8*
 %{_mandir}/man8/mke2fs.8*
 %{_mandir}/man8/mkfs.ext2.8*
 %{_mandir}/man8/mkfs.ext3.8*
+%{_mandir}/man8/mkfs.ext4.8*
+%{_mandir}/man8/mkfs.ext4dev.8*
 %{_mandir}/man8/mklost+found.8*
 %{_mandir}/man8/resize2fs.8*
 %{_mandir}/man8/tune2fs.8*
