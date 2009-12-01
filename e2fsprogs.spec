@@ -55,11 +55,12 @@ URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	gettext-devel >= 0.11
+BuildRequires:	libblkid-devel
+BuildRequires:	libuuid-devel
+BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.426
 BuildRequires:	texinfo
 BuildRequires:	texinfo-texi2dvi
-BuildRequires:	libblkid-devel
-BuildRequires:	libuuid-devel
 %if %{with allstatic}
 BuildRequires:	glibc-static
 %endif
