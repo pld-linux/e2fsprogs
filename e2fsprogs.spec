@@ -568,8 +568,8 @@ sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
 	ac_cv_lib_dl_dlopen=no \
 	%{?with_uClibc:CC="%{_target_cpu}-uclibc-gcc"} \
 	%{?with_dietlibc:CC="diet %{__cc}"} \
-	--with-ccopts="%{rpmcflags} -Os" \
-	--with-ldopts="%{rpmldflags} -static" \
+	CFLAGS="%{rpmcflags} -Os" \
+	LDFLAGS="%{rpmldflags} -static" \
 	--disable-elf-shlibs \
 	--disable-fsck \
 	--disable-libblkid \
