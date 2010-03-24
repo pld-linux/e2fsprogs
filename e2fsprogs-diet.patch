@@ -1,12 +1,12 @@
 diff -ur e2fsprogs-1.41.3/configure.in e2fsprogs-1.41.3-diet/configure.in
 --- e2fsprogs-1.41.3/configure.in	2009-03-17 22:03:38.000000000 +0100
 +++ e2fsprogs-1.41.3-diet/configure.in	2009-03-17 22:01:22.000000000 +0100
-@@ -817,7 +817,7 @@
-   AC_SEARCH_LIBS([blkid_probe_all], [blkid])
- fi
+@@ -701,7 +701,7 @@
+ 	[#include <sys/types.h>
+ 	 #include <sys/socket.h>])
  dnl
--AC_CHECK_FUNCS(chflags getrusage llseek lseek64 open64 fstat64 ftruncate64 getmntinfo strtoull strcasecmp srandom jrand48 fchown mallinfo fdatasync strnlen strptime strdup sysconf pathconf posix_memalign memalign valloc __secure_getenv prctl mmap utime setresuid setresgid usleep nanosleep getdtablesize getrlimit blkid_probe_get_topology)
-+AC_CHECK_FUNCS(chflags getrusage llseek lseek64 open64 fstat64 stat64 ftruncate64 getmntinfo strtoull strcasecmp srandom jrand48 fchown mallinfo fdatasync strnlen strptime strdup sysconf pathconf posix_memalign memalign valloc __secure_getenv prctl mmap utime setresuid setresgid usleep nanosleep getdtablesize getrlimit blkid_probe_get_topology)
+-AC_CHECK_FUNCS(chflags getrusage llseek lseek64 open64 fstat64 ftruncate64 getmntinfo strtoull strcasecmp srandom jrand48 fchown mallinfo fdatasync strnlen strptime strdup sysconf pathconf posix_memalign memalign valloc __secure_getenv prctl mmap utime setresuid setresgid usleep nanosleep getdtablesize getrlimit)
++AC_CHECK_FUNCS(chflags getrusage llseek lseek64 open64 fstat64 stat64 ftruncate64 getmntinfo strtoull strcasecmp srandom jrand48 fchown mallinfo fdatasync strnlen strptime strdup sysconf pathconf posix_memalign memalign valloc __secure_getenv prctl mmap utime setresuid setresgid usleep nanosleep getdtablesize getrlimit)
  dnl
  dnl Check to see if -lsocket is required (solaris) to make something
  dnl that uses socket() to compile; this is needed for the UUID library
@@ -23,5 +23,3 @@ diff -ur e2fsprogs-1.41.3/misc/util.c e2fsprogs-1.41.3-diet/misc/util.c
  
  	val = stat64(device, &s);
 
---- configure.in.orig	2010-03-24 18:30:54.000000000 +0100
-+++ configure.in	2010-03-24 18:36:46.000000000 +0100
