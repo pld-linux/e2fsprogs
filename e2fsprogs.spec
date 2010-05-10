@@ -36,7 +36,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.41.11
-Release:	1
+Release:	2
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -79,6 +79,7 @@ Requires(post,postun):	/sbin/ldconfig
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	fsck
 Requires:	libcom_err = %{version}-%{release}
+Requires:	libss = %{version}-%{release}
 Obsoletes:	e2fsprogs-evms
 Obsoletes:	libext2fs2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -310,6 +311,7 @@ ext2fs 文件系统实用程序。
 Summary:	ext2 filesystem-specific libraries
 Summary(pl.UTF-8):	Biblioteki dla systemu plików ext2
 Group:		Libraries
+Requires:	libcom_err = %{version}-%{release}
 Conflicts:	e2fsprogs < 1.40.6-3
 Conflicts:	fsck < 1.40.6-3
 
@@ -520,6 +522,50 @@ A Common Error Description Library for unices - static version.
 %description -n libcom_err-static -l pl.UTF-8
 Biblioteka opisu popularnych błędów dla uniksów - wersja statyczna.
 
+%package -n libss
+Summary:	Subsystem command parsing library
+Summary(pl.UTF-8):	Biblioteka analizy poleceń podsystemów
+Group:		Libraries
+Requires:	libcom_err = %{version}-%{release}
+Conflicts:	e2fsprogs < 1.34-3
+Conflicts:	e2fsprogs-libs < 1.41.11-2
+
+%description -n libss
+Subsystem command parsing library.
+
+%description -n libss -l pl.UTF-8
+Biblioteka analizy poleceń podsystemów.
+
+%package -n libss-devel
+Summary:	Development files for subsystem command parsing library
+Summary(pl.UTF-8):	Pliki dla programistów do biblioteki analizy poleceń podsystemów
+Group:		Development/Libraries
+Requires:	libcom_err-devel = %{version}-%{release}
+Requires:	libss = %{version}-%{release}
+Conflicts:	e2fsprogs < 1.41.11-2
+Conflicts:	e2fsprogs-devel < 1.41.11-2
+
+%description -n libss-devel
+Development files for subsystem command parsing library, including
+header files and mk_cmds utility.
+
+%description -n libss-devel -l pl.UTF-8
+Biblioteka opisu popularPliki dla programistów do biblioteki analizy
+poleceń podsystemów - w tym pliki nagłówkowe i narzędzie mk_cmds.
+
+%package -n libss-static
+Summary:	Static version of subsystem command parsing library
+Summary(pl.UTF-8):	Statyczna wersja biblioteki analizy poleceń podsystemów
+Group:		Development/Libraries
+Requires:	libss-devel = %{version}-%{release}
+Conflicts:	e2fsprogs-static < 1.41.11-2
+
+%description -n libss-static
+Static version of subsystem command parsing library.
+
+%description -n libss-static -l pl.UTF-8
+Statyczna wersja biblioteki analizy poleceń podsystemów.
+
 %package initrd
 Summary:	e2fsck and mke2fs - initrd version
 Summary(pl.UTF-8):	e2fsck i mke2fs - wersja dla initrd
@@ -707,6 +753,9 @@ rm -rf $RPM_BUILD_ROOT
 %post	-n libcom_err -p /sbin/ldconfig
 %postun	-n libcom_err -p /sbin/ldconfig
 
+%post	-n libss -p /sbin/ldconfig
+%postun	-n libss -p /sbin/ldconfig
+
 %files %{?with_nls:-f %{name}.lang}
 %defattr(644,root,root,755)
 # COPYING specifies license details for some parts of package
@@ -732,7 +781,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /sbin/tune2fs
 %attr(755,root,root) %{_bindir}/chattr
 %attr(755,root,root) %{_bindir}/lsattr
-%attr(755,root,root) %{_bindir}/mk_cmds
 %attr(755,root,root) %{_sbindir}/e2freefrag
 %attr(755,root,root) %{_sbindir}/filefrag
 %attr(755,root,root) %{_sbindir}/mklost+found
@@ -741,7 +789,6 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mke2fs.conf
 %{_mandir}/man1/chattr.1*
 %{_mandir}/man1/lsattr.1*
-%{_mandir}/man1/mk_cmds.1*
 %{_mandir}/man5/e2fsck.conf.5*
 %{_mandir}/man5/mke2fs.conf.5*
 %{_mandir}/man8/badblocks.8*
@@ -854,7 +901,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pl) %{_mandir}/pl/man8/mkfs.ext4dev.8*
 %lang(pl) %{_mandir}/pl/man8/mklost+found.8*
 %lang(pl) %{_mandir}/pl/man8/tune2fs.8*
-%{_datadir}/ss
 %{_infodir}/e2compr.info*
 
 %if %{without allstatic}
@@ -864,8 +910,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost /%{_lib}/libe2p.so.2
 %attr(755,root,root) /%{_lib}/libext2fs.so.*.*
 %attr(755,root,root) %ghost /%{_lib}/libext2fs.so.2
-%attr(755,root,root) /%{_lib}/libss.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libss.so.2
 %endif
 
 %files devel
@@ -877,17 +921,14 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 %{_includedir}/e2p
 %{_includedir}/ext2fs
-%{_includedir}/ss
 %{_pkgconfigdir}/e2p.pc
 %{_pkgconfigdir}/ext2fs.pc
-%{_pkgconfigdir}/ss.pc
 %{_infodir}/libext2fs.info*
 
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libe2p.a
 %{_libdir}/libext2fs.a
-%{_libdir}/libss.a
 
 %files -n libcom_err
 %defattr(644,root,root,755)
@@ -911,6 +952,28 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libcom_err-static
 %defattr(644,root,root,755)
 %{_libdir}/libcom_err.a
+
+%if %{without allstatic}
+%files -n libss
+%defattr(644,root,root,755)
+%attr(755,root,root) /%{_lib}/libss.so.*.*
+%attr(755,root,root) %ghost /%{_lib}/libss.so.2
+%endif
+
+%files -n libss-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/mk_cmds
+%if %{without allstatic}
+%attr(755,root,root) %{_libdir}/libss.so
+%endif
+%{_includedir}/ss
+%{_datadir}/ss
+%{_pkgconfigdir}/ss.pc
+%{_mandir}/man1/mk_cmds.1*
+
+%files -n libss-static
+%defattr(644,root,root,755)
+%{_libdir}/libss.a
 
 %if %{with initrd}
 %files initrd
