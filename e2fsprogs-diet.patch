@@ -1,12 +1,29 @@
-diff -ur e2fsprogs-1.41.3/configure.in e2fsprogs-1.41.3-diet/configure.in
---- e2fsprogs-1.41.3/configure.in	2009-03-17 22:03:38.000000000 +0100
-+++ e2fsprogs-1.41.3-diet/configure.in	2009-03-17 22:01:22.000000000 +0100
-@@ -817,7 +817,7 @@
+--- e2fsprogs-1.41.13/configure.in.orig	2010-12-15 17:40:23.706122774 +0100
++++ e2fsprogs-1.41.13/configure.in	2010-12-15 17:43:42.738121936 +0100
+@@ -441,7 +441,7 @@
+ 		[LIBUUID=`$PKG_CONFIG --libs uuid`;
+ 		 STATIC_LIBUUID=`$PKG_CONFIG --static --libs uuid`],
+ 		[AC_MSG_ERROR([external uuid library not found])],
+-		[$LIBUUID])
++		[$LIBUUID_LIBADD])
+ 	UUID_CMT=#
+ 	AC_MSG_RESULT([Disabling private uuid library])
+ else
+@@ -492,7 +492,7 @@
+ 		[LIBBLKID=`$PKG_CONFIG --libs blkid`;
+ 		 STATIC_LIBBLKID=`$PKG_CONFIG --static --libs blkid`],
+ 		[AC_MSG_ERROR([external blkid library not found])],
+-		[$LIBBLKID])
++		[$LIBBLKID_LIBADD])
+ 	BLKID_CMT=#
+ 	AC_MSG_RESULT([Disabling private blkid library])
+ else
+@@ -853,7 +853,7 @@
    AC_SEARCH_LIBS([blkid_probe_all], [blkid])
  fi
  dnl
--AC_CHECK_FUNCS(chflags getrusage llseek lseek64 open64 fstat64 ftruncate64 getmntinfo strtoull strcasecmp srandom jrand48 fchown mallinfo fdatasync strnlen strptime strdup sysconf pathconf posix_memalign memalign valloc __secure_getenv prctl mmap utime setresuid setresgid usleep nanosleep getdtablesize getrlimit blkid_probe_get_topology)
-+AC_CHECK_FUNCS(chflags getrusage llseek lseek64 open64 fstat64 stat64 ftruncate64 getmntinfo strtoull strcasecmp srandom jrand48 fchown mallinfo fdatasync strnlen strptime strdup sysconf pathconf posix_memalign memalign valloc __secure_getenv prctl mmap utime setresuid setresgid usleep nanosleep getdtablesize getrlimit blkid_probe_get_topology)
+-AC_CHECK_FUNCS(chflags getrusage llseek lseek64 open64 fstat64 ftruncate64 getmntinfo strtoull strcasecmp srandom jrand48 fchown mallinfo fdatasync strnlen strptime strdup sysconf pathconf posix_memalign memalign valloc __secure_getenv prctl mmap utime setresuid setresgid usleep nanosleep getdtablesize getrlimit blkid_probe_get_topology mbstowcs)
++AC_CHECK_FUNCS(chflags getrusage llseek lseek64 open64 fstat64 stat64 ftruncate64 getmntinfo strtoull strcasecmp srandom jrand48 fchown mallinfo fdatasync strnlen strptime strdup sysconf pathconf posix_memalign memalign valloc __secure_getenv prctl mmap utime setresuid setresgid usleep nanosleep getdtablesize getrlimit blkid_probe_get_topology mbstowcs)
  dnl
  dnl Check to see if -lsocket is required (solaris) to make something
  dnl that uses socket() to compile; this is needed for the UUID library
@@ -23,26 +40,6 @@ diff -ur e2fsprogs-1.41.3/misc/util.c e2fsprogs-1.41.3-diet/misc/util.c
  
  	val = stat64(device, &s);
 
---- e2fsprogs-1.41.11/configure.in.orig	2010-05-09 13:54:54.850935070 +0200
-+++ e2fsprogs-1.41.11/configure.in	2010-05-09 20:34:13.650932556 +0200
-@@ -405,7 +405,7 @@
- 		[LIBUUID=`$PKG_CONFIG --libs uuid`;
- 		 STATIC_LIBUUID=`$PKG_CONFIG --static --libs uuid`],
- 		[AC_MSG_ERROR([external uuid library not found])],
--		[$LIBUUID])
-+		[$LIBUUID_LIBADD])
- 	UUID_CMT=#
- 	AC_MSG_RESULT([Disabling private uuid library])
- else
-@@ -456,7 +456,7 @@
- 		[LIBBLKID=`$PKG_CONFIG --libs blkid`;
- 		 STATIC_LIBBLKID=`$PKG_CONFIG --static --libs blkid`],
- 		[AC_MSG_ERROR([external blkid library not found])],
--		[$LIBBLKID])
-+		[$LIBBLKID_LIBADD])
- 	BLKID_CMT=#
- 	AC_MSG_RESULT([Disabling private blkid library])
- else
 --- e2fsprogs-1.41.11/misc/mke2fs.c.orig	2010-03-15 05:13:56.000000000 +0100
 +++ e2fsprogs-1.41.11/misc/mke2fs.c	2010-05-09 20:44:41.178938422 +0200
 @@ -1927,7 +1927,7 @@
