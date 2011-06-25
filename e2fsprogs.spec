@@ -72,6 +72,8 @@ BuildRequires:	libblkid-dietlibc
 BuildRequires:	libuuid-dietlibc
 		%else
 BuildRequires:	glibc-static
+BuildRequires:	libblkid-static
+BuildRequires:	libuuid-static
 		%endif
 	%endif
 %endif
@@ -573,8 +575,8 @@ Group:		Base
 Conflicts:	geninitrd < 10000.10
 
 %description initrd
-This package includes a e2fsck and mke2fs utilities staticaly
-linked for initrd.
+This package includes a e2fsck and mke2fs utilities staticaly linked
+for initrd.
 
 %description initrd -l pl.UTF-8
 Pakiet ten zawiera narzędzia e2fsck i mke2fs statycznie skonsolidowane
@@ -612,8 +614,12 @@ sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
 	%{?with_dietlibc:CC="diet %{__cc}"} \
 	CFLAGS="%{rpmcflags} -Os" \
 	LDFLAGS="%{rpmldflags} -static" \
+%if %{with dietlibc}
 	LIBUUID_LIBADD="-lcompat" \
 	LIBBLKID_LIBADD="-luuid -lcompat" \
+%else
+	LIBBLKID_LIBADD="-luuid" \
+%endif
 	--disable-elf-shlibs \
 	--disable-fsck \
 	--disable-libblkid \
