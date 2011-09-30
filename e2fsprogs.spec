@@ -3,14 +3,20 @@
 %bcond_with	allstatic	# link everything statically
 %bcond_without	static		# link e2fsck dynamically with libc
 %bcond_without	nls		# build without NLS
+%if "%{pld_release}" == "ac"
+%bcond_with	initrd		# don't build initrd version
+%bcond_without	uClibc		# link initrd version with static glibc instead of uClibc
+%bcond_with	dietlibc	# link initrd version with dietlibc instead of uClibc
+%else
 %bcond_without	initrd		# don't build initrd version
 %bcond_with	uClibc		# link initrd version with static glibc instead of uClibc
 %bcond_without	dietlibc	# link initrd version with dietlibc instead of uClibc
-#
-%ifarch sparc64 sparc
+%endif
+
+%ifarch sparc64 sparc alpha ppc ppc64
 %undefine       with_uClibc
 %endif
-#
+
 Summary:	Utilities for managing the second extended (ext2) filesystem
 Summary(cs.UTF-8):	Nástroje pro správu souborových systémů typu ext2
 Summary(da.UTF-8):	Værktøjer til håndtering af ext2 filsystemer
