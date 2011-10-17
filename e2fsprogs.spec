@@ -3,6 +3,7 @@
 %bcond_with	allstatic	# link everything statically
 %bcond_without	static		# link e2fsck dynamically with libc
 %bcond_without	nls		# build without NLS
+%bcond_without	tls		# TLS
 %if "%{pld_release}" == "ac"
 %bcond_with	initrd		# don't build initrd version
 %bcond_without	uClibc		# link initrd version with static glibc instead of uClibc
@@ -15,6 +16,11 @@
 
 %ifarch sparc64 sparc alpha ppc ppc64
 %undefine       with_uClibc
+%endif
+
+# see glibc.spec
+%ifarch	i386
+%undefine	with_tls
 %endif
 
 Summary:	Utilities for managing the second extended (ext2) filesystem
@@ -652,6 +658,7 @@ mv -f misc/mke2fs initrd-mke2fs
 	--disable-libblkid \
 	--disable-libuuid \
 	%{!?with_nls:--disable-nls} \
+	%{!?with_tls:--disable-tls} \
 	--disable-rpath \
 	--disable-uuidd \
 	--enable-compression \
