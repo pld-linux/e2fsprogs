@@ -48,7 +48,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.41.14
-Release:	2
+Release:	3
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -68,7 +68,8 @@ BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	libblkid-devel
 BuildRequires:	libuuid-devel
 BuildRequires:	pkgconfig
-BuildRequires:	rpmbuild(macros) >= 1.426
+BuildRequires:	rpm >= 4.4.9-56
+BuildRequires:	rpmbuild(macros) >= 1.583
 BuildRequires:	texinfo
 BuildRequires:	texinfo-texi2dvi
 %if %{with allstatic}
@@ -100,6 +101,16 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # changing CFLAGS in the middle confuses confcache
 %undefine       configure_cache
+
+# objdump -T /lib/libcom_err.so.2.1 | grep ___tls_get_addr
+# on ac it is:
+# 00000000      D  *UND*  00000000              ___tls_get_addr
+# on th it is:
+# 00000000      DF *UND*  00000000  GLIBC_2.3   ___tls_get_addr
+# yet on ac rpm-build-macros think it's unresolved symbol, but program still seem to work
+%if "%{pld_release}" == "ac"
+%define		skip_post_check_so	libcom_err.so.2.1
+%endif
 
 # for some reason known only to rpm there must be "\\|" not "\|" here
 %define		dietarch	%(echo %{_target_cpu} | sed -e 's/i.86\\|pentium.\\|athlon/i386/;s/amd64/x86_64/;s/armv.*/arm/')
