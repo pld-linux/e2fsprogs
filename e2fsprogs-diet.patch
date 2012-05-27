@@ -18,36 +18,33 @@
  	BLKID_CMT=#
  	AC_MSG_RESULT([Disabling private blkid library])
  else
-@@ -853,7 +853,7 @@
-   AC_SEARCH_LIBS([blkid_probe_all], [blkid])
- fi
- dnl
--AC_CHECK_FUNCS(chflags getrusage llseek lseek64 open64 fstat64 ftruncate64 getmntinfo strtoull strcasecmp srandom jrand48 fchown mallinfo fdatasync strnlen strptime strdup sysconf pathconf posix_memalign memalign valloc __secure_getenv prctl mmap utime setresuid setresgid usleep nanosleep getdtablesize getrlimit blkid_probe_get_topology mbstowcs)
-+AC_CHECK_FUNCS(chflags getrusage llseek lseek64 open64 fstat64 stat64 ftruncate64 getmntinfo strtoull strcasecmp srandom jrand48 fchown mallinfo fdatasync strnlen strptime strdup sysconf pathconf posix_memalign memalign valloc __secure_getenv prctl mmap utime setresuid setresgid usleep nanosleep getdtablesize getrlimit blkid_probe_get_topology mbstowcs)
- dnl
- dnl Check to see if -lsocket is required (solaris) to make something
- dnl that uses socket() to compile; this is needed for the UUID library
-diff -ur e2fsprogs-1.41.3/misc/util.c e2fsprogs-1.41.3-diet/misc/util.c
---- e2fsprogs-1.41.3/misc/util.c	2008-10-07 16:22:39.000000000 +0200
-+++ e2fsprogs-1.41.3-diet/misc/util.c	2009-03-17 22:01:31.000000000 +0100
-@@ -79,7 +79,7 @@
- void check_plausibility(const char *device)
+@@ -988,6 +988,7 @@
+ 	setresgid
+ 	setresuid
+ 	srandom
++	stat64
+ 	strcasecmp
+ 	strdup
+ 	strnlen
+--- e2fsprogs-1.42.2/lib/ext2fs/unix_io.c~	2012-03-18 19:18:33.000000000 +0100
++++ e2fsprogs-1.42.2/lib/ext2fs/unix_io.c	2012-03-30 18:55:04.613560295 +0200
+@@ -888,7 +888,7 @@
+ 			      unsigned long long count)
  {
- 	int val;
--#ifdef HAVE_OPEN64
-+#ifdef HAVE_STAT64
- 	struct stat64 s;
+ 	struct unix_private_data *data;
+-	__uint64_t	range[2];
++	u_int64_t	range[2];
+ 	int		ret;
  
- 	val = stat64(device, &s);
-
---- e2fsprogs-1.41.11/misc/mke2fs.c.orig	2010-03-15 05:13:56.000000000 +0100
-+++ e2fsprogs-1.41.11/misc/mke2fs.c	2010-05-09 20:44:41.178938422 +0200
-@@ -1927,7 +1927,7 @@
- 	int ret;
- 	int blocksize;
- 	__u64 blocks;
--	__uint64_t range[2];
-+	uint64_t range[2];
+ 	EXT2_CHECK_MAGIC(channel, EXT2_ET_MAGIC_IO_CHANNEL);
+@@ -897,8 +897,8 @@
  
- 	blocks = fs->super->s_blocks_count;
- 	blocksize = EXT2_BLOCK_SIZE(fs->super);
+ 	if (channel->flags & CHANNEL_FLAGS_BLOCK_DEVICE) {
+ #ifdef BLKDISCARD
+-		range[0] = (__uint64_t)(block) * channel->block_size;
+-		range[1] = (__uint64_t)(count) * channel->block_size;
++		range[0] = (u_int64_t)(block) * channel->block_size;
++		range[1] = (u_int64_t)(count) * channel->block_size;
+ 
+ 		ret = ioctl(data->dev, BLKDISCARD, &range);
+ #else
