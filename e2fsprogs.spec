@@ -591,6 +591,17 @@ Static version of subsystem command parsing library.
 %description -n libss-static -l pl.UTF-8
 Statyczna wersja biblioteki analizy poleceń podsystemów.
 
+%package -n libquota-devel
+Summary:	Quota management library
+Summary(pl.UTF-8):	Biblioteka do zarządzania limitami dyskowymi (quotami)
+Group:		Development/Libraries
+
+%description -n libquota-devel
+Quota management library.
+
+%description -n libquota-devel -l pl.UTF-8
+Biblioteka do zarządzania limitami dyskowymi (quotami).
+
 %package initrd
 Summary:	e2fsck and mke2fs - initrd version
 Summary(pl.UTF-8):	e2fsck i mke2fs - wersja dla initrd
@@ -797,7 +808,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /sbin/e2image
 %attr(755,root,root) /sbin/e2label
 %attr(755,root,root) /sbin/e2undo
-%attr(755,root,root) /sbin/e4defrag
 %attr(755,root,root) /sbin/fsck.ext2
 %attr(755,root,root) /sbin/fsck.ext3
 %attr(755,root,root) /sbin/fsck.ext4
@@ -813,6 +823,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/chattr
 %attr(755,root,root) %{_bindir}/lsattr
 %attr(755,root,root) %{_sbindir}/e2freefrag
+%attr(755,root,root) %{_sbindir}/e4defrag
 %attr(755,root,root) %{_sbindir}/filefrag
 %attr(755,root,root) %{_sbindir}/mklost+found
 %attr(755,root,root) %{_libdir}/e2initrd_helper
@@ -973,6 +984,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/compile_et
 %{!?with_allstatic:%attr(755,root,root) %{_libdir}/libcom_err.so}
+%{_includedir}/com_err.h
 %{_includedir}/et
 %{_datadir}/et
 %{_pkgconfigdir}/com_err.pc
@@ -1006,6 +1018,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libss-static
 %defattr(644,root,root,755)
 %{_libdir}/libss.a
+
+%files -n libquota-devel
+%defattr(644,root,root,755)
+%{_libdir}/libquota.a
+%{_includedir}/quota
+%{_pkgconfigdir}/quota.pc
 
 %if %{with initrd}
 %files initrd
