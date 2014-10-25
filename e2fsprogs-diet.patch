@@ -1,50 +1,10 @@
---- e2fsprogs-1.41.13/configure.in.orig	2010-12-15 17:40:23.706122774 +0100
-+++ e2fsprogs-1.41.13/configure.in	2010-12-15 17:43:42.738121936 +0100
-@@ -441,7 +441,7 @@
- 		[LIBUUID=`$PKG_CONFIG --libs uuid`;
- 		 STATIC_LIBUUID=`$PKG_CONFIG --static --libs uuid`],
- 		[AC_MSG_ERROR([external uuid library not found])],
--		[$LIBUUID])
-+		[$LIBUUID_LIBADD])
- 	UUID_CMT=#
- 	AC_MSG_RESULT([Disabling private uuid library])
- else
-@@ -492,7 +492,7 @@
- 		[LIBBLKID=`$PKG_CONFIG --libs blkid`;
- 		 STATIC_LIBBLKID=`$PKG_CONFIG --static --libs blkid`],
- 		[AC_MSG_ERROR([external blkid library not found])],
--		[$LIBBLKID])
-+		[$LIBBLKID_LIBADD])
- 	BLKID_CMT=#
- 	AC_MSG_RESULT([Disabling private blkid library])
- else
-@@ -988,6 +988,7 @@
- 	setresgid
- 	setresuid
- 	srandom
-+	stat64
- 	strcasecmp
- 	strdup
- 	strnlen
---- e2fsprogs-1.42.2/lib/ext2fs/unix_io.c~	2012-03-18 19:18:33.000000000 +0100
-+++ e2fsprogs-1.42.2/lib/ext2fs/unix_io.c	2012-03-30 18:55:04.613560295 +0200
-@@ -888,7 +888,7 @@
- 			      unsigned long long count)
- {
- 	struct unix_private_data *data;
--	__uint64_t	range[2];
-+	u_int64_t	range[2];
- 	int		ret;
- 
- 	EXT2_CHECK_MAGIC(channel, EXT2_ET_MAGIC_IO_CHANNEL);
-@@ -897,8 +897,8 @@
- 
- 	if (channel->flags & CHANNEL_FLAGS_BLOCK_DEVICE) {
- #ifdef BLKDISCARD
--		range[0] = (__uint64_t)(block) * channel->block_size;
--		range[1] = (__uint64_t)(count) * channel->block_size;
-+		range[0] = (u_int64_t)(block) * channel->block_size;
-+		range[1] = (u_int64_t)(count) * channel->block_size;
- 
- 		ret = ioctl(data->dev, BLKDISCARD, &range);
- #else
+--- e2fsprogs-1.42.12/configure.in.orig	2014-10-24 16:44:31.846755169 +0200
++++ e2fsprogs-1.42.12/configure.in	2014-10-24 16:51:58.003403107 +0200
+@@ -69,7 +69,6 @@
+ WITH_DIET_LIBC=
+ AC_ARG_WITH([diet-libc],
+ [  --with-diet-libc        use diet libc],
+-CC="diet cc -nostdinc"
+ WITH_DIET_LIBC=yes
+ if test -z "$LIBS"
+ then

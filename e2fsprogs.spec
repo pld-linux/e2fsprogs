@@ -46,12 +46,12 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.42.6
+Version:	1.42.12
 Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	9e444c240c1001b3292d108fbad0f49c
+# Source0-md5:	68255f51be017a93f2f6402fab06c2bf
 Source1:	e2compr-0.4.texinfo.gz
 # Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
@@ -61,7 +61,7 @@ Patch1:		e2compr-info.patch
 Patch2:		%{name}-498381.patch
 Patch3:		%{name}-diet.patch
 URL:		http://e2fsprogs.sourceforge.net/
-BuildRequires:	autoconf >= 2.50
+BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 BuildRequires:	gettext-devel >= 0.11
 BuildRequires:	libblkid-devel
@@ -623,36 +623,18 @@ na potrzeby initrd.
 %patch2 -p1
 %patch3 -p1
 
-sed -i -e '/AC_SUBST(DO_TEST_SUITE/a\MKINSTALLDIRS="install -d"\nAC_SUBST(MKINSTALLDIRS)\n' configure.in
-
-# AX_TLS
-tail -n +2604 aclocal.m4 > acinclude.m4
-
 %build
 cp -f /usr/share/automake/config.sub .
-%{__gettextize}
 %{__aclocal}
 %{__autoconf}
 
 %if %{with initrd}
-%if %{with dietlibc}
-# needed for syscall()
-cp -a MCONFIG.in MCONFIG.in.org
-sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
-	-e 's|\(^STATIC_LIBUUID = .*\)|\1 -lcompat|g' MCONFIG.in
-%endif
 %configure \
 	ac_cv_lib_dl_dlopen=no \
 	%{?with_uClibc:CC="%{_target_cpu}-uclibc-gcc"} \
 	%{?with_dietlibc:CC="diet %{__cc}"} \
 	CFLAGS="%{rpmcflags} -Os" \
 	LDFLAGS="%{rpmldflags} -static" \
-%if %{with dietlibc}
-	LIBUUID_LIBADD="-lcompat" \
-	LIBBLKID_LIBADD="-luuid -lcompat" \
-%else
-	LIBBLKID_LIBADD="-luuid" \
-%endif
 	--disable-elf-shlibs \
 	--disable-fsck \
 	--disable-libblkid \
@@ -670,7 +652,6 @@ sed -i -e 's|\(^LIBUUID = .*\)|\1 -lcompat|g' \
 	V=1
 mv -f misc/mke2fs initrd-mke2fs
 %{__make} clean
-%{?with_dietlibc:mv MCONFIG.in.org MCONFIG.in}
 %endif
 
 %configure \
@@ -684,7 +665,8 @@ mv -f misc/mke2fs initrd-mke2fs
 	--disable-uuidd \
 	--enable-compression \
 	%{!?with_allstatic:--enable-elf-shlibs} \
-	--enable-htree
+	--enable-htree \
+	--enable-quota
 
 %{__make} -j1 libs \
 	LDFLAGS="%{rpmldflags}" \
@@ -831,6 +813,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/chattr.1*
 %{_mandir}/man1/lsattr.1*
 %{_mandir}/man5/e2fsck.conf.5*
+%{_mandir}/man5/ext2.5*
+%{_mandir}/man5/ext3.5*
+%{_mandir}/man5/ext4.5*
 %{_mandir}/man5/mke2fs.conf.5*
 %{_mandir}/man8/badblocks.8*
 %{_mandir}/man8/debugfs.8*
@@ -1017,11 +1002,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libss.a
 
+%if 0
+# was installed in >= 1.42.2, since 1.42.12 is private only
 %files -n libquota-devel
 %defattr(644,root,root,755)
 %{_libdir}/libquota.a
 %{_includedir}/quota
 %{_pkgconfigdir}/quota.pc
+%endif
 
 %if %{with initrd}
 %files initrd
