@@ -375,6 +375,8 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	libcom_err-devel = %{version}-%{release}
 Requires:	libuuid-devel
 Obsoletes:	libext2fs2-devel
+# until it comes back
+Obsoletes:	libquota-devel
 
 %description devel
 e2fsprogs-devel contains the libraries and header files needed to
