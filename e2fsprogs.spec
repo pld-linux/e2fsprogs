@@ -63,7 +63,7 @@ Patch3:		%{name}-diet.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
-BuildRequires:	gettext-devel >= 0.11
+BuildRequires:	gettext-tools >= 0.11
 BuildRequires:	libblkid-devel
 BuildRequires:	libuuid-devel
 BuildRequires:	pkgconfig
