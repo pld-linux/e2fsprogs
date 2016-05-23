@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_with	allstatic	# link everything statically
+%bcond_without	fuse		# fuse2fs program
 %bcond_without	nls		# build without NLS
 %bcond_without	tls		# TLS
 %if "%{pld_release}" == "ac"
@@ -46,18 +47,15 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.42.13
+Version:	1.43
 Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	bc759fc62666786f5436e2075beb3265
-Source1:	e2compr-0.4.texinfo.gz
-# Source1-md5:	c3c59ff37e49d8759abb1ef95a8d3abf
+# Source0-md5:	83f3256fcf37dd6dd4acbb648a30625a
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
-Patch1:		e2compr-info.patch
 Patch2:		%{name}-498381.patch
 Patch3:		%{name}-diet.patch
 URL:		http://e2fsprogs.sourceforge.net/
@@ -65,6 +63,7 @@ BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 BuildRequires:	gettext-tools >= 0.11
 BuildRequires:	libblkid-devel
+%{?with_fuse:BuildRequires:	libfuse-devel}
 BuildRequires:	libuuid-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpm >= 4.4.9-56
@@ -330,6 +329,19 @@ mke2fs（用于将分区初始化为包含空白ext2 文件系统）、
 debugfs（用于检查文件系统的内部结构、手动修复被破坏的文件系统或为e2fsck
 创建测试范例）、 tune2fs（用于修改文件系统参数）和其它大多数核心
 ext2fs 文件系统实用程序。
+
+%package fuse
+Summary:	FUSE file system client for ext2/ext3/ext4 file systems
+Summary(pl.UTF-8):	Klient systemu plików FUSE dla systemów plików ext2/ext3/ext4
+Group:		Applications/System
+Requires:	%{name}-libs = %{version}-%{release}
+Requires:	libcom_err = %{version}-%{release}
+
+%description fuse
+FUSE file system client for ext2/ext3/ext4 file systems.
+
+%description fuse -l pl.UTF-8
+Klient systemu plików FUSE dla systemów plików ext2/ext3/ext4.
 
 %package libs
 Summary:	ext2 filesystem-specific libraries
@@ -620,8 +632,6 @@ na potrzeby initrd.
 %prep
 %setup -q
 %patch0 -p1
-%{__gzip} -dc < %{SOURCE1} > doc/e2compr.texinfo
-%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
@@ -639,6 +649,7 @@ cp -f /usr/share/automake/config.sub .
 	LDFLAGS="%{rpmldflags} -static" \
 	--disable-elf-shlibs \
 	--disable-fsck \
+	--disable-fuse2fs \
 	--disable-libblkid \
 	--disable-libuuid \
 	--disable-nls \
@@ -659,16 +670,14 @@ mv -f misc/mke2fs initrd-mke2fs
 %configure \
 	--with-root-prefix="" \
 	--disable-fsck \
+	%{!?with_fuse:--disable-fuse2fs} \
 	--disable-libblkid \
 	--disable-libuuid \
 	%{!?with_nls:--disable-nls} \
 	%{!?with_tls:--disable-tls} \
 	--disable-rpath \
 	--disable-uuidd \
-	--enable-compression \
-	%{!?with_allstatic:--enable-elf-shlibs} \
-	--enable-htree \
-	--enable-quota
+	%{!?with_allstatic:--enable-elf-shlibs}
 
 %{__make} -j1 libs \
 	LDFLAGS="%{rpmldflags}" \
@@ -676,9 +685,6 @@ mv -f misc/mke2fs initrd-mke2fs
 %{__make} progs docs \
 	LDFLAGS="%{rpmldflags}" \
 	V=1
-
-cd doc
-makeinfo --no-split e2compr.texinfo
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -696,8 +702,6 @@ echo "install-shlibs:" >> intl/Makefile
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext2
 ln -sf e2fsck $RPM_BUILD_ROOT/sbin/fsck.ext3
 ln -sf mke2fs $RPM_BUILD_ROOT/sbin/mkfs.ext2
-
-cp -p doc/e2compr.info $RPM_BUILD_ROOT%{_infodir}
 
 touch $RPM_BUILD_ROOT%{_sysconfdir}/e2fsck.conf
 
@@ -783,8 +787,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files %{?with_nls:-f %{name}.lang}
 %defattr(644,root,root,755)
-# COPYING specifies license details for some parts of package
-%doc COPYING README RELEASE-NOTES
+%doc NOTICE README RELEASE-NOTES
 %attr(755,root,root) /sbin/badblocks
 %attr(755,root,root) /sbin/debugfs
 %attr(755,root,root) /sbin/dumpe2fs
@@ -807,6 +810,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/chattr
 %attr(755,root,root) %{_bindir}/lsattr
 %attr(755,root,root) %{_sbindir}/e2freefrag
+%attr(755,root,root) %{_sbindir}/e4crypt
 %attr(755,root,root) %{_sbindir}/e4defrag
 %attr(755,root,root) %{_sbindir}/filefrag
 %attr(755,root,root) %{_sbindir}/mklost+found
@@ -828,6 +832,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/e2image.8*
 %{_mandir}/man8/e2label.8*
 %{_mandir}/man8/e2undo.8*
+%{_mandir}/man8/e4crypt.8*
 %{_mandir}/man8/e4defrag.8*
 %{_mandir}/man8/filefrag.8*
 %{_mandir}/man8/fsck.ext2.8*
@@ -931,7 +936,13 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pl) %{_mandir}/pl/man8/mkfs.ext4dev.8*
 %lang(pl) %{_mandir}/pl/man8/mklost+found.8*
 %lang(pl) %{_mandir}/pl/man8/tune2fs.8*
-%{_infodir}/e2compr.info*
+
+%if %{with fuse}
+%files fuse
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_sbindir}/fuse2fs
+%{_mandir}/man1/fuse2fs.1*
+%endif
 
 %if %{without allstatic}
 %files libs
