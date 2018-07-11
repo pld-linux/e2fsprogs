@@ -47,12 +47,12 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.44.1
+Version:	1.44.3
 Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	d6079b031682fa947ea0f96013379155
+# Source0-md5:	6bd765f3cf8f15740cdf81e71e88f2a4
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
@@ -794,6 +794,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /sbin/e2fsck
 %attr(755,root,root) /sbin/e2image
 %attr(755,root,root) /sbin/e2label
+%attr(755,root,root) /sbin/e2mmpstatus
 %attr(755,root,root) /sbin/e2undo
 %attr(755,root,root) /sbin/fsck.ext2
 %attr(755,root,root) /sbin/fsck.ext3
@@ -829,6 +830,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/e2fsck.8*
 %{_mandir}/man8/e2image.8*
 %{_mandir}/man8/e2label.8*
+%{_mandir}/man8/e2mmpstatus.8*
 %{_mandir}/man8/e2undo.8*
 %{_mandir}/man8/e4crypt.8*
 %{_mandir}/man8/e4defrag.8*
