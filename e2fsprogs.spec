@@ -48,7 +48,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.44.4
-Release:	1
+Release:	2
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -335,7 +335,7 @@ Summary:	FUSE file system client for ext2/ext3/ext4 file systems
 Summary(pl.UTF-8):	Klient systemu plików FUSE dla systemów plików ext2/ext3/ext4
 Group:		Applications/System
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	fuse-tools
+Requires:	libfuse-tools
 Requires:	libcom_err = %{version}-%{release}
 
 %description fuse
