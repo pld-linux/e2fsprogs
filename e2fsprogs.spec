@@ -47,12 +47,12 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.44.4
-Release:	2
+Version:	1.44.5
+Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	156e94a6169ca1fa3f0c6749ae5921b9
+# Source0-md5:	8d78b11d04d26c0b2dd149529441fa80
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
@@ -744,6 +744,8 @@ echo '.so mke2fs.8' > $RPM_BUILD_ROOT%{_mandir}/pl/man8/mkfs.ext4.8
 %find_lang %{name}
 %endif
 
+%{__rm} $RPM_BUILD_ROOT/sbin/logsave
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man8/logsave.8*
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/README.e2fsprogs-non-english-man-pages
 
 %if %{with initrd}
@@ -789,7 +791,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /sbin/fsck.ext2
 %attr(755,root,root) /sbin/fsck.ext3
 %attr(755,root,root) /sbin/fsck.ext4
-%attr(755,root,root) /sbin/logsave
 %attr(755,root,root) /sbin/mke2fs
 %attr(755,root,root) /sbin/mkfs.ext2
 %attr(755,root,root) /sbin/mkfs.ext3
@@ -828,7 +829,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/fsck.ext2.8*
 %{_mandir}/man8/fsck.ext3.8*
 %{_mandir}/man8/fsck.ext4.8*
-%{_mandir}/man8/logsave.8*
 %{_mandir}/man8/mke2fs.8*
 %{_mandir}/man8/mkfs.ext2.8*
 %{_mandir}/man8/mkfs.ext3.8*
