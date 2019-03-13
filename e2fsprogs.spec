@@ -1,4 +1,8 @@
 #
+#TODO:
+# - subpackage for systemd / cron / udev files?
+#
+
 # Conditional build:
 %bcond_with	allstatic	# link everything statically
 %bcond_without	fuse		# fuse2fs program
@@ -47,12 +51,12 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.44.6
-Release:	1
+Version:	1.45.0
+Release:	0.1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	d010e5b1b66a8755a4cdd96e189eb069
+# Source0-md5:	641e1371dbdd118eade96bb963104f16
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
@@ -89,10 +93,12 @@ BuildRequires:	libuuid-static
 	%endif
 %endif
 Requires(post,postun):	/sbin/ldconfig
+Requires(post,preun,postun):	systemd-units >= 38
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	fsck
 Requires:	libcom_err = %{version}-%{release}
 Requires:	libss = %{version}-%{release}
+Requires:	systemd-units >= 38
 Obsoletes:	e2fsprogs-evms
 Obsoletes:	libext2fs2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -758,9 +764,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
+%systemd_post e2scrub_all.service
+
+%preun
+%systemd_preun e2scrub_all.service
 
 %postun	-p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
+%systemd_reload
 
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
@@ -787,6 +798,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /sbin/e2image
 %attr(755,root,root) /sbin/e2label
 %attr(755,root,root) /sbin/e2mmpstatus
+%attr(755,root,root) /sbin/e2scrub
+%attr(755,root,root) /sbin/e2scrub_all
 %attr(755,root,root) /sbin/e2undo
 %attr(755,root,root) /sbin/fsck.ext2
 %attr(755,root,root) /sbin/fsck.ext3
@@ -805,8 +818,19 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/filefrag
 %attr(755,root,root) %{_sbindir}/mklost+found
 %attr(755,root,root) %{_libdir}/e2initrd_helper
+%dir %{_libdir}/e2fsprogs
+%attr(755,root,root) %{_libdir}/e2fsprogs/e2scrub_all_cron
+%attr(755,root,root) %{_libdir}/e2fsprogs/e2scrub_fail
+%config(noreplace) %verify(not md5 mtime size) /etc/cron.d/e2scrub_all
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2fsck.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2scrub.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mke2fs.conf
+%{systemdunitdir}/e2scrub@.service
+%{systemdunitdir}/e2scrub_all.service
+%{systemdunitdir}/e2scrub_all.timer
+%{systemdunitdir}/e2scrub_fail@.service
+%{systemdunitdir}/e2scrub_reap.service
+/lib/udev/rules.d/96-e2scrub.rules
 %{_mandir}/man1/chattr.1*
 %{_mandir}/man1/lsattr.1*
 %{_mandir}/man5/e2fsck.conf.5*
@@ -822,6 +846,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/e2image.8*
 %{_mandir}/man8/e2label.8*
 %{_mandir}/man8/e2mmpstatus.8*
+%{_mandir}/man8/e2scrub.8*
+%{_mandir}/man8/e2scrub_all.8*
 %{_mandir}/man8/e2undo.8*
 %{_mandir}/man8/e4crypt.8*
 %{_mandir}/man8/e4defrag.8*
