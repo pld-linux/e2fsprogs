@@ -762,15 +762,15 @@ install -p initrd-mke2fs $RPM_BUILD_ROOT%{_libdir}/initrd/mke2fs
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/postshell
--/usr/sbin/fix-info-dir -c %{_infodir}
+%post
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} > /dev/null 2>&1
 %systemd_post e2scrub_all.service
 
 %preun
 %systemd_preun e2scrub_all.service
 
-%postun	-p /sbin/postshell
--/usr/sbin/fix-info-dir -c %{_infodir}
+%postun
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} > /dev/null 2>&1
 %systemd_reload
 
 %post	libs -p /sbin/ldconfig
