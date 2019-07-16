@@ -51,12 +51,12 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.45.2
+Version:	1.45.3
 Release:	0.1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	45933b29a045735c2d5a2b29ce3f4480
+# Source0-md5:	447a225c05f0a81121f6ddffbf55b06c
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
@@ -945,7 +945,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with fuse}
 %files fuse
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_sbindir}/fuse2fs
+%attr(755,root,root) %{_bindir}/fuse2fs
 %{_mandir}/man1/fuse2fs.1*
 %endif
 
