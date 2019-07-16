@@ -60,6 +60,7 @@ Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
+Patch1:		%{name}-gettext-external.patch
 Patch2:		%{name}-498381.patch
 Patch3:		%{name}-diet.patch
 URL:		http://e2fsprogs.sourceforge.net/
@@ -639,6 +640,7 @@ na potrzeby initrd.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
