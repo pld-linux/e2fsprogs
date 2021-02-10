@@ -51,18 +51,17 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.45.6
+Version:	1.46.1
 Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	cccfb706d162514e4f9dbfbc9e5d65ee
+# Source0-md5:	8c52585522b7ca6bdae2bdecba27b3a4
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-gettext-external.patch
-Patch2:		%{name}-498381.patch
-Patch3:		%{name}-diet.patch
+Patch1:		%{name}-498381.patch
+Patch2:		%{name}-diet.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
@@ -642,7 +641,6 @@ na potrzeby initrd.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 cp -f /usr/share/automake/config.sub .
@@ -699,8 +697,6 @@ mv -f misc/mke2fs initrd-mke2fs
 rm -rf $RPM_BUILD_ROOT
 %{?with_dietlibc:install -d $RPM_BUILD_ROOT%{dietlibdir}}
 export PATH=/sbin:$PATH
-
-echo "install-shlibs:" >> intl/Makefile
 
 %{__make} -j1 install install-libs \
 	root_libdir=/%{_lib} \
