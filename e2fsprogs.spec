@@ -71,7 +71,7 @@ BuildRequires:	libblkid-devel
 BuildRequires:	libuuid-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpm >= 4.4.9-56
-BuildRequires:	rpmbuild(macros) >= 1.583
+BuildRequires:	rpmbuild(macros) >= 1.644
 BuildRequires:	texinfo
 BuildRequires:	texinfo-texi2dvi
 %if %{with allstatic}
