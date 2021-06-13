@@ -55,7 +55,7 @@ Version:	1.46.2
 Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
-Source0:	http://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
+Source0:	https://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
 # Source0-md5:	e8ef5fa3b72557be5e9fe564a25da6eb
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
