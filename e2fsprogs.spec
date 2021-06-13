@@ -64,6 +64,7 @@ Patch1:		%{name}-498381.patch
 Patch2:		%{name}-diet.patch
 URL:		http://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf >= 2.54
+BuildRequires:	autoconf-archive
 BuildRequires:	automake
 BuildRequires:	gettext-tools >= 0.11
 BuildRequires:	libblkid-devel
