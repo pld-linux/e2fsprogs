@@ -667,7 +667,7 @@ cp -f /usr/share/automake/config.sub .
 	--disable-tls \
 	--disable-uuidd
 
-%{__make} -j1 libs \
+%{__make} libs \
 	V=1
 %{__make} progs \
 	V=1
@@ -687,7 +687,7 @@ mv -f misc/mke2fs initrd-mke2fs
 	--disable-uuidd \
 	%{!?with_allstatic:--enable-elf-shlibs}
 
-%{__make} -j1 libs \
+%{__make} libs \
 	LDFLAGS="%{rpmldflags}" \
 	V=1
 %{__make} progs docs \
@@ -699,7 +699,7 @@ rm -rf $RPM_BUILD_ROOT
 %{?with_dietlibc:install -d $RPM_BUILD_ROOT%{dietlibdir}}
 export PATH=/sbin:$PATH
 
-%{__make} -j1 install install-libs \
+%{__make} install install-libs \
 	root_libdir=/%{_lib} \
 	mkinstalldirs='install -d' \
 	LDCONFIG=true \
