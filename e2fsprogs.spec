@@ -699,7 +699,7 @@ rm -rf $RPM_BUILD_ROOT
 %{?with_dietlibc:install -d $RPM_BUILD_ROOT%{dietlibdir}}
 export PATH=/sbin:$PATH
 
-%{__make} install install-libs \
+%{__make} -j1 install install-libs \
 	root_libdir=/%{_lib} \
 	mkinstalldirs='install -d' \
 	LDCONFIG=true \
