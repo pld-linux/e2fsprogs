@@ -100,7 +100,7 @@ Requires:	fsck
 Requires:	libcom_err = %{version}-%{release}
 Requires:	libss = %{version}-%{release}
 Requires:	systemd-units >= 38
-Obsoletes:	e2fsprogs-evms
+Obsoletes:	e2fsprogs-evms < 1.36
 Obsoletes:	libext2fs2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -396,7 +396,7 @@ Requires:	libcom_err-devel = %{version}-%{release}
 Requires:	libuuid-devel
 Obsoletes:	libext2fs2-devel
 # until it comes back
-Obsoletes:	libquota-devel
+Obsoletes:	libquota-devel < 1.42.12
 
 %description devel
 e2fsprogs-devel contains the libraries and header files needed to
