@@ -52,12 +52,12 @@ Summary(uk.UTF-8):	Утиліти для роботи з файловою сис
 Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
-Version:	1.47.0
+Version:	1.47.1
 Release:	1
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	https://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
-# Source0-md5:	6b4f18a33873623041857b4963641ee9
+# Source0-md5:	75e6d1353cbe6d5728a98fb0267206cb
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	992a37783bd42a897232972917e8ca7d
 Patch0:		%{name}-info.patch
@@ -820,10 +820,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/filefrag
 %attr(755,root,root) %{_sbindir}/mklost+found
 %attr(755,root,root) %{_libdir}/e2initrd_helper
-%dir %{_libdir}/e2fsprogs
+%dir %{_libexecdir}/e2fsprogs
 %if %{with scrub}
-%attr(755,root,root) %{_libdir}/e2fsprogs/e2scrub_all_cron
-%attr(755,root,root) %{_libdir}/e2fsprogs/e2scrub_fail
+%attr(755,root,root) %{_libexecdir}/e2fsprogs/e2scrub_all_cron
+%attr(755,root,root) %{_libexecdir}/e2fsprogs/e2scrub_fail
 %config(noreplace) %verify(not md5 mtime size) /etc/cron.d/e2scrub_all
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2scrub.conf
 %endif
@@ -835,6 +835,7 @@ rm -rf $RPM_BUILD_ROOT
 %{systemdunitdir}/e2scrub_all.timer
 %{systemdunitdir}/e2scrub_fail@.service
 %{systemdunitdir}/e2scrub_reap.service
+/lib/udev/rules.d/64-ext4.rules
 /lib/udev/rules.d/96-e2scrub.rules
 %endif
 %{_mandir}/man1/chattr.1*
