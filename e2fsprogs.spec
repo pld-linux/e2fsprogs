@@ -73,7 +73,7 @@ BuildRequires:	libblkid-devel
 BuildRequires:	libuuid-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpm >= 4.4.9-56
-BuildRequires:	rpmbuild(macros) >= 1.644
+BuildRequires:	rpmbuild(macros) >= 1.750
 BuildRequires:	texinfo
 BuildRequires:	texinfo-texi2dvi
 %if %{with allstatic}
@@ -126,6 +126,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 # for dietlibc
 %define		filterout_ld	-Wl,-z,relro
 %endif
+
+%define		gettext_ver	%(rpm -q --qf='%%{V}' gettext-tools 2> /dev/null || echo ERROR)
 
 %description
 The e2fsprogs package contains a number of utilities for creating,
@@ -643,6 +645,11 @@ na potrzeby initrd.
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
+
+grep -q AM_GNU_GETTEXT configure.ac && ! grep -q AM_GNU_GETTEXT acinclude.m4
+%if %{_ver_ge %{gettext_ver} 0.24.1}
+	cat /usr/share/gettext/m4/*.m4 >> acinclude.m4
+%endif
 
 %build
 cp -f /usr/share/automake/config.sub .
