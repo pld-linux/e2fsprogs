@@ -646,7 +646,7 @@ na potrzeby initrd.
 %patch -P1 -p1
 %patch -P2 -p1
 
-grep -q AM_GNU_GETTEXT configure.ac && ! grep -q AM_GNU_GETTEXT acinclude.m4
+grep -q AM_GNU_GETTEXT configure.ac && ! grep -q AM_GNU_GETTEXT acinclude.m4 || exit 1
 %if %{_ver_ge %{gettext_ver} 0.24.1}
 	cat /usr/share/gettext/m4/*.m4 >> acinclude.m4
 %endif
