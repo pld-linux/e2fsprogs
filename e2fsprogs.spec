@@ -57,7 +57,7 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-498381.patch
 Patch2:		%{name}-diet.patch
-URL:		http://e2fsprogs.sourceforge.net/
+URL:		https://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf >= 2.71
 BuildRequires:	autoconf-archive
 BuildRequires:	automake
