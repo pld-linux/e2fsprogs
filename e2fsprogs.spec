@@ -4,20 +4,14 @@
 #
 
 # Conditional build:
-%bcond_with	allstatic	# link everything statically
+%bcond_with	allstatic	# everything linked statically
 %bcond_without	fuse		# fuse2fs program
-%bcond_without	nls		# build without NLS
-%bcond_without	tls		# TLS
+%bcond_without	nls		# message translations
+%bcond_without	tls		# TLS support
 %bcond_without	scrub		# e2scrub utils and services
-%if "%{pld_release}" == "ac"
-%bcond_with	initrd		# don't build initrd version
-%bcond_without	uClibc		# link initrd version with static glibc instead of uClibc
-%bcond_with	dietlibc	# link initrd version with dietlibc instead of uClibc
-%else
-%bcond_with	initrd		# don't build initrd version
-%bcond_with	uClibc		# link initrd version with static glibc instead of uClibc
-%bcond_without	dietlibc	# link initrd version with dietlibc instead of uClibc
-%endif
+%bcond_with	initrd		# initrd version
+%bcond_with	uClibc		# initrd version linked with uClibc (static glibc if neither)
+%bcond_without	dietlibc	# initrd version linked with dietlibc (static glibc if neither)
 
 %ifarch sparc64 sparc alpha ppc ppc64
 %undefine       with_uClibc
@@ -107,16 +101,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # changing CFLAGS in the middle confuses confcache
 %undefine       configure_cache
-
-# objdump -T /lib/libcom_err.so.2.1 | grep ___tls_get_addr
-# on ac it is:
-# 00000000      D  *UND*  00000000              ___tls_get_addr
-# on th it is:
-# 00000000      DF *UND*  00000000  GLIBC_2.3   ___tls_get_addr
-# yet on ac rpm-build-macros think it's unresolved symbol, but program still seem to work
-%if "%{pld_release}" == "ac"
-%define		skip_post_check_so	libcom_err.so.2.1
-%endif
 
 # for some reason known only to rpm there must be "\\|" not "\|" here
 %define		dietarch	%(echo %{_target_cpu} | sed -e 's/i.86\\|pentium.\\|athlon/i386/;s/amd64/x86_64/;s/armv.*/arm/')
