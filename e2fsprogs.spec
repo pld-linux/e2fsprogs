@@ -8,7 +8,7 @@
 %bcond_without	fuse		# fuse2fs program
 %bcond_without	nls		# build without NLS
 %bcond_without	tls		# TLS
-%bcond_without	scrub		# don't package e2scrub* utilities
+%bcond_without	scrub		# e2scrub utils and services
 %if "%{pld_release}" == "ac"
 %bcond_with	initrd		# don't build initrd version
 %bcond_without	uClibc		# link initrd version with static glibc instead of uClibc
@@ -772,14 +772,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} > /dev/null 2>&1
+%if %{with scrub}
 %systemd_post e2scrub_all.service
+%endif
 
 %preun
+%if %{with scrub}
 %systemd_preun e2scrub_all.service
+%endif
 
 %postun
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} > /dev/null 2>&1
+%if %{with scrub}
 %systemd_reload
+%endif
 
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
@@ -828,24 +834,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/filefrag
 %attr(755,root,root) %{_sbindir}/mklost+found
 %attr(755,root,root) %{_libdir}/e2initrd_helper
-%dir %{_libexecdir}/e2fsprogs
-%if %{with scrub}
-%attr(755,root,root) %{_libexecdir}/e2fsprogs/e2scrub_all_cron
-%attr(755,root,root) %{_libexecdir}/e2fsprogs/e2scrub_fail
-%config(noreplace) %verify(not md5 mtime size) /etc/cron.d/e2scrub_all
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2scrub.conf
-%endif
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2fsck.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mke2fs.conf
-%if %{with scrub}
-%{systemdunitdir}/e2scrub@.service
-%{systemdunitdir}/e2scrub_all.service
-%{systemdunitdir}/e2scrub_all.timer
-%{systemdunitdir}/e2scrub_fail@.service
-%{systemdunitdir}/e2scrub_reap.service
 /lib/udev/rules.d/64-ext4.rules
-/lib/udev/rules.d/96-e2scrub.rules
-%endif
 %{_mandir}/man1/chattr.1*
 %{_mandir}/man1/lsattr.1*
 %{_mandir}/man5/e2fsck.conf.5*
@@ -861,10 +852,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/e2image.8*
 %{_mandir}/man8/e2label.8*
 %{_mandir}/man8/e2mmpstatus.8*
-%if %{with scrub}
-%{_mandir}/man8/e2scrub.8*
-%{_mandir}/man8/e2scrub_all.8*
-%endif
 %{_mandir}/man8/e2undo.8*
 %{_mandir}/man8/e4crypt.8*
 %{_mandir}/man8/e4defrag.8*
@@ -958,6 +945,21 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pl) %{_mandir}/pl/man8/mkfs.ext4.8*
 %lang(pl) %{_mandir}/pl/man8/mklost+found.8*
 %lang(pl) %{_mandir}/pl/man8/tune2fs.8*
+%if %{with scrub}
+%dir %{_libexecdir}/e2fsprogs
+%attr(755,root,root) %{_libexecdir}/e2fsprogs/e2scrub_all_cron
+%attr(755,root,root) %{_libexecdir}/e2fsprogs/e2scrub_fail
+%config(noreplace) %verify(not md5 mtime size) /etc/cron.d/e2scrub_all
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/e2scrub.conf
+%{systemdunitdir}/e2scrub@.service
+%{systemdunitdir}/e2scrub_all.service
+%{systemdunitdir}/e2scrub_all.timer
+%{systemdunitdir}/e2scrub_fail@.service
+%{systemdunitdir}/e2scrub_reap.service
+/lib/udev/rules.d/96-e2scrub.rules
+%{_mandir}/man8/e2scrub.8*
+%{_mandir}/man8/e2scrub_all.8*
+%endif
 
 %if %{with fuse}
 %files fuse
