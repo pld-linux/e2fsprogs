@@ -638,6 +638,7 @@ na potrzeby initrd.
 
 grep -q AM_GNU_GETTEXT configure.ac && ! grep -q AM_GNU_GETTEXT acinclude.m4 || exit 1
 %if %{_ver_ge %{gettext_ver} 0.24.1}
+	# package doesn't use automake, so it isn't handled by m4 macro dir
 	cat /usr/share/gettext/m4/*.m4 >> acinclude.m4
 %endif
 
@@ -670,7 +671,7 @@ cp -f /usr/share/automake/config.sub .
 	V=1
 %{__make} progs \
 	V=1
-mv -f misc/mke2fs initrd-mke2fs
+%{__mv} misc/mke2fs initrd-mke2fs
 %{__make} clean
 %endif
 
