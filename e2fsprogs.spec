@@ -956,16 +956,16 @@ rm -rf $RPM_BUILD_ROOT
 %files libs
 %defattr(644,root,root,755)
 %attr(755,root,root) /%{_lib}/libe2p.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libe2p.so.2
+%ghost /%{_lib}/libe2p.so.2
 %attr(755,root,root) /%{_lib}/libext2fs.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libext2fs.so.2
+%ghost /%{_lib}/libext2fs.so.2
 %endif
 
 %files devel
 %defattr(644,root,root,755)
 %if %{without allstatic}
-%attr(755,root,root) %{_libdir}/libe2p.so
-%attr(755,root,root) %{_libdir}/libext2fs.so
+%{_libdir}/libe2p.so
+%{_libdir}/libext2fs.so
 %endif
 %{_includedir}/e2p
 %{_includedir}/ext2fs
@@ -982,13 +982,15 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %if %{without allstatic}
 %attr(755,root,root) /%{_lib}/libcom_err.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libcom_err.so.2
+%ghost /%{_lib}/libcom_err.so.2
 %endif
 
 %files -n libcom_err-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/compile_et
-%{!?with_allstatic:%attr(755,root,root) %{_libdir}/libcom_err.so}
+%if %{without allstatic}
+%{_libdir}/libcom_err.so
+%endif
 %{_includedir}/com_err.h
 %{_includedir}/et
 %{_datadir}/et
@@ -1006,14 +1008,14 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libss
 %defattr(644,root,root,755)
 %attr(755,root,root) /%{_lib}/libss.so.*.*
-%attr(755,root,root) %ghost /%{_lib}/libss.so.2
+%ghost /%{_lib}/libss.so.2
 %endif
 
 %files -n libss-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/mk_cmds
 %if %{without allstatic}
-%attr(755,root,root) %{_libdir}/libss.so
+%{_libdir}/libss.so
 %endif
 %{_includedir}/ss
 %{_datadir}/ss
