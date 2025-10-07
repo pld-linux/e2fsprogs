@@ -90,10 +90,12 @@ BuildRequires:	libuuid-static
 %endif
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,preun,postun):	systemd-units >= 38
+%if %{without allstatic}
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	fsck
 Requires:	libcom_err = %{version}-%{release}
 Requires:	libss = %{version}-%{release}
+%endif
+Requires:	fsck
 Requires:	systemd-units >= 38
 Obsoletes:	e2fsprogs-evms < 1.36
 Obsoletes:	libext2fs2
@@ -532,7 +534,9 @@ Biblioteka opisu popularnych błędów dla uniksów.
 Summary:	Development files for Common Error Description Library for unices
 Summary(pl.UTF-8):	Pliki dla programistów do biblioteki opisu popularnych błędów dla uniksów
 Group:		Development/Libraries
+%if %{without allstatic}
 Requires:	libcom_err = %{version}-%{release}
+%endif
 Conflicts:	e2fsprogs-devel < 1.34-3
 
 %description -n libcom_err-devel
@@ -574,7 +578,9 @@ Summary:	Development files for subsystem command parsing library
 Summary(pl.UTF-8):	Pliki dla programistów do biblioteki analizy poleceń podsystemów
 Group:		Development/Libraries
 Requires:	libcom_err-devel = %{version}-%{release}
+%if %{without allstatic}
 Requires:	libss = %{version}-%{release}
+%endif
 Conflicts:	e2fsprogs < 1.41.11-2
 Conflicts:	e2fsprogs-devel < 1.41.11-2
 
@@ -978,9 +984,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libe2p.a
 %{_libdir}/libext2fs.a
 
+%if %{without allstatic}
 %files -n libcom_err
 %defattr(644,root,root,755)
-%if %{without allstatic}
 %attr(755,root,root) /%{_lib}/libcom_err.so.*.*
 %ghost /%{_lib}/libcom_err.so.2
 %endif
