@@ -685,7 +685,9 @@ cp -f /usr/share/automake/config.sub .
 	%{!?with_tls:--disable-tls} \
 	--disable-rpath \
 	--disable-uuidd \
-	%{!?with_allstatic:--enable-elf-shlibs}
+	%{!?with_allstatic:--enable-elf-shlibs} \
+	--with-systemd-unit-dir="%{systemdunitdir}" \
+	--with-udev-rules-dir=/lib/udev/rules.d
 
 %{__make} libs \
 	LDFLAGS="%{rpmldflags}" \
