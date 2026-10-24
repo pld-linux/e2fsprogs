@@ -47,7 +47,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.47.4
-Release:	1
+Release:	2
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	https://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -91,9 +91,9 @@ BuildRequires:	libuuid-static
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,preun,postun):	systemd-units >= 38
 %if %{without allstatic}
-Requires:	%{name}-libs = %{version}-%{release}
-Requires:	libcom_err = %{version}-%{release}
-Requires:	libss = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Requires:	libcom_err%{?_isa} = %{version}-%{release}
+Requires:	libss%{?_isa} = %{version}-%{release}
 %endif
 Requires:	fsck
 Requires:	systemd-units >= 38
@@ -330,9 +330,9 @@ ext2fs 文件系统实用程序。
 Summary:	FUSE file system client for ext2/ext3/ext4 file systems
 Summary(pl.UTF-8):	Klient systemu plików FUSE dla systemów plików ext2/ext3/ext4
 Group:		Applications/System
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires:	libfuse-tools
-Requires:	libcom_err = %{version}-%{release}
+Requires:	libcom_err%{?_isa} = %{version}-%{release}
 
 %description fuse
 FUSE file system client for ext2/ext3/ext4 file systems.
@@ -344,7 +344,7 @@ Klient systemu plików FUSE dla systemów plików ext2/ext3/ext4.
 Summary:	ext2 filesystem-specific libraries
 Summary(pl.UTF-8):	Biblioteki dla systemu plików ext2
 Group:		Libraries
-Requires:	libcom_err = %{version}-%{release}
+Requires:	libcom_err%{?_isa} = %{version}-%{release}
 Conflicts:	e2fsprogs < 1.40.6-3
 Conflicts:	fsck < 1.40.6-3
 
@@ -379,9 +379,9 @@ Summary(zh_CN.UTF-8):	ext2 文件系统特有的静态库和头文件。
 Summary(zh_TW.UTF-8):	ext2 檔案系統特定的靜態函式庫與表頭。
 Group:		Development/Libraries
 %if %{without allstatic}
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 %endif
-Requires:	libcom_err-devel = %{version}-%{release}
+Requires:	libcom_err-devel%{?_isa} = %{version}-%{release}
 Requires:	libuuid-devel
 Obsoletes:	libext2fs2-devel
 # until it comes back
@@ -488,7 +488,7 @@ Summary(sk.UTF-8):	Statické knižnice a hlavičkové súbory pre ext2-špecific
 Summary(sv.UTF-8):	ext2 filsystemspecifika statiska bibliotek
 Summary(uk.UTF-8):	Статичні бібліотки програміста для роботи з ext2fs
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 
 %description static
 Static libraries needed to develop ext2 filesystem-specific programs
@@ -535,7 +535,7 @@ Summary:	Development files for Common Error Description Library for unices
 Summary(pl.UTF-8):	Pliki dla programistów do biblioteki opisu popularnych błędów dla uniksów
 Group:		Development/Libraries
 %if %{without allstatic}
-Requires:	libcom_err = %{version}-%{release}
+Requires:	libcom_err%{?_isa} = %{version}-%{release}
 %endif
 Conflicts:	e2fsprogs-devel < 1.34-3
 
@@ -550,7 +550,7 @@ programistów.
 Summary:	Static version of Common Error Description Library for unices
 Summary(pl.UTF-8):	Statyczna biblioteka opisu popularnych błędów dla uniksów
 Group:		Development/Libraries
-Requires:	libcom_err-devel = %{version}-%{release}
+Requires:	libcom_err-devel%{?_isa} = %{version}-%{release}
 Conflicts:	e2fsprogs-static < 1.34-3
 
 %description -n libcom_err-static
@@ -563,7 +563,7 @@ Biblioteka opisu popularnych błędów dla uniksów - wersja statyczna.
 Summary:	Subsystem command parsing library
 Summary(pl.UTF-8):	Biblioteka analizy poleceń podsystemów
 Group:		Libraries
-Requires:	libcom_err = %{version}-%{release}
+Requires:	libcom_err%{?_isa} = %{version}-%{release}
 Conflicts:	e2fsprogs < 1.34-3
 Conflicts:	e2fsprogs-libs < 1.41.11-2
 
@@ -577,9 +577,9 @@ Biblioteka analizy poleceń podsystemów.
 Summary:	Development files for subsystem command parsing library
 Summary(pl.UTF-8):	Pliki dla programistów do biblioteki analizy poleceń podsystemów
 Group:		Development/Libraries
-Requires:	libcom_err-devel = %{version}-%{release}
+Requires:	libcom_err-devel%{?_isa} = %{version}-%{release}
 %if %{without allstatic}
-Requires:	libss = %{version}-%{release}
+Requires:	libss%{?_isa} = %{version}-%{release}
 %endif
 Conflicts:	e2fsprogs < 1.41.11-2
 Conflicts:	e2fsprogs-devel < 1.41.11-2
@@ -596,7 +596,7 @@ poleceń podsystemów - w tym pliki nagłówkowe i narzędzie mk_cmds.
 Summary:	Static version of subsystem command parsing library
 Summary(pl.UTF-8):	Statyczna wersja biblioteki analizy poleceń podsystemów
 Group:		Development/Libraries
-Requires:	libss-devel = %{version}-%{release}
+Requires:	libss-devel%{?_isa} = %{version}-%{release}
 Conflicts:	e2fsprogs-static < 1.41.11-2
 
 %description -n libss-static
