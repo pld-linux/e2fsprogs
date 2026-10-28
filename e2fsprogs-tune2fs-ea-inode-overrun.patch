@@ -1,0 +1,98 @@
+From 70f15ba5df0fd033e2c01b822282c52b494ff732 Mon Sep 17 00:00:00 2001
+From: Theodore Ts'o <tytso@mit.edu>
+Date: Thu, 3 Sep 2026 11:19:43 -0400
+Subject: [PATCH] tune2fs: avoid a buffer overrun when rewriting an overly
+ large EA inode
+
+If a maliciously crafted file system contains an EA inode which is
+larger than the maximum allowed extended attribute size, the contents
+of the inode will be overflow an allocated buffer.  Fix this by
+bailing out if the EA inode is too large.  This should have been fixed by
+the required e2fsck -f before running tune2fs -U random, but if
+the file system is crafted to make it appear that the file system
+ check has already been done, this requirement can be overriden.
+
+Also fix e2fsck to enforce the 64k extended attribute limit.
+
+Some security "experts" will claim that this is a serious security
+issue, but it requires tricking a system administrator to run "tune2fs
+-U random downloaded.img" on an file system image that was downloaded
+from the attackers web site.  This is considered a "one-click RCE",
+but if running an obscure tune2fs commmand as root is considered
+"one-click", the CVSS rules are *insane**.
+
+Please consider this before running around with your hair on fire when
+seeing a scary CVSS score.  It may not at **all** be resonable and
+reflective of real-world security considerations.
+
+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+---
+ e2fsck/pass1.c             |  3 +++
+ lib/ext2fs/ext2_ext_attr.h | 10 ++--------
+ misc/tune2fs.c             |  5 ++++-
+ 3 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/e2fsck/pass1.c b/e2fsck/pass1.c
+index fdde76cc2..c97114465 100644
+--- a/e2fsck/pass1.c
++++ b/e2fsck/pass1.c
+@@ -340,11 +340,14 @@ static problem_t check_large_ea_inode(e2fsck_t ctx,
+ 		pctx->num = entry->e_value_inum;
+ 		return PR_1_ATTR_VALUE_EA_INODE;
+ 	}
++	if (entry->e_value_size > EXT2_XATTR_SIZE_MAX)
++		goto bad_ea_size;
+ 
+ 	e2fsck_read_inode(ctx, entry->e_value_inum, &inode, "pass1");
+ 
+ 	if (entry->e_value_size == 0 ||
+ 	    entry->e_value_size != EXT2_I_SIZE(&inode)) {
++	bad_ea_size:
+ 		pctx->num = entry->e_value_size;
+ 		return PR_1_ATTR_VALUE_SIZE;
+ 	}
+diff --git a/lib/ext2fs/ext2_ext_attr.h b/lib/ext2fs/ext2_ext_attr.h
+index c6068c482..1a6a5e20a 100644
+--- a/lib/ext2fs/ext2_ext_attr.h
++++ b/lib/ext2fs/ext2_ext_attr.h
+@@ -58,15 +58,9 @@ struct ext2_ext_attr_entry {
+ 	(((size) + EXT2_EXT_ATTR_ROUND) & ~EXT2_EXT_ATTR_ROUND)
+ 
+ /*
+- * XATTR_SIZE_MAX is currently 64k, but for the purposes of checking
+- * for file system consistency errors, we use a somewhat bigger value.
+- * This allows XATTR_SIZE_MAX to grow in the future, but by using this
+- * instead of INT_MAX for certain consistency checks, we don't need to
+- * worry about arithmetic overflows.  (Actually XATTR_SIZE_MAX is
+- * defined in include/uapi/linux/limits.h, so changing it is going
+- * not going to be trivial....)
++ * XATTR_SIZE_MAX as defined in include/uapi/linux/limits.h is 64k
+  */
+-#define EXT2_XATTR_SIZE_MAX (1 << 24)
++#define EXT2_XATTR_SIZE_MAX (64 * 1024)
+ 
+ #ifdef __KERNEL__
+ # ifdef CONFIG_EXT2_FS_EXT_ATTR
+diff --git a/misc/tune2fs.c b/misc/tune2fs.c
+index 3db57632c..e6df37635 100644
+--- a/misc/tune2fs.c
++++ b/misc/tune2fs.c
+@@ -751,6 +751,9 @@ static void update_ea_inode_hash(struct rewrite_context *ctx, ext2_ino_t ino,
+ 	ext2_file_t file;
+ 	__u32 hash;
+ 
++	if (EXT2_I_SIZE(inode) > EXT2_XATTR_SIZE_MAX)
++		fatal_err(0, "ea_inode %u has an invalid size %llu", ino,
++			  EXT2_I_SIZE(inode));
+ 	retval = ext2fs_file_open(ctx->fs, ino, 0, &file);
+ 	if (retval)
+ 		fatal_err(retval, "open ea_inode");
+@@ -943,7 +946,7 @@ static void rewrite_inodes(ext2_filsys fs, unsigned int flags)
+ 	if (retval)
+ 		fatal_err(retval, "while allocating memory");
+ 
+-	retval = ext2fs_get_mem(64 * 1024, &ctx.ea_buf);
++	retval = ext2fs_get_mem(EXT2_XATTR_SIZE_MAX, &ctx.ea_buf);
+ 	if (retval)
+ 		fatal_err(retval, "while allocating memory");
+ 

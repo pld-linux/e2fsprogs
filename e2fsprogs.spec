@@ -47,7 +47,7 @@ Summary(zh_CN.UTF-8):	管理第二扩展（ext2）文件系统的工具。
 Summary(zh_TW.UTF-8):	用於管理 ext2 檔案系統的工具程式。
 Name:		e2fsprogs
 Version:	1.47.4
-Release:	2
+Release:	3
 License:	GPL v2 (with LGPL v2 and BSD parts)
 Group:		Applications/System
 Source0:	https://downloads.sourceforge.net/e2fsprogs/%{name}-%{version}.tar.gz
@@ -57,13 +57,19 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-498381.patch
 Patch2:		%{name}-diet.patch
+Patch3:		%{name}-orphan-file-size.patch
+Patch4:		%{name}-tune2fs-ea-inode-overrun.patch
+Patch5:		%{name}-tune2fs-inline-xattr-overrun.patch
+Patch6:		%{name}-debugfs-rdump-traversal.patch
 URL:		https://e2fsprogs.sourceforge.net/
 BuildRequires:	autoconf >= 2.72
 BuildRequires:	autoconf-archive
 BuildRequires:	automake
 BuildRequires:	gettext-tools >= 0.11
+BuildRequires:	libarchive-devel
 BuildRequires:	libblkid-devel
-%{?with_fuse:BuildRequires:	libfuse-devel}
+%{?with_fuse:BuildRequires:	libfuse3-devel}
+BuildRequires:	libmagic-devel
 BuildRequires:	libuuid-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpm >= 4.4.9-56
@@ -331,7 +337,7 @@ Summary:	FUSE file system client for ext2/ext3/ext4 file systems
 Summary(pl.UTF-8):	Klient systemu plików FUSE dla systemów plików ext2/ext3/ext4
 Group:		Applications/System
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-Requires:	libfuse-tools
+Requires:	libfuse3-tools
 Requires:	libcom_err%{?_isa} = %{version}-%{release}
 
 %description fuse
@@ -635,6 +641,10 @@ na potrzeby initrd.
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
+%patch -P3 -p1
+%patch -P4 -p1
+%patch -P5 -p1
+%patch -P6 -p1
 
 grep -q AM_GNU_GETTEXT configure.ac && ! grep -q AM_GNU_GETTEXT acinclude.m4 || exit 1
 %if %{_ver_ge %{gettext_ver} 0.24.1}

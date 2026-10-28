@@ -1,0 +1,45 @@
+From cda3b67031da437beb327a784994ad65e51c2a96 Mon Sep 17 00:00:00 2001
+From: Theodore Ts'o <tytso@mit.edu>
+Date: Thu, 3 Sep 2026 12:20:53 -0400
+Subject: [PATCH] tune2fs: avoid a 4-byte heap buffer overrun when rewriting an
+ inline xattr
+
+If a maliciously crafted file system contains an inline extended
+attribute which extends beyond the inode, when rewriting an extended
+attribute while enabling metadata checksums, this can result in a
+4-byte write beyond the end of an allocated buffer.  Fix this by
+checking for this invalid file system.  This should have been fixed by
+the required e2fsck -f before running tune2fs -O metadata_csum, but if
+the file system is crafted to make it appear that the file system
+check has already been done, this requirement can be overriden.
+
+Some security "experts" will claim that this is a serious security
+issue, but it requires tricking a system administrator to run "tune2fs
+-O metadata_csum downloadeded.img" on an file system image that was
+downloaded from the attackers web site.  This is considered a
+"one-click RCE", but if running an obscure tune2fs commmand as root is
+considered "one-click", the CVSS rules are *insane**.
+
+Please consider this before running around with your hair on fire when
+seeing a scary CVSS score.  It may not at **all** be resonable and
+reflective of real-world security considerations.
+
+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+---
+ misc/tune2fs.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/misc/tune2fs.c b/misc/tune2fs.c
+index e6df37635..68bc05684 100644
+--- a/misc/tune2fs.c
++++ b/misc/tune2fs.c
+@@ -778,6 +778,9 @@ static int update_xattr_entry_hashes(ext2_filsys fs,
+ 	errcode_t retval;
+ 
+ 	while (entry < end && !EXT2_EXT_IS_LAST_ENTRY(entry)) {
++		if ((char *) entry + sizeof(struct ext2_ext_attr_entry) >=
++		    (char *) end)
++			fatal_err(0, "corrupted extended attribute field");
+ 		if (entry->e_value_inum) {
+ 			retval = ext2fs_ext_attr_hash_entry2(fs, entry, NULL,
+ 							     &entry->e_hash);
